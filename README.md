@@ -20,17 +20,6 @@
 ### Frontend
 - 
 
-### Backend
-- 
-
-### Database
-- 
-
-### Deployment
-- 
-
-### Collaboration Tools
-- 
 
 ---
 
