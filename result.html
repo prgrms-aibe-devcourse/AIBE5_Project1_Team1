@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>여행 계획 결과 - PLAN Jeju</title>
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        body {
+            background: #FCECDD;
+            min-height: 100vh;
+        }
+
+        .result-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .result-header {
+            background: linear-gradient(135deg, #FFC288 0%, #FEA82F 100%);
+            padding: 50px 40px;
+            text-align: center;
+        }
+
+        .result-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .result-analysis {
+            font-size: 18px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .result-content {
+            padding: 50px 40px;
+        }
+
+        /* 타임라인 스타일 (Full 결과) */
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+            padding-left: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            border: 4px solid white;
+            box-shadow: 0 0 0 3px #667eea;
+        }
+
+        .timeline-time {
+            font-size: 20px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .timeline-content {
+            background: #f8f9ff;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        .timeline-content h4 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .timeline-content p {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .timeline-tip {
+            margin-top: 15px;
+            padding: 15px;
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #856404;
+        }
+
+        /* 카드 스택 스타일 (Quick 결과) */
+        .basecamp {
+            background: linear-gradient(135deg, #FF6701 0%, #FEA82F 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .basecamp h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .basecamp p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .category-card {
+            background: linear-gradient(135deg, #f8f8f8 0%, #ffffff 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .category-card h3 {
+            font-size: 22px;
+            color: #FF6701;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .category-card h3::before {
+            font-size: 28px;
+        }
+
+        .place-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #FF6701;
+        }
+
+        .place-item h4 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .place-item p {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        @media (max-width: 768px) {
+            .result-content {
+                padding: 30px 20px;
+            }
+
+            .result-header {
+                padding: 30px 20px;
+            }
+
+            .timeline {
+                padding-left: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="header">
+        <a href="index.html" class="logo">
+            <img src="jejulogo.png" alt="Plan Jeju" class="logo-image">
+        </a>
+        <nav class="nav">
+            <a href="index.html">메인</a>
+            <a href="destinations.html">제주도 여행지</a>
+            <a href="reviews.html">여행 후기</a>
+            <a href="planner.html">여행 계획</a>
+            <a href="login.html" class="login-btn">로그인</a>
+        </nav>
+    </header>
+
+    <div class="result-container">
+        <div class="result-header">
+            <h2 class="result-title" id="resultTitle"></h2>
+            <p class="result-analysis" id="resultAnalysis"></p>
+        </div>
+
+        <div class="result-content">
+            <!-- Full 결과: 타임라인 -->
+            <div id="fullResult" style="display: none;">
+                <div class="timeline" id="fullTimeline"></div>
+            </div>
+
+            <!-- Quick 결과: 카드 스택 -->
+            <div id="quickResult" style="display: none;">
+                <div id="quickCards"></div>
+            </div>
+
+            <div class="action-buttons">
+                <a href="planner.html" class="btn btn-primary">여행 계획 만들기</a>
+                <a href="survey.html" class="btn btn-secondary">다시 설문하기</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 저장된 설문 결과 불러오기
+        const surveyType = localStorage.getItem('surveyType');
+        const surveyAnswers = JSON.parse(localStorage.getItem('surveyAnswers') || '{}');
+
+        if (!surveyType || !surveyAnswers) {
+            alert('설문 결과를 찾을 수 없습니다. 설문을 다시 진행해주세요.');
+            window.location.href = 'survey.html';
+        }
+
+        if (surveyType === 'full') {
+            generateFullResult();
+        } else {
+            generateQuickResult();
+        }
+
+        function generateFullResult() {
+            document.getElementById('fullResult').style.display = 'block';
+            document.getElementById('resultTitle').textContent = '빈틈없는 네비게이터형 일정';
+            
+            const region = surveyAnswers.region || '서귀포';
+            const period = surveyAnswers.period || '2박 3일';
+            const analysis = `당신은 이동 시간을 줄이고 풍경과 맛에 집중하는 효율적 미식가 타입이군요! ${region}의 바다 뷰를 중심으로 낭비 없는 ${period}을 설계했습니다.`;
+            document.getElementById('resultAnalysis').textContent = analysis;
+
+            const timeline = document.getElementById('fullTimeline');
+            timeline.innerHTML = '';
+
+            const schedule = [
+                { 
+                    time: '12:00', 
+                    title: '제주공항 도착 및 렌터카 픽업', 
+                    desc: '공항에서 렌터카를 픽업하고 여행을 시작합니다.' 
+                },
+                { 
+                    time: '13:30', 
+                    title: '점심 식사 (보목해녀의 집)', 
+                    desc: '제주 로컬 스타일의 물회 맛집. 서귀포 이동 동선상 최적.', 
+                    tip: '로컬 향토음식을 즐기고 싶으시다면 추천합니다.' 
+                },
+                { 
+                    time: '15:00', 
+                    title: '카페 타임 (허니문하우스)', 
+                    desc: '탁 트인 서귀포 앞바다를 볼 수 있는 산책로 포함.', 
+                    tip: '뷰가 중요한 당신에게 완벽한 선택입니다.' 
+                },
+                { 
+                    time: '17:00', 
+                    title: `체크인 (${region} 바다 앞 호텔)`, 
+                    desc: '선택하신 지역의 숙소에 체크인합니다.' 
+                },
+                { 
+                    time: '19:00', 
+                    title: '저녁 식사 (오는정김밥 & 올레시장 맛집 투어)', 
+                    desc: '제주 전통 음식을 맛볼 수 있는 곳입니다.', 
+                    tip: '기다림이 가능하시다면 미리 예약해야 하는 유명 맛집 도전을 권장합니다.' 
+                }
+            ];
+
+            schedule.forEach(item => {
+                const timelineItem = document.createElement('div');
+                timelineItem.className = 'timeline-item';
+                timelineItem.innerHTML = `
+                    <div class="timeline-time">${item.time}</div>
+                    <div class="timeline-content">
+                        <h4>${item.title}</h4>
+                        <p>${item.desc}</p>
+                        ${item.tip ? `<div class="timeline-tip">💡 ${item.tip}</div>` : ''}
+                    </div>
+                `;
+                timeline.appendChild(timelineItem);
+            });
+        }
+
+        function generateQuickResult() {
+            document.getElementById('quickResult').style.display = 'block';
+            document.getElementById('resultTitle').textContent = '거점 중심 스킵퍼형 제안';
+            
+            const region = surveyAnswers.region || '애월';
+            const theme = surveyAnswers.theme || '감성';
+            const companion = surveyAnswers.companion || '친구';
+            const analysis = `복잡한 계획은 No! 당신의 이번 제주 거점은 [${region}] 입니다. ${theme} 가득한 장소들을 골라두었으니, 마음 가는 대로 발길을 옮겨보세요.`;
+            document.getElementById('resultAnalysis').textContent = analysis;
+
+            const cards = document.getElementById('quickCards');
+            cards.innerHTML = '';
+
+            // 베이스캠프
+            const basecamp = document.createElement('div');
+            basecamp.className = 'basecamp';
+            basecamp.innerHTML = `
+                <h3>추천 베이스캠프: ${region}</h3>
+                <p>소길리 조용한 독채 스테이 (${companion}와 도란도란 이야기 나누기 좋은 곳)</p>
+            `;
+            cards.appendChild(basecamp);
+
+            // 카테고리별 장소
+            const categories = [
+                {
+                    title: '감성 스팟',
+                    icon: '✨',
+                    places: [
+                        { name: '한담해안산책로', desc: '일몰 시간에 맞춰 걷기만 해도 인생샷 보장.' },
+                        { name: '아르떼뮤지엄', desc: '비가 와도 걱정 없는 화려한 미디어 아트 전시.' }
+                    ]
+                },
+                {
+                    title: '먹거리',
+                    icon: '🍽',
+                    places: [
+                        { name: '랜디스도넛 애월점', desc: '친구와 하나씩 들고 사진 찍기 좋은 핫플.' },
+                        { name: '숙성도(애월점)', desc: '제주에 왔다면 꼭 먹어야 할 프리미엄 흑돼지.' }
+                    ]
+                },
+                {
+                    title: '카페',
+                    icon: '☕',
+                    places: [
+                        { name: '팀블로우', desc: '바다 바로 앞에서 파도 소리를 들으며 멍 때리기 좋은 곳.' }
+                    ]
+                }
+            ];
+
+            categories.forEach(category => {
+                const card = document.createElement('div');
+                card.className = 'category-card';
+                let placesHTML = category.places.map(place => `
+                    <div class="place-item">
+                        <h4>${place.name}</h4>
+                        <p>${place.desc}</p>
+                    </div>
+                `).join('');
+                
+                card.innerHTML = `
+                    <h3>${category.icon} ${category.title}</h3>
+                    ${placesHTML}
+                `;
+                cards.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>

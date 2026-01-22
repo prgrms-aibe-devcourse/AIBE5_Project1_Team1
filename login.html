@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 - PLAN Jeju</title>
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        body {
+            background: #FCECDD;
+            min-height: 100vh;
+        }
+
+        .login-container {
+            min-height: calc(100vh - 60px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px 40px 20px;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            padding: 50px 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .login-logo .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: #FF6701;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .login-logo .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: #FFC288;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #FF6701;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: #FF6701;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            background: #FEA82F;
+        }
+
+        .login-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .login-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .login-links a:not(:last-child)::after {
+            content: '|';
+            position: absolute;
+            right: -10px;
+            color: #ccc;
+        }
+
+        .login-links a:hover {
+            color: #FF6701;
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="header">
+        <a href="index.html" class="logo">
+            <img src="jejulogo.png" alt="Plan Jeju" class="logo-image">
+        </a>
+        <nav class="nav">
+            <a href="index.html">메인</a>
+            <a href="destinations.html">제주도 여행지</a>
+            <a href="reviews.html">여행 후기</a>
+            <a href="planner.html">여행 계획</a>
+            <a href="login.html" class="login-btn">로그인</a>
+        </nav>
+    </header>
+
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-logo">
+                <div class="logo">
+                    <img src="jejulogo.png" alt="Plan Jeju" class="logo-image">
+                </div>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="userId">아이디</label>
+                    <input type="text" id="userId" name="userId" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">비밀번호</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <button type="submit" class="login-btn">로그인</button>
+            </form>
+
+            <div class="login-links">
+                <a href="#">비밀번호 찾기</a>
+                <a href="#">아이디 찾기</a>
+                <a href="signup.html">회원가입</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // 로그인 처리 (실제로는 서버와 통신)
+            alert('로그인 기능은 준비 중입니다.');
+        });
+    </script>
+</body>
+</html>

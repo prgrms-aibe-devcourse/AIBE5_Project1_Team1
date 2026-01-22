@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLAN Jeju - MBTI J형 맞춤 여행 플랫폼</title>
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        body {
+            background: #FCECDD;
+        }
+
+        .hero-section {
+            background: #FCECDD;
+            padding: 80px 40px;
+            border-radius: 20px;
+            margin: 100px 0 40px 0;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            position: relative;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero-label {
+            background: #FEA82F;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .hero-title {
+            font-size: 48px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .comparison {
+            display: flex;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .comparison-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .comparison-item strong {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .hero-image {
+            flex: 1;
+            position: relative;
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .hero-image-bg {
+            width: 50%;
+            height: 100%;
+            margin-left: auto;
+            background: linear-gradient(135deg, #a8e6cf 0%, #88d8a3 100%);
+            background-image: url('https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .start-survey-btn {
+            background: #FF6701;
+            color: white;
+            padding: 18px 40px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 30px;
+            transition: all 0.3s;
+        }
+
+        .start-survey-btn:hover {
+            background: #FEA82F;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 103, 1, 0.4);
+        }
+
+        .destinations-section {
+            margin-top: 60px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .destination-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .destination-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .destination-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .destination-number {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 40px;
+            height: 40px;
+            background: #FF6701;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .destination-content {
+            padding: 25px;
+        }
+
+        .destination-label {
+            background: #FEA82F;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            display: inline-block;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .destination-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .destination-desc {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .destination-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .tag {
+            background: #f0f0f0;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .destination-location {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                flex-direction: column;
+                padding: 40px 20px;
+            }
+
+            .hero-title {
+                font-size: 32px;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+            }
+
+            .comparison {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="header">
+        <a href="index.html" class="logo">
+            <img src="jejulogo.png" alt="Plan Jeju" class="logo-image">
+        </a>
+        <nav class="nav">
+            <a href="index.html" class="active">메인</a>
+            <a href="destinations.html">제주도 여행지</a>
+            <a href="reviews.html">여행 후기</a>
+            <a href="planner.html">여행 계획</a>
+            <a href="login.html" class="login-btn">로그인</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- 히어로 섹션 -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <span class="hero-label">MBTI J형 맞춤 여행 플랫폼</span>
+                <h1 class="hero-title">여행 준비,<br>이제 J에게 맡기세요.</h1>
+                <p class="hero-subtitle">
+                    제주도 여행, 계획부터 일정까지 똑똑하게 자동으로 준비해드립니다.
+                </p>
+                
+                <div class="comparison">
+                    <div class="comparison-item">
+                        <strong>P형:</strong>
+                        <span>즉흥적 여행</span>
+                    </div>
+                    <div class="comparison-item">
+                        <strong>J형:</strong>
+                        <span>계획적 여행</span>
+                    </div>
+                </div>
+
+                <a href="survey.html" class="start-survey-btn">
+                    여행 설문 시작하기 →
+                </a>
+            </div>
+
+            <div class="hero-image">
+                <div class="hero-image-bg"></div>
+            </div>
+        </section>
+
+        <!-- 필수 여행지 섹션 -->
+        <section class="destinations-section">
+            <h2 class="section-title">제주도 필수 여행지</h2>
+            <p class="section-subtitle">제주를 대표하는 아름다운 여행지를 만나보세요</p>
+
+            <div class="destinations-grid">
+                <div class="destination-card">
+                    <div class="destination-image">
+                        <div class="destination-number">1</div>
+                        🏔️ 한라산
+                    </div>
+                    <div class="destination-content">
+                        <span class="destination-label">제주의 중심, 백록담</span>
+                        <h3 class="destination-title">한라산</h3>
+                        <p class="destination-desc">
+                            대한민국에서 가장 높은 산이자 제주의 상징. 사계절 다른 매력을 선사하는 트레킹 명소입니다.
+                        </p>
+                        <div class="destination-tags">
+                            <span class="tag">#자연</span>
+                            <span class="tag">#등산</span>
+                            <span class="tag">#사진명소</span>
+                        </div>
+                        <div class="destination-location">
+                            <span>●</span> 제주특별자치도
+                        </div>
+                    </div>
+                </div>
+
+                <div class="destination-card">
+                    <div class="destination-image">
+                        <div class="destination-number">2</div>
+                        🌅 성산일출봉
+                    </div>
+                    <div class="destination-content">
+                        <span class="destination-label">유네스코 세계자연유산</span>
+                        <h3 class="destination-title">성산일출봉</h3>
+                        <p class="destination-desc">
+                            제주를 대표하는 일출 명소, 거대한 분화구와 함께 보는 일출은 평생 잊지 못할 추억이 됩니다.
+                        </p>
+                        <div class="destination-tags">
+                            <span class="tag">#일출</span>
+                            <span class="tag">#유네스코</span>
+                            <span class="tag">#트레킹</span>
+                        </div>
+                        <div class="destination-location">
+                            <span>●</span> 제주특별자치도
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

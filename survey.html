@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>여행 설문 - PLAN Jeju</title>
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        body {
+            background: #FCECDD;
+            min-height: 100vh;
+        }
+
+        .survey-container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .progress-bar-container {
+            background: #f5f5f5;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-info {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 200px;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF6701 0%, #FEA82F 100%);
+            transition: width 0.3s;
+            border-radius: 10px;
+        }
+
+        .survey-content {
+            padding: 50px 40px;
+        }
+
+        .step-indicator {
+            background: #FF6701;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .question-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .question-subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .option-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .option-card:hover {
+            border-color: #FF6701;
+            background: #FFC288;
+            transform: translateX(5px);
+        }
+
+        .option-card.selected {
+            border-color: #FF6701;
+            background: linear-gradient(135deg, #FFC288 0%, #FEA82F 100%);
+        }
+
+        .option-card strong {
+            display: block;
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .option-card span {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+        }
+
+        .disclaimer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .start-screen {
+            text-align: center;
+        }
+
+        .start-screen .question-title {
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .survey-content {
+                padding: 30px 20px;
+            }
+
+            .progress-bar-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .progress-bar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="header">
+        <a href="index.html" class="logo">
+            <img src="jejulogo.png" alt="Plan Jeju" class="logo-image">
+        </a>
+        <nav class="nav">
+            <a href="index.html">메인</a>
+            <a href="destinations.html">제주도 여행지</a>
+            <a href="reviews.html">여행 후기</a>
+            <a href="planner.html">여행 계획</a>
+            <a href="login.html" class="login-btn">로그인</a>
+        </nav>
+    </header>
+
+    <div class="survey-container">
+        <!-- 진행률 바 -->
+        <div class="progress-bar-container">
+            <div class="progress-info">
+                <span id="questionNum">질문 1/8</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 13%"></div>
+            </div>
+            <div class="progress-info">
+                <span id="progressPercent">13% 완료</span>
+            </div>
+        </div>
+
+        <div class="survey-content">
+            <!-- Step 0: 시작 분기 -->
+            <div id="step0" class="survey-step">
+                <div class="start-screen">
+                    <span class="step-indicator">Step 0</span>
+                    <h2 class="question-title">설문 진행할래요?</h2>
+                    <p class="question-subtitle">가장 적합한 답변을 선택해주세요</p>
+                    
+                    <div class="option-group">
+                        <div class="option-card" data-type="full">
+                            <strong>네, 성향 기반으로 "완전 패키지" 추천받을래요 (Full)</strong>
+                            <span>이동 동선과 시간, 식당까지 꽉 채운 상세한 일정표가 필요해요.</span>
+                        </div>
+                        <div class="option-card" data-type="quick">
+                            <strong>귀찮아요... 빠르게 추천해주세요 (Quick)</strong>
+                            <span>복잡한 건 싫어요. 거점 중심의 핵심 추천만 가볍게 받고 싶어요.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full 설문 화면 -->
+            <div id="fullSurvey" class="survey-step" style="display: none;">
+                <form id="fullForm">
+                    <!-- 1. 여행의 뼈대 -->
+                    <div class="question-group" data-group="1">
+                        <span class="step-indicator">Step 1</span>
+                        <h2 class="question-title">1. 여행의 뼈대 (필수 정보)</h2>
+                        
+                        <div class="question-item" style="margin-bottom: 30px;">
+                            <label style="display: block; font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #333;">1-1. 언제 떠나시나요?</label>
+                            <div class="option-group">
+                                <div class="option-card" data-value="당일치기">
+                                    <strong>당일치기</strong>
+                                </div>
+                                <div class="option-card" data-value="1박 2일">
+                                    <strong>1박 2일</strong>
+                                </div>
+                                <div class="option-card" data-value="2박 3일">
+                                    <strong>2박 3일</strong>
+                                </div>
+                                <div class="option-card" data-value="3박 4일 이상">
+                                    <strong>3박 4일 이상</strong>
+                                </div>
+                            </div>
+                            <input type="hidden" name="period" required>
+                        </div>
+
+                        <div class="question-item" style="margin-bottom: 30px;">
+                            <label style="display: block; font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #333;">1-2. 누구와 함께인가요?</label>
+                            <div class="option-group">
+                                <div class="option-card" data-value="혼자">
+                                    <strong>혼자</strong>
+                                </div>
+                                <div class="option-card" data-value="연인">
+                                    <strong>연인</strong>
+                                </div>
+                                <div class="option-card" data-value="친구">
+                                    <strong>친구</strong>
+                                </div>
+                                <div class="option-card" data-value="가족">
+                                    <strong>가족</strong>
+                                </div>
+                                <div class="option-card" data-value="아이 동반">
+                                    <strong>아이 동반</strong>
+                                </div>
+                            </div>
+                            <input type="hidden" name="companion" required>
+                        </div>
+
+                        <div class="question-item" style="margin-bottom: 30px;">
+                            <label style="display: block; font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #333;">1-3. 제주도 내 이동 수단은?</label>
+                            <div class="option-group">
+                                <div class="option-card" data-value="렌터카">
+                                    <strong>렌터카</strong>
+                                </div>
+                                <div class="option-card" data-value="대중교통(버스)">
+                                    <strong>대중교통(버스)</strong>
+                                </div>
+                                <div class="option-card" data-value="택시·투어버스">
+                                    <strong>택시·투어버스</strong>
+                                </div>
+                            </div>
+                            <input type="hidden" name="transport" required>
+                        </div>
+
+                        <div class="question-item" style="margin-bottom: 30px;">
+                            <label style="display: block; font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #333;">1-4. 숙박은 몇 박 계획하시나요?</label>
+                            <div class="option-group">
+                                <div class="option-card" data-value="숙소 미정">
+                                    <strong>숙소 미정</strong>
+                                </div>
+                                <div class="option-card" data-value="1박">
+                                    <strong>1박</strong>
+                                </div>
+                                <div class="option-card" data-value="2박">
+                                    <strong>2박</strong>
+                                </div>
+                                <div class="option-card" data-value="3박 이상">
+                                    <strong>3박 이상</strong>
+                                </div>
+                            </div>
+                            <input type="hidden" name="stay" required>
+                        </div>
+                    </div>
+
+                    <!-- 2. 여행의 살 -->
+                    <div class="question-group" data-group="2" style="display: none;">
+                        <span class="step-indicator">Step 2</span>
+                        <h2 class="question-title">2. 여행의 살 (성향 및 취향)</h2>
+                        
+                        <div class="question-item" style="margin-bottom: 30px;">
+                            <label style="display: block; font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #333;">2-1. 이번 여행에서 가장 기대하는 것은?</label>
+                            <div class="option-group">
+                                <div class="option-card" data-value="자연과 힐링">
+                                    <strong>자연과 힐링</strong>
+                                </div>
+                                <div class="option-card" data-value="맛집과 카페">
+                                    <strong>맛집과 카페</strong>
+                                </div>
+                                <div class="option-card" data-value="액티비티">
+                                    <strong>액티비티</strong>
+                                </div>
+                                <div class="option-card" data-value="유명 관광지 정복">
+                                    <strong>유명 관광지 정복</strong>
+                                </div>
+                                <div class="option-card" data-value="감성 사진">
+                                    <strong>감성 사진</strong>
+                                </div>
+                            </div>
+                            <input type="hidden" name="expectation" required>
+                        </div>
+
+                        <div class="question-item" style="margin-bottom: 30px;">
+                            <label style="display: block; font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #333;">2-2. 선호하는 이동 스타일은?</label>
+                            <div class="option-group">
+                                <div class="option-card" data-value="동선 최소화(한 곳 집중)">
+                                    <strong>동선 최소화(한 곳 집중)</strong>
+                                </div>
+                                <div class="option-card" data-value="핵심만 콕콕(효율적 이동)">
+                                    <strong>핵심만 콕콕(효율적 이동)</strong>
+                                </div>
+                                <div class="option-card" data-value="어디든 OK(드라이브 선호)">
+                                    <strong>어디든 OK(드라이브 선호)</strong>
+                                </div>
+                            </div>
+                            <input type="hidden" name="movement" required>
+                        </div>
+
+                        <div class="question-item" style="margin-bottom: 30px;">
+                            <label style="display: block; font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #333;">2-3. 맛집 웨이팅, 얼마나 기다릴 수 있나요?</label>
+                            <div class="option-group">
+                                <div class="option-card" data-value="1시간 이상도 가능(꼭 먹어야 함)">
+                                    <strong>1시간 이상도 가능(꼭 먹어야 함)</strong>
+                                </div>
+                                <div class="option-card" data-value="30분 내외면 적당">
+                                    <strong>30분 내외면 적당</strong>
+                                </div>
+                                <div class="option-card" data-value="기다리는 건 딱 질색">
+                                    <strong>기다리는 건 딱 질색</strong>
+                                </div>
+                            </div>
+                            <input type="hidden" name="waiting" required>
+                        </div>
+                    </div>
+
+                    <!-- 3. 숙소 및 음식 -->
+                    <div class="question-group" data-group="3" style="display: none;">
+                        <span class="step-indicator">Step 3</span>
+                        <h2 class="question-title">3. 숙소 및 음식 (상세 취향)</h2>
+                        
+                        <div class="question-item" style="margin-bottom: 30px;">
+                            <label style="display: block; font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #333;">3-1. 묵고 싶은 지역이 정해져 있나요?</label>
+                            <div class="option-group">
+                                <div class="option-card" data-value="제주시내">
+                                    <strong>제주시내</strong>
+                                </div>
+                                <div class="option-card" data-value="서귀포">
+                                    <strong>서귀포</strong>
+                                </div>
+                                <div class="option-card" data-value="서쪽(애월·한림)">
+                                    <strong>서쪽(애월·한림)</strong>
+                                </div>
+                                <div class="option-card" data-value="동쪽(성산·표선)">
+                                    <strong>동쪽(성산·표선)</strong>
+                                </div>
+                                <div class="option-card" data-value="상관없음">
+                                    <strong>상관없음</strong>
+                                </div>
+                            </div>
+                            <input type="hidden" name="region" required>
+                        </div>
+
+                        <div class="question-item" style="margin-bottom: 30px;">
+                            <label style="display: block; font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #333;">3-2. 숙소를 고를 때 가장 중요한 기준은?</label>
+                            <div class="option-group">
+                                <div class="option-card" data-value="접근성">
+                                    <strong>접근성</strong>
+                                </div>
+                                <div class="option-card" data-value="가성비">
+                                    <strong>가성비</strong>
+                                </div>
+                                <div class="option-card" data-value="객실 전망(뷰)">
+                                    <strong>객실 전망(뷰)</strong>
+                                </div>
+                                <div class="option-card" data-value="주변의 고요함">
+                                    <strong>주변의 고요함</strong>
+                                </div>
+                                <div class="option-card" data-value="부대시설(수영장 등)">
+                                    <strong>부대시설(수영장 등)</strong>
+                                </div>
+                            </div>
+                            <input type="hidden" name="accommodation" required>
+                        </div>
+
+                        <div class="question-item" style="margin-bottom: 30px;">
+                            <label style="display: block; font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #333;">3-3. 선호하는 음식 스타일은?</label>
+                            <div class="option-group">
+                                <div class="option-card" data-value="로컬 향토음식">
+                                    <strong>로컬 향토음식</strong>
+                                </div>
+                                <div class="option-card" data-value="인스타 핫플">
+                                    <strong>인스타 핫플</strong>
+                                </div>
+                                <div class="option-card" data-value="가성비 맛집">
+                                    <strong>가성비 맛집</strong>
+                                </div>
+                                <div class="option-card" data-value="가리지 않음">
+                                    <strong>가리지 않음</strong>
+                                </div>
+                            </div>
+                            <input type="hidden" name="food" required>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" class="btn btn-secondary" id="prevBtn" style="display: none;">이전</button>
+                        <button type="button" class="btn btn-primary" id="nextBtn">다음 →</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Quick 설문 화면 -->
+            <div id="quickSurvey" class="survey-step" style="display: none;">
+                <form id="quickForm">
+                    <span class="step-indicator">Quick 설문</span>
+                    <h2 class="question-title">핵심 요약 가이드 생성</h2>
+                    
+                    <div class="question-item" style="margin-bottom: 40px;">
+                        <label style="display: block; font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #333;">1-1. 여행 기간을 알려주세요.</label>
+                        <div class="option-group">
+                            <div class="option-card" data-value="당일">
+                                <strong>당일</strong>
+                            </div>
+                            <div class="option-card" data-value="1박 2일">
+                                <strong>1박 2일</strong>
+                            </div>
+                            <div class="option-card" data-value="2박 3일 이상">
+                                <strong>2박 3일 이상</strong>
+                            </div>
+                        </div>
+                        <input type="hidden" name="period" required>
+                    </div>
+
+                    <div class="question-item" style="margin-bottom: 40px;">
+                        <label style="display: block; font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #333;">1-2. 동행인은 누구인가요?</label>
+                        <div class="option-group">
+                            <div class="option-card" data-value="혼자">
+                                <strong>혼자</strong>
+                            </div>
+                            <div class="option-card" data-value="커플">
+                                <strong>커플</strong>
+                            </div>
+                            <div class="option-card" data-value="친구">
+                                <strong>친구</strong>
+                            </div>
+                            <div class="option-card" data-value="가족">
+                                <strong>가족</strong>
+                            </div>
+                        </div>
+                        <input type="hidden" name="companion" required>
+                    </div>
+
+                    <div class="question-item" style="margin-bottom: 40px;">
+                        <label style="display: block; font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #333;">2-1. 어느 지역을 중심으로 둘러보고 싶나요?</label>
+                        <div class="option-group">
+                            <div class="option-card" data-value="제주시">
+                                <strong>제주시</strong>
+                            </div>
+                            <div class="option-card" data-value="서쪽(애월)">
+                                <strong>서쪽(애월)</strong>
+                            </div>
+                            <div class="option-card" data-value="남쪽(서귀포)">
+                                <strong>남쪽(서귀포)</strong>
+                            </div>
+                            <div class="option-card" data-value="동쪽(성산)">
+                                <strong>동쪽(성산)</strong>
+                            </div>
+                            <div class="option-card" data-value="상관없음(알아서 추천)">
+                                <strong>상관없음(알아서 추천)</strong>
+                            </div>
+                        </div>
+                        <input type="hidden" name="region" required>
+                    </div>
+
+                    <div class="question-item" style="margin-bottom: 40px;">
+                        <label style="display: block; font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #333;">2-2. 여행 중 딱 하나만 한다면 무엇이 좋을까요?</label>
+                        <div class="option-group">
+                            <div class="option-card" data-value="느긋하게 쉬기(힐링)">
+                                <strong>느긋하게 쉬기(힐링)</strong>
+                            </div>
+                            <div class="option-card" data-value="맛있는 거 먹기(맛집)">
+                                <strong>맛있는 거 먹기(맛집)</strong>
+                            </div>
+                            <div class="option-card" data-value="예쁜 사진 남기기(감성)">
+                                <strong>예쁜 사진 남기기(감성)</strong>
+                            </div>
+                            <div class="option-card" data-value="신나게 놀기(액티비티)">
+                                <strong>신나게 놀기(액티비티)</strong>
+                            </div>
+                        </div>
+                        <input type="hidden" name="theme" required>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" class="btn btn-secondary" onclick="location.href='survey.html'">돌아가기</button>
+                        <button type="submit" class="btn btn-primary">결과 보기</button>
+                    </div>
+                </form>
+            </div>
+
+            <p class="disclaimer">설문 결과는 저장되지 않으며, 맞춤 추천에만 사용됩니다.</p>
+        </div>
+    </div>
+
+    <script>
+        let surveyType = '';
+        let currentGroup = 0;
+        let fullAnswers = {};
+        let quickAnswers = {};
+
+        // Step 0: 시작 분기 선택
+        document.querySelectorAll('#step0 .option-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('#step0 .option-card').forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+                surveyType = this.dataset.type;
+                
+                setTimeout(() => {
+                    document.getElementById('step0').style.display = 'none';
+                    if (surveyType === 'full') {
+                        document.getElementById('fullSurvey').style.display = 'block';
+                        showGroup(1);
+                    } else {
+                        document.getElementById('quickSurvey').style.display = 'block';
+                        updateProgress(1, 4);
+                    }
+                }, 300);
+            });
+        });
+
+        // Full 설문: 옵션 선택
+        document.querySelectorAll('#fullForm .option-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const group = this.closest('.question-item');
+                group.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+                const hiddenInput = group.querySelector('input[type="hidden"]');
+                hiddenInput.value = this.dataset.value;
+            });
+        });
+
+        // Quick 설문: 옵션 선택
+        document.querySelectorAll('#quickForm .option-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const group = this.closest('.question-item');
+                group.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+                const hiddenInput = group.querySelector('input[type="hidden"]');
+                hiddenInput.value = this.dataset.value;
+            });
+        });
+
+        // Full 설문: 그룹 표시
+        function showGroup(groupNum) {
+            document.querySelectorAll('.question-group').forEach(g => g.style.display = 'none');
+            document.querySelector(`[data-group="${groupNum}"]`).style.display = 'block';
+            currentGroup = groupNum;
+            updateFullProgress();
+            
+            document.getElementById('prevBtn').style.display = groupNum > 1 ? 'block' : 'none';
+            document.getElementById('nextBtn').textContent = groupNum === 3 ? '결과 보기' : '다음 →';
+        }
+
+        // Full 진행률 업데이트
+        function updateFullProgress() {
+            const totalQuestions = 10;
+            const currentGroupEl = document.querySelector(`[data-group="${currentGroup}"]`);
+            const answered = currentGroupEl.querySelectorAll('input[type="hidden"][value]').length;
+            const current = (currentGroup - 1) * 3 + answered;
+            const percent = Math.round((current / totalQuestions) * 100);
+            
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressPercent').textContent = percent + '% 완료';
+            document.getElementById('questionNum').textContent = `질문 ${current}/${totalQuestions}`;
+        }
+
+        // Quick 진행률 업데이트
+        function updateProgress(current, total) {
+            const percent = Math.round((current / total) * 100);
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressPercent').textContent = percent + '% 완료';
+            document.getElementById('questionNum').textContent = `질문 ${current}/${total}`;
+        }
+
+        // Full 설문: 다음 버튼
+        document.getElementById('nextBtn').addEventListener('click', function() {
+            const currentGroupEl = document.querySelector(`[data-group="${currentGroup}"]`);
+            const inputs = currentGroupEl.querySelectorAll('input[type="hidden"][required]');
+            const allAnswered = Array.from(inputs).every(input => input.value);
+            
+            if (!allAnswered) {
+                alert('모든 질문에 답변해주세요.');
+                return;
+            }
+
+            if (currentGroup === 3) {
+                // 결과 페이지로 이동
+                const formData = new FormData(document.getElementById('fullForm'));
+                fullAnswers = {};
+                for (let [key, value] of formData.entries()) {
+                    fullAnswers[key] = value;
+                }
+                localStorage.setItem('surveyType', 'full');
+                localStorage.setItem('surveyAnswers', JSON.stringify(fullAnswers));
+                window.location.href = 'result.html';
+            } else {
+                showGroup(currentGroup + 1);
+            }
+        });
+
+        // Full 설문: 이전 버튼
+        document.getElementById('prevBtn').addEventListener('click', function() {
+            if (currentGroup > 1) {
+                showGroup(currentGroup - 1);
+            }
+        });
+
+        // Quick 설문 제출
+        document.getElementById('quickForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            quickAnswers = {};
+            for (let [key, value] of formData.entries()) {
+                quickAnswers[key] = value;
+            }
+            localStorage.setItem('surveyType', 'quick');
+            localStorage.setItem('surveyAnswers', JSON.stringify(quickAnswers));
+            window.location.href = 'result.html';
+        });
+    </script>
+</body>
+</html>

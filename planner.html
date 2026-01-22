@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>여행 계획 - PLAN Jeju</title>
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        body {
+            background: #FCECDD;
+            min-height: 100vh;
+        }
+
+        .planner-container {
+            max-width: 1400px;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .planner-main {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .planner-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .planner-header h2 {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .back-btn {
+            padding: 10px 20px;
+            background: #e0e0e0;
+            color: #333;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .package-info {
+            background: #f8f9ff;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #FF6701;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+        }
+
+        .itinerary-section {
+            margin-top: 30px;
+        }
+
+        .itinerary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .itinerary-header h3 {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-small {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-add {
+            background: #FF6701;
+            color: white;
+        }
+
+        .btn-add:hover {
+            background: #FEA82F;
+        }
+
+        .btn-manage {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .itinerary-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .itinerary-table th {
+            background: #FFC288;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .itinerary-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .itinerary-table tr:hover {
+            background: #FFC288;
+        }
+
+        .drag-handle {
+            cursor: move;
+            color: #999;
+            font-size: 18px;
+        }
+
+        .place-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #FF6701 0%, #FEA82F 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .place-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .place-name {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .place-details {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .delete-btn {
+            background: #ff5252;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .delete-btn:hover {
+            background: #ff1744;
+        }
+
+        .planner-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-card h3 {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .route-map {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 18px;
+        }
+
+        .cost-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .cost-item:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            font-size: 18px;
+            color: #FF6701;
+        }
+
+        .cost-note {
+            font-size: 12px;
+            color: #999;
+            margin-top: 15px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .complete-btn {
+            width: 100%;
+            padding: 15px;
+            background: #FF6701;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .complete-btn:hover {
+            background: #FEA82F;
+        }
+
+        .save-btn {
+            width: 100%;
+            padding: 15px;
+            background: #e0e0e0;
+            color: #333;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .save-btn:hover {
+            background: #d0d0d0;
+        }
+
+        @media (max-width: 1200px) {
+            .planner-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="header">
+        <a href="index.html" class="logo">
+            <img src="jejulogo.png" alt="Plan Jeju" class="logo-image">
+        </a>
+        <nav class="nav">
+            <a href="index.html">메인</a>
+            <a href="destinations.html">제주도 여행지</a>
+            <a href="reviews.html">여행 후기</a>
+            <a href="planner.html" class="active">여행 계획</a>
+            <a href="login.html" class="login-btn">로그인</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="planner-container">
+            <div class="planner-main">
+                <div class="planner-header">
+                    <h2>나의 여행 계획</h2>
+                    <a href="index.html" class="back-btn">← 뒤로</a>
+                </div>
+
+                <p style="color: #666; margin-bottom: 30px;">
+                    일차별로 시간과 장소를 지정하여 상세한 여행 일정을 만들어보세요
+                </p>
+
+                <div class="package-info">
+                    <h3 style="font-size: 20px; margin-bottom: 20px; color: #333;">패키지 정보</h3>
+                    
+                    <div class="form-group">
+                        <label>패키지 이름 *</label>
+                        <input type="text" placeholder="예: 제주 자연 탐방 3박 4일">
+                    </div>
+
+                    <div class="form-group">
+                        <label>패키지 설명</label>
+                        <textarea placeholder="여행 패키지에 대한 간단한 설명을 입력하세요"></textarea>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="public">
+                        <label for="public" style="margin: 0;">다른 사용자에게 공개 (완료 시 패키지 목록에 표시)</label>
+                    </div>
+                </div>
+
+                <div class="itinerary-section">
+                    <div class="itinerary-header">
+                        <h3>여행 일정표</h3>
+                        <div class="action-buttons">
+                            <button class="btn-small btn-add">+ 일정 추가</button>
+                            <button class="btn-small btn-manage">관리</button>
+                        </div>
+                    </div>
+
+                    <table class="itinerary-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;"></th>
+                                <th>일차</th>
+                                <th>시간</th>
+                                <th>사진</th>
+                                <th>관광지 정보</th>
+                                <th style="width: 80px;">관리</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="drag-handle">⋮⋮</span></td>
+                                <td>1일차</td>
+                                <td>09:30</td>
+                                <td>
+                                    <div class="place-image">☕</div>
+                                </td>
+                                <td>
+                                    <div class="place-info">
+                                        <div class="place-name">애월 카페거리</div>
+                                        <div class="place-details">카페당 10,000-15,000원</div>
+                                        <div class="place-details">카페별 상이</div>
+                                        <div class="place-details">카페</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="delete-btn">삭제</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="drag-handle">⋮⋮</span></td>
+                                <td>1일차</td>
+                                <td>10:00</td>
+                                <td>
+                                    <div class="place-image">🏛️</div>
+                                </td>
+                                <td>
+                                    <div class="place-info">
+                                        <div class="place-name">제주민속촌</div>
+                                        <div class="place-details">11,000원</div>
+                                        <div class="place-details">08:30 - 18:00</div>
+                                        <div class="place-details">문화</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="delete-btn">삭제</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="drag-handle">⋮⋮</span></td>
+                                <td>2일차</td>
+                                <td>10:00</td>
+                                <td>
+                                    <div class="place-image">🍖</div>
+                                </td>
+                                <td>
+                                    <div class="place-info">
+                                        <div class="place-name">흑돼지 맛집</div>
+                                        <div class="place-details">1인 25,000-35,000원</div>
+                                        <div class="place-details">11:00 - 22:00</div>
+                                        <div class="place-details">맛집</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="delete-btn">삭제</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="drag-handle">⋮⋮</span></td>
+                                <td>2일차</td>
+                                <td>11:30</td>
+                                <td>
+                                    <div class="place-image">🏔️</div>
+                                </td>
+                                <td>
+                                    <div class="place-info">
+                                        <div class="place-name">한라산 국립공원</div>
+                                        <div class="place-details">무료</div>
+                                        <div class="place-details">일출 2시간 전 ~ 일몰 2시간 전</div>
+                                        <div class="place-details">자연</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="delete-btn">삭제</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div style="background: #f8f9ff; padding: 20px; border-radius: 10px; margin-top: 30px;">
+                        <h4 style="margin-bottom: 15px; color: #333;">사용 팁</h4>
+                        <ul style="color: #666; line-height: 2;">
+                            <li>"장소 선택" 버튼을 클릭하여 관광지를 선택하세요</li>
+                            <li>시간은 직접 입력하세요 (예: 09:00)</li>
+                            <li>왼쪽 ⋮⋮ 아이콘을 드래그하여 순서를 변경할 수 있습니다</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="planner-sidebar">
+                <div class="sidebar-card">
+                    <h3>동선 지도</h3>
+                    <div class="route-map">
+                        🗺️ 동선 지도<br>
+                        (지도 표시 영역)
+                    </div>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3>예상 비용</h3>
+                    <div class="cost-item">
+                        <span>관광지 입장료</span>
+                        <span>46,000원</span>
+                    </div>
+                    <div class="cost-item">
+                        <span>숙박비 (예상)</span>
+                        <span>80,000원</span>
+                    </div>
+                    <div class="cost-item">
+                        <span>총 예상 비용</span>
+                        <span>126,000원</span>
+                    </div>
+                    <div class="cost-note">
+                        * 숙박비는 1박당 80,000원으로 예상 계산되었습니다.<br>
+                        * 교통비와 식비는 포함되지 않습니다.
+                    </div>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3>여행 요약</h3>
+                    <div class="summary-item">
+                        <span>패키지명</span>
+                        <span>미입력</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>총 일정</span>
+                        <span>4개</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>여행 기간</span>
+                        <span>1박 2일</span>
+                    </div>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3>상세 일정</h3>
+                    <div style="max-height: 300px; overflow-y: auto;">
+                        <div style="padding: 10px 0; border-bottom: 1px solid #e0e0e0;">
+                            <div style="font-weight: bold; margin-bottom: 5px;">1일차 09:30</div>
+                            <div style="font-size: 14px; color: #666;">애월 카페거리</div>
+                        </div>
+                        <div style="padding: 10px 0; border-bottom: 1px solid #e0e0e0;">
+                            <div style="font-weight: bold; margin-bottom: 5px;">1일차 10:00</div>
+                            <div style="font-size: 14px; color: #666;">제주민속촌</div>
+                        </div>
+                        <div style="padding: 10px 0; border-bottom: 1px solid #e0e0e0;">
+                            <div style="font-weight: bold; margin-bottom: 5px;">2일차 10:00</div>
+                            <div style="font-size: 14px; color: #666;">흑돼지 맛집</div>
+                        </div>
+                        <div style="padding: 10px 0;">
+                            <div style="font-weight: bold; margin-bottom: 5px;">2일차 11:30</div>
+                            <div style="font-size: 14px; color: #666;">한라산 국립공원</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="complete-btn">✓ 패키지 완성하기</button>
+                <button class="save-btn">📁 임시 저장</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

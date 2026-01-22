@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제주도 여행지 - PLAN Jeju</title>
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        body {
+            background: #FCECDD;
+        }
+
+        .hero-banner {
+            background: linear-gradient(135deg, #FFC288 0%, #FEA82F 100%);
+            padding: 60px 40px;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 20px;
+        }
+
+        .hero-banner h1 {
+            font-size: 42px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .hero-banner p {
+            font-size: 18px;
+            color: #666;
+        }
+
+        .search-filter {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 20px;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover {
+            border-color: #FF6701;
+        }
+
+        .filter-btn.active {
+            background: #FF6701;
+            color: white;
+            border-color: #FF6701;
+        }
+
+        .destinations-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .destinations-header h2 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .destination-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .destination-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .destination-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #FF6701 0%, #FEA82F 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .destination-category {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(255,255,255,0.9);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .destination-content {
+            padding: 20px;
+        }
+
+        .destination-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .destination-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .destination-info {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: #999;
+        }
+
+        .destination-info span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-banner {
+                padding: 40px 20px;
+            }
+
+            .hero-banner h1 {
+                font-size: 28px;
+            }
+
+            .destinations-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="header">
+        <a href="index.html" class="logo">
+            <img src="jejulogo.png" alt="Plan Jeju" class="logo-image">
+        </a>
+        <nav class="nav">
+            <a href="index.html">메인</a>
+            <a href="destinations.html" class="active">제주도 여행지</a>
+            <a href="reviews.html">여행 후기</a>
+            <a href="planner.html">여행 계획</a>
+            <a href="login.html" class="login-btn">로그인</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="hero-banner">
+            <h1>제주도 여행지</h1>
+            <p>제주의 아름다움을 발견하세요</p>
+        </div>
+
+        <div class="search-filter">
+            <input type="text" class="search-bar" placeholder="여행지 검색...">
+            <div class="filter-buttons">
+                <button class="filter-btn active">전체</button>
+                <button class="filter-btn active">자연</button>
+                <button class="filter-btn">해변</button>
+                <button class="filter-btn">섬</button>
+                <button class="filter-btn">드라이브</button>
+                <button class="filter-btn">테마파크</button>
+            </div>
+        </div>
+
+        <div class="destinations-header">
+            <h2>8개의 여행지</h2>
+        </div>
+
+        <div class="destinations-grid">
+            <div class="destination-card">
+                <div class="destination-image">
+                    <span class="destination-category">자연</span>
+                    🏔️ 한라산
+                </div>
+                <div class="destination-content">
+                    <h3 class="destination-title">한라산</h3>
+                    <p class="destination-desc">
+                        대한민국 최고봉이자 제주의 상징, 백록담까지 오르는 트레킹 코스가 유명합니다.
+                    </p>
+                    <div class="destination-info">
+                        <span>● 5~7시간</span>
+                        <span>■ 제주시</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="destination-card">
+                <div class="destination-image">
+                    <span class="destination-category">자연</span>
+                    🌅 성산일출봉
+                </div>
+                <div class="destination-content">
+                    <h3 class="destination-title">성산일출봉</h3>
+                    <p class="destination-desc">
+                        제주를 대표하는 일출 명소, 거대한 분화구와 함께 보는 일출은 평생 잊지 못할 추억이 됩니다.
+                    </p>
+                    <div class="destination-info">
+                        <span>● 2~3시간</span>
+                        <span>■ 성산읍</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="destination-card">
+                <div class="destination-image">
+                    <span class="destination-category">해변</span>
+                    🏖️ 함덕해수욕장
+                </div>
+                <div class="destination-content">
+                    <h3 class="destination-title">함덕해수욕장</h3>
+                    <p class="destination-desc">
+                        에메랄드 빛 바다와 하얀 모래사장이 어우러진 아름다운 해변입니다.
+                    </p>
+                    <div class="destination-info">
+                        <span>● 자유</span>
+                        <span>■ 조천읍</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="destination-card">
+                <div class="destination-image">
+                    <span class="destination-category">카페</span>
+                    ☕ 애월카페거리
+                </div>
+                <div class="destination-content">
+                    <h3 class="destination-title">애월카페거리</h3>
+                    <p class="destination-desc">
+                        바다를 바라보며 여유롭게 커피를 즐길 수 있는 감성 카페들이 모여있는 거리입니다.
+                    </p>
+                    <div class="destination-info">
+                        <span>● 1~2시간</span>
+                        <span>■ 애월읍</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="destination-card">
+                <div class="destination-image">
+                    <span class="destination-category">자연</span>
+                    🌊 천지연폭포
+                </div>
+                <div class="destination-content">
+                    <h3 class="destination-title">천지연폭포</h3>
+                    <p class="destination-desc">
+                        서귀포의 대표적인 폭포로, 아름다운 자연 경관을 감상할 수 있습니다.
+                    </p>
+                    <div class="destination-info">
+                        <span>● 1시간</span>
+                        <span>■ 서귀포시</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="destination-card">
+                <div class="destination-image">
+                    <span class="destination-category">드라이브</span>
+                    🛣️ 올레길
+                </div>
+                <div class="destination-content">
+                    <h3 class="destination-title">제주올레</h3>
+                    <p class="destination-desc">
+                        제주도를 한 바퀴 도는 아름다운 트레킹 코스로, 자연과 함께하는 힐링 여행입니다.
+                    </p>
+                    <div class="destination-info">
+                        <span>● 코스별 상이</span>
+                        <span>■ 전 지역</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="destination-card">
+                <div class="destination-image">
+                    <span class="destination-category">맛집</span>
+                    🍖 흑돼지거리
+                </div>
+                <div class="destination-content">
+                    <h3 class="destination-title">흑돼지거리</h3>
+                    <p class="destination-desc">
+                        제주도의 대표 음식인 흑돼지를 맛볼 수 있는 유명 맛집 거리입니다.
+                    </p>
+                    <div class="destination-info">
+                        <span>● 1~2시간</span>
+                        <span>■ 제주시</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="destination-card">
+                <div class="destination-image">
+                    <span class="destination-category">자연</span>
+                    🌋 용머리해안
+                </div>
+                <div class="destination-content">
+                    <h3 class="destination-title">용머리해안</h3>
+                    <p class="destination-desc">
+                        화산 활동으로 형성된 독특한 해안 지형으로, 장관을 이루는 자연 경관입니다.
+                    </p>
+                    <div class="destination-info">
+                        <span>● 1시간</span>
+                        <span>■ 안덕면</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 필터 버튼 클릭
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (this.textContent === '전체') {
+                    // 전체 버튼은 토글
+                    this.classList.toggle('active');
+                } else {
+                    // 다른 버튼은 토글
+                    this.classList.toggle('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

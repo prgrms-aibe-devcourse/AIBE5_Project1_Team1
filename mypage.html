@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 프로필 - PLAN Jeju</title>
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        body {
+            background: #FCECDD;
+            min-height: 100vh;
+        }
+
+        .profile-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, #FFC288 0%, #FEA82F 100%);
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .profile-header h2 {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .edit-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            padding: 10px 20px;
+            background: #FF6701;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .edit-btn:hover {
+            background: #FEA82F;
+        }
+
+        .profile-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF6701 0%, #FEA82F 100%);
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        .profile-form {
+            padding: 40px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .form-row:last-child {
+            border-bottom: none;
+        }
+
+        .form-label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-input {
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #FF6701;
+        }
+
+        .form-input:disabled {
+            background: #f5f5f5;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .profile-header {
+                padding: 30px 20px;
+            }
+
+            .profile-form {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="header">
+        <a href="index.html" class="logo">
+            <img src="jejulogo.png" alt="Plan Jeju" class="logo-image">
+        </a>
+        <nav class="nav">
+            <a href="index.html">메인</a>
+            <a href="destinations.html">제주도 여행지</a>
+            <a href="reviews.html">여행 후기</a>
+            <a href="planner.html">여행 계획</a>
+            <a href="login.html" class="login-btn">로그인</a>
+        </nav>
+    </header>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <button class="edit-btn" id="editBtn">수정</button>
+            <h2>내 프로필</h2>
+            <div class="profile-icon">민호</div>
+        </div>
+
+        <div class="profile-form">
+            <div class="form-row">
+                <label class="form-label">이름</label>
+                <input type="text" class="form-input" value="김XX" disabled id="name">
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">닉네임</label>
+                <input type="text" class="form-input" value="김XXXXX" disabled id="nickname">
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">이메일</label>
+                <input type="email" class="form-input" value="김XXXXX" disabled id="email">
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">생년월일</label>
+                <input type="text" class="form-input" value="김XXXXX" disabled id="birthdate">
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">성별</label>
+                <input type="text" class="form-input" value="남자" disabled id="gender">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isEditing = false;
+
+        document.getElementById('editBtn').addEventListener('click', function() {
+            isEditing = !isEditing;
+            const inputs = document.querySelectorAll('.form-input');
+            
+            if (isEditing) {
+                inputs.forEach(input => {
+                    input.disabled = false;
+                    input.style.background = 'white';
+                });
+                this.textContent = '저장';
+                this.style.background = '#FEA82F';
+            } else {
+                inputs.forEach(input => {
+                    input.disabled = true;
+                    input.style.background = '#f5f5f5';
+                });
+                this.textContent = '수정';
+                this.style.background = '#FF6701';
+                alert('프로필이 저장되었습니다.');
+            }
+        });
+    </script>
+</body>
+</html>
