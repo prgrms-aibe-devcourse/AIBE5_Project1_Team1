@@ -16,6 +16,12 @@
 
 ---
 
+## 📌 프로젝트 기획서
+- Figma: https://www.figma.com/design/ItGE3eBC6f0n1sWUBLneVi/PLAN-Jeju?node-id=0-1&p=f&t=bjSm6fVjgN8G1XoF-0
+- Notion: https://www.notion.so/PLAN-Jeju-2ed0e26c31448057b95dd224cac91720?source=copy_link
+
+---
+
 ## 🛠 기술 스택
 
 ### Frontend
