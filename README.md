@@ -18,7 +18,11 @@
 ## 🛠 기술 스택
 
 ### Frontend
-- 
+- JavaScript (ES6+)
+- jQuery
+- HTML5
+- CSS5
+- Bootstrap
 
 
 ---
@@ -70,6 +74,32 @@
 - 여행 후기는 특정 여행계획과 연결할 수 있습니다.
 - 여행 스타일별 필터링 기능 제공
 - 게시물에 좋아요 기능 제공
+
+---
+
+## ▶️ 로컬 실행 방법 (Local Run)
+
+본 프로젝트는 아래 절차를 통해 로컬 환경에서 실행할 수 있습니다.
+
+
+```bash
+- 프로젝트 복사
+git clone https://github.com/prgrms-aibe-devcourse/AIBE5_Project1_Team1.git
+
+- 프로젝트 이동
+cd AIBE5_Project1_Team1
+
+- 패키지 설치
+npm install
+
+- 프로젝트 실행
+npm start
+
+- 브라우저에서 아래 주소로 접속
+http://localhost:3000
+```
+
+
 
 ---
 
