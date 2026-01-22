@@ -95,6 +95,7 @@
  ┣ 📂 docs
  ┣ 📜 package.json
  ┗ 📜 README.md
+```
 
 ---
 
