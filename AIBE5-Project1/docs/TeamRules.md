@@ -67,4 +67,16 @@ git fetch origin
 
 # 3. feature의 내용으로 병합하기
 git merge origin/feature
+
+# 4. Repository에 있는 본인브랜치에 적용하기
+git push origin [본인브랜치]
+```
+
+
+## Merge 중 문제 발생 시
+```bash
+# 리눅스 기반 텍스트파일 등장시
+:wq!        # 강제로 저장 후 종료
+
+# 그외는 저 부르세요 (feat.작성자 고완석)
 ```
