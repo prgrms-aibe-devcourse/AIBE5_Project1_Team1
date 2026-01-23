@@ -26,19 +26,10 @@
 
 ### Frontend
 - JavaScript (ES6+)
-- jQuery
+- Vanilla Vite
 - HTML5
+- jQuery
 - CSS5
-- Bootstrap
-
-### UI / Styling
-- Bootstrap
-- CSS3
-
-### Tooling
-- npm
-- ESLint
-- Prettier
 
 ---
 
@@ -52,7 +43,7 @@
 | 윤석규  |  팀원  |           |
 | 김민국  |  팀원  |           |
 | 김민채  |  팀원  |           |
-| 고완석  |  팀원  |           |
+| 고완석  |  팀원  | Github 구성, 요구사항 명세서 작성 |
 
 ---
 
@@ -156,16 +147,16 @@
 git clone https://github.com/prgrms-aibe-devcourse/AIBE5_Project1_Team1.git
 
 2. 디렉토리 이동
-cd AIBE5_Project1_Team1
+cd AIBE5-Project1
 
 3. 패키지 설치
 npm install
 
 4. 프로젝트 실행
-npm start
+npm run dev
 
 5. 브라우저에서 아래 주소로 접속
-http://localhost:3000
+http://localhost:5173
 ```
 
 ---
@@ -173,16 +164,24 @@ http://localhost:3000
 ## 📂 디렉토리 구조
 
 ```bash
-📦 project-root
+📦 AIBE5-Project1
  ┣ 📂 src
+ ┃ ┣ 📂 assets
+ ┃ ┃ ┣ � images
+ ┃ ┃ ┗ 📂 styles
  ┃ ┣ 📂 components
  ┃ ┣ 📂 pages
- ┃ ┣ 📂 hooks
- ┃ ┣ 📂 services
- ┃ ┣ 📂 styles
+ ┃ ┃ ┣ 📂 Attractions
+ ┃ ┃ ┣ 📂 Home
+ ┃ ┃ ┣ 📂 Login
+ ┃ ┃ ┣ 📂 Mypage
+ ┃ ┃ ┣ 📂 Plans
+ ┃ ┃ ┃ ┗ 📂 Details
+ ┃ ┃ ┣ 📂 Reviews
+ ┃ ┃ ┗ 📂 Survey
  ┃ ┗ 📂 utils
  ┣ 📂 public
- ┣ 📂 docs
+ ┣ 📜 index.html
  ┣ 📜 package.json
  ┗ 📜 README.md
 ```
@@ -206,11 +205,11 @@ http://localhost:3000
 - **수정/작성일:** 작업을 완료한 날짜 (YYYY-MM-DD)
 
 #### 기능분류(Type)
-| 타입     | 의미         |
-| ------ | ---------- |
+| 타입     | 의미          |
+| ------ | ------------- |
 | feat   | 새로운 기능 추가  |
 | docs   | 문서 작성 / 수정 |
-| fix    | 버그 수정      |
+| fix    | 버그 수정       |
 | refact | 코드 리팩토링    |
 
 ### Commit 규칙 상세
@@ -221,11 +220,11 @@ http://localhost:3000
 - 작성내용 앞에 작업한 파일명 명시
 - 작업내용을 중심으로 간단히 작성
 
-**예시**
 ```text
-feat: Login.html - 로그인 UI 추가 - 26.01.22
-feat: authController.html - 로그인 API 구현 - 26.01.22
-feat: Login.html, authController.html - 로그인 기능 구현 - 26.01.22
+# 예시
+git commit -m "feat: Login/index.js - 로그인 추가 - 26.01.22"
+git commit -m "feat: components/Header.js - 헤더구현 - 26.01.22"
+git commit -m "feat: component/Header.js, Home/index.js - 헤더로 메인화면 돌아가는 기능 구현 - 26.01.22"
 ```
 
 ---
