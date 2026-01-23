@@ -12,7 +12,7 @@
 - Quick / Full 설문 모드를 제공하여 사용자 선택권 강화
 - 추천된 여행계획 저장 및 수정·삭제 기능 제공
 - 여행 후기 공유 및 여행 스타일 기반 탐색 기능 제공
-- 본 프로젝트는 프레임워크 없이 순수 JavaScript와 jQuery를 기반으로 구현되었습니다.
+- 본 프로젝트는 Vanilla Vite를 사용하여 JavaScript, jQuery, Ajax를 중심으로 구현했습니다.
 
 ---
 
@@ -169,6 +169,7 @@ http://localhost:5173
  ┃ ┣ 📂 assets           # 이미지, 스타일, 더미데이터 등의 정적 자원
  ┃ ┃ ┣ 📂 images         # 로고, 아이콘, 배너 등 이미지 파일
  ┃ ┃ ┗ 📂 styles         # CSS/SCSS 등 스타일 파일
+ ┃ ┃ ┗ 📂 data           # 설문, 더미 데이터 등 JSON 파일
  ┃ ┣ 📂 components       # 재사용 UI 컴포넌트
  ┃ ┣ 📂 pages            # 기능별 페이지
  ┃ ┃ ┣ 📂 Attractions    # 제주도 관광지 안내

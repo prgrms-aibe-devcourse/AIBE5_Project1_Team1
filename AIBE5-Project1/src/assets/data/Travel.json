@@ -1,0 +1,85 @@
+{
+  "attractions": [
+    {
+      "id": 1,
+      "name": "여행지 이름",
+      "image": "https://example.com/image.jpg",
+      "price": {
+        "adult": 10000,
+        "youth": 7000,
+        "child": 5000
+      },
+      "description": "여행지에 대한 상세 설명",
+      "tags": ["태그1", "태그2", "태그3"],
+      "openTime": {
+        "weekday": "09:00 - 18:00",
+        "weekend": "09:00 - 19:00",
+        "closed": "월요일"
+      },
+      "address": {
+        "road": "제주특별자치도 제주시 중앙로 123",
+        "building": "제주빌딩 1층",
+        "detail": "옆 카페 옆"
+      },
+      "links": {
+        "naver": "https://naver.com/place/...",
+        "kakao": "https://kakao.com/place/...",
+        "google": "https://google.com/place/..."
+      }
+    },
+    {
+      "id": 2,
+      "name": "성산일출봉",
+      "image": "https://example.com/seongsan.jpg",
+      "price": {
+        "adult": 2000,
+        "youth": 1000,
+        "child": 500
+      },
+      "description": "제주도 동쪽에 위치한 유명한 일출 명소로, 유네스코 세계자연유산으로 지정되었습니다.",
+      "tags": ["자연", "힐링", "일출", "등산"],
+      "openTime": {
+        "weekday": "07:00 - 20:00",
+        "weekend": "07:00 - 20:00",
+        "closed": "없음"
+      },
+      "address": {
+        "road": "제주특별자치도 서귀포시 성산읍 성산리 1",
+        "building": "",
+        "detail": "성산포 옆"
+      },
+      "links": {
+        "naver": "https://naver.com/place/성산일출봉",
+        "kakao": "https://kakao.com/place/성산일출봉",
+        "google": "https://google.com/place/성산일출봉"
+      }
+    },
+    {
+      "id": 3,
+      "name": "카페 예시",
+      "image": "https://example.com/cafe.jpg",
+      "price": {
+        "adult": 5000,
+        "youth": null,
+        "child": null
+      },
+      "description": "감성 있는 카페로 제주의 아름다운 풍경을 감상할 수 있습니다.",
+      "tags": ["카페", "감성", "맛집"],
+      "openTime": {
+        "weekday": "10:00 - 22:00",
+        "weekend": "10:00 - 23:00",
+        "closed": "없음"
+      },
+      "address": {
+        "road": "제주특별자치도 제주시 애월읍 애월로 456",
+        "building": "감성빌딩 2층",
+        "detail": "해변 근처"
+      },
+      "links": {
+        "naver": "https://naver.com/place/감성카페",
+        "kakao": "https://kakao.com/place/감성카페",
+        "google": "https://google.com/place/감성카페"
+      }
+    }
+  ]
+}
