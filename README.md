@@ -167,8 +167,8 @@ http://localhost:5173
 📦 AIBE5-Project1
  ┣ 📂 src
  ┃ ┣ 📂 assets           # 이미지, 스타일, 더미데이터 등의 정적 자원
- ┃ ┃ ┣ 📂 images
- ┃ ┃ ┗ 📂 styles
+ ┃ ┃ ┣ 📂 images         # 로고, 아이콘, 배너 등 이미지 파일
+ ┃ ┃ ┗ 📂 styles         # CSS/SCSS 등 스타일 파일
  ┃ ┣ 📂 components       # 재사용 UI 컴포넌트
  ┃ ┣ 📂 pages            # 기능별 페이지
  ┃ ┃ ┣ 📂 Attractions    # 제주도 관광지 안내
@@ -176,14 +176,11 @@ http://localhost:5173
  ┃ ┃ ┣ 📂 Login          # 로그인 페이지
  ┃ ┃ ┣ 📂 Mypage         # 마이페이지 페이지
  ┃ ┃ ┣ 📂 Plans          # 여행플랜 작성 페이지
- ┃ ┃ ┃ ┗ 📂 Details      
+ ┃ ┃ ┃ ┗ 📂 Details      # 여행플랜 세부 페이지
  ┃ ┃ ┣ 📂 Reviews        # 여행리뷰 & 후기 페이지
  ┃ ┃ ┗ 📂 Survey         # 여행스타일에 따른 설문조사 페이지
- ┃ ┗ 📂 utils
- ┣ 📂 public
- ┣ 📜 index.html
- ┣ 📜 package.json
- ┗ 📜 README.md
+ ┣ 📜 index.html         # 앱 진입점 HTML
+ ┗ 📜 README.md          # 프로젝트 설명 문서
 ```
 
 ---
