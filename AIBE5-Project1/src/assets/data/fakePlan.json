@@ -1,0 +1,221 @@
+{
+  "id": 1,
+  "title": "동쪽에 머무는 조용한 제주 2박 3일",
+  "type": "AI_RECOMMEND",
+  "keywords": ["성산", "바다", "감성", "천천히"],
+  "summary": {
+    "duration": "2박 3일",
+    "companion": "연인",
+    "theme": "힐링",
+    "mainArea": ["성산", "동쪽"],
+    "estimatedFoodCost": "1인 약 12~15만 원",
+    "movementFatigue": 2,
+    "emotionalScore": 5
+  },
+  "schedule": [
+    {
+      "day": 1,
+      "title": "동쪽 도착 & 바다 산책",
+      "plans": [
+        {
+          "time": "오전",
+          "items": [
+            {
+              "type": "transport",
+              "name": "제주공항 도착",
+              "detail": "09:30 도착"
+            },
+            {
+              "type": "transport",
+              "name": "렌터카 픽업",
+              "detail": "동쪽 이동 (약 1시간)"
+            }
+          ]
+        },
+        {
+          "time": "점심",
+          "items": [
+            {
+              "type": "food",
+              "name": "자매국수",
+              "menu": ["고기국수", "멸치국수"],
+              "cost": "1인 10,000원"
+            }
+          ]
+        },
+        {
+          "time": "오후",
+          "items": [
+            {
+              "type": "spot",
+              "name": "김녕·함덕 해수욕장",
+              "detail": "바다 산책, 사진 촬영, 커피 테이크아웃"
+            },
+            {
+              "type": "spot",
+              "name": "오조포구",
+              "detail": "돌담 길과 바다 감성 포인트"
+            }
+          ]
+        },
+        {
+          "time": "체크인",
+          "items": [
+            {
+              "type": "hotel",
+              "name": "성산 오션뷰 숙소",
+              "detail": "16:00 체크인 / 바다 전망"
+            }
+          ]
+        },
+        {
+          "time": "저녁",
+          "items": [
+            {
+              "type": "food",
+              "name": "성산 갈치조림 골목",
+              "menu": ["갈치조림", "전복뚝배기"],
+              "cost": "1인 20,000~25,000원"
+            }
+          ]
+        },
+        {
+          "time": "밤",
+          "items": [
+            {
+              "type": "rest",
+              "name": "숙소 근처 바다 산책",
+              "detail": "테라스에서 와인 또는 차 한 잔"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "title": "자연 & 감성 중심 하루",
+      "plans": [
+        {
+          "time": "아침",
+          "items": [
+            {
+              "type": "food",
+              "name": "숙소 조식 또는 로컬 식당"
+            }
+          ]
+        },
+        {
+          "time": "오전",
+          "items": [
+            {
+              "type": "spot",
+              "name": "성산일출봉",
+              "detail": "약 40분 등반",
+              "cost": "입장료 5,000원"
+            }
+          ]
+        },
+        {
+          "time": "점심",
+          "items": [
+            {
+              "type": "food",
+              "name": "제주 메밀막국수",
+              "menu": ["들기름막국수", "비빔막국수"],
+              "cost": "11,000원 내외"
+            }
+          ]
+        },
+        {
+          "time": "오후",
+          "items": [
+            {
+              "type": "spot",
+              "name": "아끈다랑쉬 오름",
+              "detail": "완만한 오름, 사진 명소"
+            },
+            {
+              "type": "cafe",
+              "name": "애월 카페거리",
+              "detail": "바다 뷰 카페 (선택)",
+              "cost": "7,000~10,000원"
+            }
+          ]
+        },
+        {
+          "time": "저녁",
+          "items": [
+            {
+              "type": "food",
+              "name": "흑돼지 로컬 식당",
+              "detail": "숯불 흑돼지",
+              "cost": "1인 25,000~35,000원"
+            }
+          ]
+        },
+        {
+          "time": "밤",
+          "items": [
+            {
+              "type": "activity",
+              "name": "루나폴 미디어아트",
+              "detail": "실내 감성 데이트 코스"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "title": "느린 마무리 & 귀가",
+      "plans": [
+        {
+          "time": "아침",
+          "items": [
+            {
+              "type": "cafe",
+              "name": "숙소 근처 카페",
+              "detail": "여유로운 아침"
+            }
+          ]
+        },
+        {
+          "time": "오전",
+          "items": [
+            {
+              "type": "spot",
+              "name": "섭지코지",
+              "detail": "바다 절벽 산책, 사진 촬영"
+            }
+          ]
+        },
+        {
+          "time": "점심",
+          "items": [
+            {
+              "type": "food",
+              "name": "우진해장국",
+              "menu": ["고사리해장국"],
+              "cost": "10,000원대"
+            }
+          ]
+        },
+        {
+          "time": "오후",
+          "items": [
+            {
+              "type": "shopping",
+              "name": "탑동광장",
+              "detail": "기념품 & 카페"
+            },
+            {
+              "type": "transport",
+              "name": "공항 이동",
+              "detail": "렌터카 반납 후 제주 출발"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
