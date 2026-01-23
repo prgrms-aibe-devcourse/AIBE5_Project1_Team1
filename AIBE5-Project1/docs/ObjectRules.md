@@ -60,7 +60,7 @@ surveyData          # 설문 질문 데이터목록
 
 --- 
 
-## 설문조사 데이터 구조 (surveyList.json)
+## 설문조사 데이터 구조 (../src/assets/data/surveyList.json)
 
 ### 전체 구조
 - **SurveyData[0]**: Step 1 - 설문 타입 선택 (Full / Quick)
