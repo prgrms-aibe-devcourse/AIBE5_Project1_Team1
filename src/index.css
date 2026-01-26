@@ -768,6 +768,10 @@
     height: calc(var(--spacing) * 64);
   }
 
+  .h-\[calc\(100vh-73px\)\] {
+    height: calc(100vh - 73px);
+  }
+
   .h-auto {
     height: auto;
   }
@@ -802,6 +806,10 @@
 
   .min-h-screen {
     min-height: 100vh;
+  }
+
+  .h-screen {
+    height: 100vh;
   }
 
   .w-4 {
