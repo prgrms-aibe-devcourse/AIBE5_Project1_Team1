@@ -1,7 +1,7 @@
 # 작업규칙
 
 
-## 작업시작하기
+## 첫 시작
 ```bash
 # 1. VS Code 사용
 - 아이콘 누르기
@@ -13,18 +13,15 @@
 - 하단에 생긴 'Terminal'에 아래와 같은 Git 명령어를 입력한다.
 - git clone https://github.com/prgrms-aibe-devcourse/AIBE5_Project1_Team1.git
 
-# 4. 본인 브랜치로 이동하기
-- git checkout [본인브랜치명]
+# 4. 패키지 설치하기
+- npm install
 
-# 5. 작업하기
-- 일해라 노예야
+# 4. 본인 브랜치로 이동하기 및 브랜치 설정
+- git checkout -b [본인브랜치명]
+
+# 5. 본인디렉터리 덮어쓰기
+- git push -f origin [본인브랜치명]
 ```
-
----
-
-## API 규칙
-- Github Repository에 올라가선 안되는 개인정보, 데이터, API KEY는 **.gitignore**에 올리고 Slack에 적용사항 애기해주기
-- API KEY는 반드시 비공개처리하여 타인에게 공유하시면 안됩니다. (잘못하면 다른사람이 API를 마음대로 써서 돈 청구됨)
 
 ---
 
@@ -54,6 +51,12 @@ git merge origin/feature
 # PR 제목/설명 작성 필수
 # PR 전에 개인 브랜치가 feature 최신 반영 상태인지 확인
 ```
+
+---
+
+## API 규칙
+- Github Repository에 올라가선 안되는 개인정보, 데이터, API KEY는 **.gitignore**에 올리고 Slack에 적용사항 애기해주기
+- API KEY는 반드시 비공개처리하여 타인에게 공유하시면 안됩니다. (잘못하면 다른사람이 API를 마음대로 써서 돈 청구됨)
 
 ---
 
