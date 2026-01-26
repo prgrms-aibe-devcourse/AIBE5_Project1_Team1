@@ -15,6 +15,7 @@
 
 # 4. 패키지 설치하기
 - npm install
+- npm install --save-dev @types/react @types/react-dom
 
 # 4. 본인 브랜치로 이동하기 및 브랜치 설정
 - git checkout -b [본인브랜치명]
