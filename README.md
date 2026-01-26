@@ -166,11 +166,8 @@ npm install
 npm run dev
 
 4. 브라우저에서 아래 주소로 접속
-http://localhost:5173
->>>>>>> origin/main
-```
+http://localhost:3000/
 
----
 
 ## 📂 디렉토리 구조
 
