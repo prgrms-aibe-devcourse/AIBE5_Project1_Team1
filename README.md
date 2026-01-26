@@ -147,17 +147,14 @@
 1. 저장소 복사
 git clone https://github.com/prgrms-aibe-devcourse/AIBE5_Project1_Team1.git
 
-2. 디렉토리 이동
-cd AIBE5-Project1
-
-3. 패키지 설치
+2. 패키지 설치
 npm install
 
-4. 프로젝트 실행
+3. 프로젝트 실행
 npm run dev
 
-5. 브라우저에서 아래 주소로 접속
-http://localhost:5173
+4. 브라우저에서 아래 주소로 접속
+http://localhost:3000/
 ```
 
 ---

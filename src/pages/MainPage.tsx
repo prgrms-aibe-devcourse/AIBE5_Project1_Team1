@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ArrowRight, Check, Compass, MapPin, Calendar } from "lucide-react";
 import TravelModal from "../components/TravelModal";
 import { destinations } from "../data/destinations";
+import { useNavigate } from "react-router";
 
 export default function MainPage() {
   const [selectedDestination, setSelectedDestination] = useState<typeof destinations[0] | null>(null);

@@ -1,7 +1,7 @@
 # 작업규칙
 
 
-## 작업시작하기
+## 첫 시작
 ```bash
 # 1. VS Code 사용
 - 아이콘 누르기
@@ -11,20 +11,33 @@
 
 # 3. GitHub 프로젝트 가져오기
 - 하단에 생긴 'Terminal'에 아래와 같은 Git 명령어를 입력한다.
-- git clone https://github.com/prgrms-aibe-devcourse/AIBE5_Project1_Team1.git
+- git remote add origin https://github.com/prgrms-aibe-devcourse/AIBE5_Project1_Team1.git
 
-# 4. 본인 브랜치로 이동하기
-- git checkout [본인브랜치명]
+# 4. 본인 브랜치로 이동하기 및 브랜치 설정
+- git checkout -b [본인브랜치명]
 
-# 5. 작업하기
-- 일해라 노예야
+# 5. git 설치하기
+- git init 
+
+# 6. 본인 디렉터리를 main으로 덮어쓰기
+- git reset --hard origin/main
+
+# 7. 패키지 설치하기
+- npm install
+- npm install --save-dev @types/react @types/react-dom
 ```
 
 ---
 
-## API 규칙
-- Github Repository에 올라가선 안되는 개인정보, 데이터, API KEY는 **.gitignore**에 올리고 Slack에 적용사항 애기해주기
-- API KEY는 반드시 비공개처리하여 타인에게 공유하시면 안됩니다. (잘못하면 다른사람이 API를 마음대로 써서 돈 청구됨)
+## 프로젝트 시작방법
+```bash
+# 1. README.md와 src가 있는 폴더로 이동한다. (기본값이니 이동할 필요는 없음)
+    - 이동방법: 터미널에서 cd TRAVEL PLANNING WEBSITE
+
+#2. 프로젝트 구동
+- npm run dev
+- https://localhost:3000/ 로 접속
+```
 
 ---
 
@@ -57,6 +70,12 @@ git merge origin/feature
 
 ---
 
+## API 규칙
+- Github Repository에 올라가선 안되는 개인정보, 데이터, API KEY는 **.gitignore**에 올리고 Slack에 적용사항 애기해주기
+- API KEY는 반드시 비공개처리하여 타인에게 공유하시면 안됩니다. (잘못하면 다른사람이 API를 마음대로 써서 돈 청구됨)
+
+---
+
 ## 개인 브랜치 초기화 방법
 ```bash
 # 1. 본인 브랜치로 이동
@@ -72,6 +91,7 @@ git merge origin/feature
 git push origin [본인브랜치]
 ```
 
+---
 
 ## Merge 중 문제 발생 시
 ```bash

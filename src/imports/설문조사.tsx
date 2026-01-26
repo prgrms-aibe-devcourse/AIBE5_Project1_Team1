@@ -36,6 +36,7 @@ function Frame2() {
   );
 }
 
+// 여행 설문 페이지 Header 왼쪽 부분
 function Frame3() {
   return (
     <div className="content-stretch flex gap-[30px] items-center relative shrink-0">
@@ -52,7 +53,7 @@ function Frame4() {
     </div>
   );
 }
-
+// 여행 설문 페이지 Header 오른쪽 부분
 function Frame12() {
   return (
     <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
@@ -62,6 +63,7 @@ function Frame12() {
   );
 }
 
+// Header 왼쪽, 오른쪽 합침
 function Frame() {
   return (
     <div className="bg-white content-stretch flex h-[64px] items-center justify-between overflow-clip px-[20px] py-[16px] relative shrink-0 w-[1216px]">
@@ -71,6 +73,7 @@ function Frame() {
   );
 }
 
+// Header 부분 내용
 function Header() {
   return (
     <div className="bg-white h-[64px] pointer-events-auto sticky top-0 w-[1920px]" data-name="header">
@@ -82,6 +85,7 @@ function Header() {
   );
 }
 
+// Step 1
 function Frame5() {
   return (
     <div className="bg-[#ffede2] relative rounded-[999px] shrink-0 w-full">
@@ -102,6 +106,7 @@ function Frame6() {
   );
 }
 
+// Step 1 제목
 function Frame7() {
   return (
     <div className="content-stretch flex items-center justify-center pb-[8px] relative shrink-0">
@@ -110,6 +115,7 @@ function Frame7() {
   );
 }
 
+// Step 1 소제목
 function Frame8() {
   return (
     <div className="content-stretch flex items-center justify-center pb-[32px] relative shrink-0">
@@ -144,6 +150,7 @@ function Frame10() {
   );
 }
 
+// Step 1. 선택지 2개
 function Frame11() {
   return (
     <div className="content-stretch flex flex-col gap-[12px] items-start relative shrink-0 w-full">
@@ -153,6 +160,7 @@ function Frame11() {
   );
 }
 
+// Step 1 전체 설문 내용
 function Component() {
   return (
     <div className="bg-white h-[506px] relative rounded-[20px] shrink-0 w-[704px]" data-name="설문 내용">
@@ -175,6 +183,7 @@ function Frame13() {
   );
 }
 
+// Step 1의 전체 내용
 export default function Component1() {
   return (
     <div className="bg-[#ffede2] content-stretch flex flex-col items-center relative size-full" data-name="설문조사">
