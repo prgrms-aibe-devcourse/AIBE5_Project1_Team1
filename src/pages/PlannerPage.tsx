@@ -13,14 +13,21 @@ import { itinerary } from "../data/surveyResult"
 
 import KakaoMap from "../components/KakaoMap";
 
+import { restaurants, RestaurantCategory } from "../data/restaurants";
+
 // 모든 여행지 데이터
 const allDestinations = [
   ...data,
 ];
 
-
-
-const categories = ["전체", "자연", "해변", "섬", "드라이브", "테마파크"];
+const attractionCategory = ["산/동굴", "해변/섬", "섬", "드라이브", "테마파크"];
+const hotelCategory = ["호텔", "리조트", "게스트하우스", "펜션", "스테이"];
+const foodCategory = ["한식", "해산물", "카페", "고기", "흑돼지", "양식", "시장"];
+const categories = ["전체", 
+  ...attractionCategory, 
+  ...hotelCategory, 
+  ...foodCategory
+];
 
 type ItineraryItem = {
   id: number;
@@ -33,20 +40,46 @@ type ItineraryItem = {
   image: string;
 };
 
+type TotalPrice = {
+  attractionPrice: number;
+  hotelPrice: number;
+  foodPrice: number;
+}
+const myPrice: TotalPrice = {
+  attractionPrice: 0, 
+  hotelPrice: 0, 
+  foodPrice: 0
+};
+const updateTotalPrice = ({
+  attractionPrice = 0, 
+  hotelPrice = 0, 
+  foodPrice = 0
+}: {
+    attractionPrice?: number;
+    hotelPrice?: number;
+    foodPrice?: number;
+  }) => {
+  myPrice.attractionPrice += attractionPrice;
+  myPrice.hotelPrice += hotelPrice;
+  myPrice.foodPrice += foodPrice;
+};
+
+
 // 드래그 가능한 일정 항목 컴포넌트
-/* 20260125: 드래그 드롭을 마구 흔들 시, 예상 위치가 이상해지는 버그 있음 */
+/* 20260125 김민호: 드래그 드롭을 마구 흔들 시, 예상 위치가 이상해지는 버그 있음 */
 const DraggableItineraryItem = ({ 
   item, 
   index, 
+  canEdit = true,
   moveItem, 
   onDelete, 
   onDayChange, 
   onTimeChange,
   onImageClick,
-  canEdit
 }: { 
   item: ItineraryItem; 
   index: number; 
+  canEdit: boolean;
   moveItem: (fromIndex: number, toIndex: number) => void;
   onDelete: (id: number) => void;
   onDayChange: (id: number, day: number) => void;
@@ -81,12 +114,12 @@ const DraggableItineraryItem = ({
       }`}
     >
       {/* 드래그 핸들 */}
-      <div ref={(node) => { if (node) { drag(node); } }} className="w-8 col-span-1 cursor-move flex justify-center">
+      <div ref={(node) => { if (node) { drag(node); } }} className={`w-8 col-span-1 flex justify-center ${canEdit ? "cursor-move" : "cursor-not-allowed opacity-40"}`}>
         <GripVertical className="w-5 h-5 text-gray-400" />
       </div>
 
       {/* 일차 */}
-      {/* 20260126: w 줄임. h 대신 py로 대체 -> 크기 줄임 */}
+      {/* 20260126 김민호: w 줄임. h 대신 py로 대체 -> 크기 줄임 */}
       <div className="col-span-1">
         <input
           type="number"
@@ -99,12 +132,13 @@ const DraggableItineraryItem = ({
       </div>
 
       {/* 시간 */}
-      {/* 20260125: 시간은 24시간 체제로 변경 불가. 이는 OS에 따라 다름. 단, 시간 필드의 row를 100 이상으로 두면 해결됨. */}
+      {/* 20260125 김민호: 시간은 24시간 체제로 변경 불가. 이는 OS에 따라 다름. 단, 시간 필드의 row를 100 이상으로 두면 해결됨. */}
       <div className="col-span-3">
         <input
           type="time"
           value={item.time}
           onChange={(e) => onTimeChange(item.id, e.target.value)}
+          disabled={!canEdit}
           className="w-100 px-2 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
         />
       </div>
@@ -133,7 +167,7 @@ const DraggableItineraryItem = ({
       <div className="col-span-1 flex justify-center">
         <button 
           onClick={() => canEdit && onDelete(item.id)}
-          disabled={!canEdit}                         
+          disabled={!canEdit} 
           className="w-8 h-8 flex items-center justify-center bg-red-50 hover:bg-red-100 text-red-600 rounded-lg transition-colors"
           title="삭제"
         >
@@ -187,10 +221,9 @@ const filteredMapItems = mapItems.filter(
   const location = useLocation();
   const surveyData = location.state?.surveyData || {};
   // 여행계획 수정 가능 여부를 따지기 위해 추가
+  const fromMyPlan = location.state?.fromMyPlan || false; // 내 플랜에서 왔는지 확인
   const isReadOnly = location.state?.isReadOnly || false; 
   const canEdit = !isReadOnly;
-
-  const fromMyPlan = location.state?.fromMyPlan || false; // 내 플랜에서 왔는지 확인
   
   const handleSurvey = () => {
     navigate("/survey");
@@ -243,6 +276,12 @@ const filteredMapItems = mapItems.filter(
   };
 
   const handleDelete = (id: number) => {
+    const deletedItem = itinerary.find(item => item.id === id);
+    if (deletedItem) {
+      if (attractionCategory.includes(deletedItem.category)) {
+        updateTotalPrice({ attractionPrice: -deletedItem.price });
+      }
+    }
     setItinerary(itinerary.filter(item => item.id !== id));
   };
 
@@ -269,6 +308,12 @@ const filteredMapItems = mapItems.filter(
       category: destination.category,
       image: destination.image
     };
+    if (destination) {
+      const matchedData = data.find((d: any) => d.id === destination.id);
+      if (matchedData && attractionCategory.includes(matchedData.category)) {
+        updateTotalPrice({ attractionPrice: destination.price });
+      }
+    }
     setItinerary([...itinerary, newItem]);
   };
 
@@ -327,6 +372,7 @@ const filteredMapItems = mapItems.filter(
                       <select
                         value={travelType}
                         onChange={(e) => setTravelType(e.target.value)}
+                        disabled={!canEdit}
                         className="
                           appearance-none
                           bg-white
@@ -357,7 +403,7 @@ const filteredMapItems = mapItems.filter(
                       type="text"
                       value={planName}
                       onChange={(e) => setPlanName(e.target.value)}
-                      disabled={!canEdit} 
+                      disabled={!canEdit}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     />
                   </div>
@@ -367,7 +413,7 @@ const filteredMapItems = mapItems.filter(
                       type="date"
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
-                      disabled={!canEdit} 
+                      disabled={!canEdit}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     />
                   </div>
@@ -381,7 +427,7 @@ const filteredMapItems = mapItems.filter(
                         type="checkbox"
                         checked={isPrivate}
                         onChange={(e) => setIsPrivate(e.target.checked)}
-                        disabled={!canEdit} 
+                        disabled={!canEdit}
                         className="rounded"
                       />
                       나만보기
@@ -390,7 +436,7 @@ const filteredMapItems = mapItems.filter(
                   <textarea
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    disabled={!canEdit} 
+                    disabled={!canEdit}
                     rows={3}
                     placeholder="여행 계획 / 주말여행 / 바다"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none"
@@ -405,8 +451,10 @@ const filteredMapItems = mapItems.filter(
                 <h2 className="text-xl font-bold text-gray-900">여행 일정표</h2>
                 <button 
                   onClick={() => canEdit && setIsModalOpen(true)} 
-                  disabled={!canEdit}                            
-                  className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors text-sm font-medium"
+                  disabled={!canEdit}      
+                  className={canEdit ? 
+                    "flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors text-sm font-medium" : 
+                    "flex items-center gap-2 px-4 py-2 bg-gray-300 text-black rounded-lg text-sm font-medium cursor-not-allowed"}
                 >
                   <Plus className="w-4 h-4" />
                   일정 추가
@@ -435,12 +483,12 @@ const filteredMapItems = mapItems.filter(
                       key={item.id}
                       item={item}
                       index={idx}
+                      canEdit={canEdit}
                       moveItem={moveItem}
                       onDelete={handleDelete}
                       onDayChange={handleDayChange}
                       onTimeChange={handleTimeChange}
                       onImageClick={handleImageClick}
-                      canEdit={canEdit}
                     />
                   ))
                 )}
@@ -493,20 +541,20 @@ const filteredMapItems = mapItems.filter(
                 <div className="space-y-3">
                   <div className="flex justify-between items-center text-sm">
                     <span className="text-gray-600">관광지 입장료</span>
-                    <span className="font-semibold text-gray-900">123,456,789원</span>
+                    <span className="font-semibold text-gray-900">{myPrice.attractionPrice.toLocaleString()}원</span>
                   </div>
                   <div className="flex justify-between items-center text-sm">
                     <span className="text-gray-600">숙박비</span>
-                    <span className="font-semibold text-gray-900">123,456,789원</span>
+                    <span className="font-semibold text-gray-900">{myPrice.hotelPrice.toLocaleString()}원</span>
                   </div>
                   <div className="flex justify-between items-center text-sm">
                     <span className="text-gray-600">식비</span>
-                    <span className="font-semibold text-gray-900">123,456,789원</span>
+                    <span className="font-semibold text-gray-900">{myPrice.foodPrice.toLocaleString()}원</span>
                   </div>
                   <div className="pt-3 border-t border-gray-200">
                     <div className="flex justify-between items-center">
                       <span className="font-bold text-gray-900">총 예상 비용</span>
-                      <span className="font-bold text-orange-600 text-lg">370,370,367원</span>
+                      <span className="font-bold text-orange-600 text-lg">{(myPrice.attractionPrice + myPrice.hotelPrice + myPrice.foodPrice).toLocaleString()}원</span>
                     </div>
                   </div>
                 </div>
@@ -525,13 +573,16 @@ const filteredMapItems = mapItems.filter(
               뒤로가기
             </button>
           )}
-          <button
-            onClick={isLoggedIn ? () => navigate("/") : handleSurvey}
-            className="flex items-center gap-2 px-12 py-4 bg-orange-500 text-white rounded-xl font-bold text-lg hover:bg-orange-600 transition-colors shadow-lg hover:shadow-xl"
-          >
-            <Save className="w-5 h-5" />
-            저장하기
-          </button>
+          {canEdit && (
+            <button
+              onClick={() => navigate("/my-plan")}
+              className="flex items-center gap-2 px-12 py-4 bg-orange-500 text-white rounded-xl font-bold text-lg hover:bg-orange-600 transition-colors shadow-lg hover:shadow-xl"
+            >
+              <Save className="w-5 h-5" />
+              저장하기
+            </button>
+          )}
+
         </div>
       </div>
 
