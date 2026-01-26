@@ -12,13 +12,23 @@
 - Quick / Full 설문 모드를 제공하여 사용자 선택권 강화
 - 추천된 여행계획 저장 및 수정·삭제 기능 제공
 - 여행 후기 공유 및 여행 스타일 기반 탐색 기능 제공
+<<<<<<< HEAD
 - 본 프로젝트는 프레임워크 없이 순수 JavaScript와 jQuery를 기반으로 구현되었습니다.
+=======
+- 본 프로젝트는 Vanilla Vite를 사용하여 JavaScript, jQuery, Ajax를 중심으로 구현했습니다.
+>>>>>>> origin/main
 
 ---
 
 ## 📌 프로젝트 기획서
+<<<<<<< HEAD
 - Figma: https://www.figma.com/design/ItGE3eBC6f0n1sWUBLneVi/PLAN-Jeju?node-id=0-1&p=f&t=bjSm6fVjgN8G1XoF-0
 - Notion: https://www.notion.so/PLAN-Jeju-2ed0e26c31448057b95dd224cac91720?source=copy_link
+=======
+- **Figma:** https://www.figma.com/design/ItGE3eBC6f0n1sWUBLneVi/PLAN-Jeju?node-id=0-1&p=f&t=bjSm6fVjgN8G1XoF-0
+- **Notion:** https://www.notion.so/PLAN-Jeju-2ed0e26c31448057b95dd224cac91720?source=copy_link
+- **화면구성도:** https://app.diagrams.net/#G1ngPSvWQAmJ6c5TL2ofx-mh1Pcmn1DNSO#%7B%22pageId%22%3A%228zpW1dn6GrMUhxwFQlXW%22%7D
+>>>>>>> origin/main
 
 ---
 
@@ -26,6 +36,7 @@
 
 ### Frontend
 - JavaScript (ES6+)
+<<<<<<< HEAD
 - jQuery
 - HTML5
 - CSS5
@@ -39,6 +50,12 @@
 - npm
 - ESLint
 - Prettier
+=======
+- Vanilla Vite
+- HTML5
+- jQuery
+- CSS5
+>>>>>>> origin/main
 
 ---
 
@@ -52,7 +69,11 @@
 | 윤석규  |  팀원  |           |
 | 김민국  |  팀원  |           |
 | 김민채  |  팀원  |           |
+<<<<<<< HEAD
 | 고완석  |  팀원  |           |
+=======
+| 고완석  |  팀원  | Github 구성, 요구사항 명세서 작성 |
+>>>>>>> origin/main
 
 ---
 
@@ -155,6 +176,7 @@
 1. 저장소 복사
 git clone https://github.com/prgrms-aibe-devcourse/AIBE5_Project1_Team1.git
 
+<<<<<<< HEAD
 2. 디렉토리 이동
 cd AIBE5_Project1_Team1
 
@@ -166,6 +188,16 @@ npm start
 
 5. 브라우저에서 아래 주소로 접속
 http://localhost:3000
+=======
+2. 패키지 설치
+npm install
+
+3. 프로젝트 실행
+npm run dev
+
+4. 브라우저에서 아래 주소로 접속
+http://localhost:5173
+>>>>>>> origin/main
 ```
 
 ---
@@ -173,6 +205,7 @@ http://localhost:3000
 ## 📂 디렉토리 구조
 
 ```bash
+<<<<<<< HEAD
 📦 project-root
  ┣ 📂 src
  ┃ ┣ 📂 components
@@ -185,6 +218,26 @@ http://localhost:3000
  ┣ 📂 docs
  ┣ 📜 package.json
  ┗ 📜 README.md
+=======
+📦 AIBE5-Project1
+ ┣ 📂 src
+ ┃ ┣ 📂 assets           # 이미지, 스타일, 더미데이터 등의 정적 자원
+ ┃ ┃ ┣ 📂 images         # 로고, 아이콘, 배너 등 이미지 파일
+ ┃ ┃ ┗ 📂 styles         # CSS/SCSS 등 스타일 파일
+ ┃ ┃ ┗ 📂 data           # 설문, 더미 데이터 등 JSON 파일
+ ┃ ┣ 📂 components       # 재사용 UI 컴포넌트
+ ┃ ┣ 📂 pages            # 기능별 페이지
+ ┃ ┃ ┣ 📂 Attractions    # 제주도 관광지 안내
+ ┃ ┃ ┣ 📂 Home           # 메인화면 페이지
+ ┃ ┃ ┣ 📂 Login          # 로그인 페이지
+ ┃ ┃ ┣ 📂 Mypage         # 마이페이지 페이지
+ ┃ ┃ ┣ 📂 Plans          # 여행플랜 작성 페이지
+ ┃ ┃ ┃ ┗ 📂 Details      # 여행플랜 세부 페이지
+ ┃ ┃ ┣ 📂 Reviews        # 여행리뷰 & 후기 페이지
+ ┃ ┃ ┗ 📂 Survey         # 여행스타일에 따른 설문조사 페이지
+ ┣ 📜 index.html         # 앱 진입점 HTML
+ ┗ 📜 README.md          # 프로젝트 설명 문서
+>>>>>>> origin/main
 ```
 
 ---
@@ -206,11 +259,19 @@ http://localhost:3000
 - **수정/작성일:** 작업을 완료한 날짜 (YYYY-MM-DD)
 
 #### 기능분류(Type)
+<<<<<<< HEAD
 | 타입     | 의미         |
 | ------ | ---------- |
 | feat   | 새로운 기능 추가  |
 | docs   | 문서 작성 / 수정 |
 | fix    | 버그 수정      |
+=======
+| 타입     | 의미          |
+| ------ | ------------- |
+| feat   | 새로운 기능 추가  |
+| docs   | 문서 작성 / 수정 |
+| fix    | 버그 수정       |
+>>>>>>> origin/main
 | refact | 코드 리팩토링    |
 
 ### Commit 규칙 상세
@@ -221,11 +282,19 @@ http://localhost:3000
 - 작성내용 앞에 작업한 파일명 명시
 - 작업내용을 중심으로 간단히 작성
 
+<<<<<<< HEAD
 **예시**
 ```text
 feat: Login.html - 로그인 UI 추가 - 26.01.22
 feat: authController.html - 로그인 API 구현 - 26.01.22
 feat: Login.html, authController.html - 로그인 기능 구현 - 26.01.22
+=======
+```text
+# 예시
+git commit -m "feat: Login/index.js - 로그인 추가 - 26.01.22"
+git commit -m "feat: components/Header.js - 헤더구현 - 26.01.22"
+git commit -m "feat: component/Header.js, Home/index.js - 헤더로 메인화면 돌아가는 기능 구현 - 26.01.22"
+>>>>>>> origin/main
 ```
 
 ---
