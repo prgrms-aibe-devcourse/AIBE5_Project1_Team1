@@ -9,6 +9,7 @@ import TravelModal from "../components/TravelModal";
 import data from "../data/myPlanPageTempData.json"
 import data2 from "../data/myPlanPageTempPackageData.json"
 import { useAuth } from "../contexts/AuthContext";
+import { itinerary } from "../data/surveyResult"
 
 // 모든 여행지 데이터
 const allDestinations = [

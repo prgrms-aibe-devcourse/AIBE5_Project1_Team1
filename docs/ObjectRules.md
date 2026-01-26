@@ -32,7 +32,7 @@ const { isLoggedIn, userName, login, logout } = useAuth();
 ### Sidebar Context
 ```typescript
 type SidebarContextProps = {
-  state: "expanded" | "collapsed";  // 사이드바 상태
+  state: "expanded" | "collapsed";   // 사이드바 상태
   open: boolean;                     // 사이드바 열림 여부
   setOpen: (open: boolean) => void;  // 사이드바 열기/닫기
   openMobile: boolean;               // 모바일 사이드바 상태
