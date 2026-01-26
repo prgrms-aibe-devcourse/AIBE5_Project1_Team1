@@ -1,0 +1,98 @@
+[
+    {
+        "id": 1,
+        "name": "한라산",
+        "category": "산/동굴",
+        "duration": "5~7시간",
+        "location": "제주시",
+        "shortDescription": "한국에서 가장 높은 산으로, 아름다운 자연 경관과 다양한 등산로를 제공합니다.",
+        "fullDescription": "한라산은 제주도의 중심에 위치한 화산으로, 해발 1,947미터로 한국에서 가장 높은 산입니다.\n등산로는 초보자부터 숙련된 등산객까지 다양한 난이도로 구성되어 있으며, 정상에서는 제주도의 아름다운 풍경을 한눈에 볼 수 있습니다.\n특히 봄철에는 진달래와 철쭉이 만개하여 환상적인 경관을 자아냅니다.",
+        "image": "https://images.unsplash.com/photo-1740329289241-3adf04a8e3ed?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqZWp1JTIwaXNsYW5kJTIwaGFsbGFzYW4lMjBtb3VudGFpbnxlbnwxfHx8fDE3NjkyMzQ2MzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+        "price": 0,
+        "hours": "09:00 - 18:00"
+    },
+    {
+        "id": 2,
+        "name": "성산일출봉",
+        "category": "산/동굴",
+        "duration": "2~3시간",
+        "location": "서귀포시",
+        "shortDescription": "제주를 대표하는 일출 명소. 거대한 분화구와 함께 보는 일출은 평생 잊지 못할 추억이 됩니다.",
+        "fullDescription": "성산일출봉은 약 5천년 전 해저 화산 폭발로 만들어진 응회구입니다.\n높이 182m의 거대한 왕관 모양 화산체로, 정상에서 보는 일출이 장관입니다.\n유네스코 세계자연유산으로 등재되어 있으며, 제주의 대표 관광지입니다.\n주변 해녀 문화와 함께 제주의 독특한 문화를 경험할 수 있습니다.",
+        "image": "https://images.unsplash.com/photo-1758327740342-4e705edea29b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqZWp1JTIwaXNsYW5kJTIwYmVhY2glMjBjb2FzdGFsfGVufDF8fHx8MTc2OTIzNDYzMXww&ixlib=rb-4.1.0&q=80&w=1080",
+        "price": 0,
+        "hours": "07:00 - 19:00"
+    },
+    {
+        "id": 3,
+        "name": "협재해수욕장",
+        "category": "해변/섬",
+        "duration": "3~4시간",
+        "location": "제주시",
+        "shortDescription": "에메랄드빛 바다와 흰 모래사장이 아름다운 제주 최고의 해변.",
+        "fullDescription": "협재해수욕장은 제주 서쪽에 위치한 대표적인 해변입니다.\n투명한 에메랄드빛 바다와 고운 백사장이 조화를 이룹니다.\n비양도가 보이는 아름다운 석양으로도 유명합니다.\n주변에 카페와 식당이 많아 여유로운 휴양을 즐기기 좋습니다.",
+        "image": "https://images.unsplash.com/photo-1758327740342-4e705edea29b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqZWp1JTIwaXNsYW5kJTIwYmVhY2glMjBjb2FzdGFsfGVufDF8fHx8MTc2OTIzNDYzMXww&ixlib=rb-4.1.0&q=80&w=1080",
+        "price": 0,
+        "hours": "07:00 - 19:00"
+    },
+    {
+        "id": 4,
+        "name": "우도",
+        "category": "해변/섬",
+        "duration": "4~5시간",
+        "location": "제주시",
+        "shortDescription": "제주 동쪽의 작은 섬으로 아름다운 해안선과 해녀문화를 경험할 수 있습니다.",
+        "fullDescription": "우도는 제주도 동쪽에 위치한 작은 섬으로, 배로 약 15분 거리에 있습니다. 아름다운 해안선과 맑은 바다, 그리고 해녀문화를 직접 체험할 수 있는 곳입니다. 자전거를 빌려 섬을 한 바퀴 돌며 여유로운 시간을 보내기에 완벽한 장소입니다.",
+        "image": "https://images.unsplash.com/photo-1758327740342-4e705edea29b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqZWp1JTIwaXNsYW5kJTIwYmVhY2glMjBjb2FzdGFsfGVufDF8fHx8MTc2OTIzNDYzMXww&ixlib=rb-4.1.0&q=80&w=1080",
+        "price": 0,
+        "hours": "09:00 - 18:00"
+    },
+    {
+        "id": 5,
+        "name": "섭지코지",
+        "category": "해변/섬",
+        "duration": "2~3시간",
+        "location": "서귀포시",
+        "shortDescription": "아름다운 해안절벽과 등대가 어우러진 제주의 대표 드라마 촬영지.",
+        "fullDescription": "섭지코지는 성산일출봉 근처에 위치한 해안절벽으로, 푸른 바다와 등대가 어우러진 아름다운 풍경을 자랑합니다. 많은 드라마와 영화의 촬영지로도 유명하며, 산책하기 좋은 코스가 잘 조성되어 있습니다.",
+        "image": "https://images.unsplash.com/photo-1674606042265-c9f03a77e286?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqZWp1JTIwaXNsYW5kJTIwd2F0ZXJmYWxsJTIwbmF0dXJlfGVufDF8fHx8MTc2OTIzNDYzM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+        "price": 0,
+        "hours": "24시간"
+    },
+    {
+        "id": 6,
+        "name": "만장굴",
+        "category": "산/동굴",
+        "duration": "1~2시간",
+        "location": "제주시",
+        "shortDescription": "세계에서 가장 긴 용암동굴 중 하나로 신비로운 지하 세계를 경험할 수 있습니다.",
+        "fullDescription": "만장굴은 세계에서 가장 긴 용암동굴 중 하나로, 총 길이가 약 13km에 달합니다. 현재는 약 1km 구간만 일반에 공개되고 있으며, 용암이 흐르며 만들어진 다양한 지형과 용암종유, 용암석순 등을 관찰할 수 있습니다.",
+        "image": "https://images.unsplash.com/photo-1740329289241-3adf04a8e3ed?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqZWp1JTIwaXNsYW5kJTIwaGFsbGFzYW4lMjBtb3VudGFpbnxlbnwxfHx8fDE3NjkyMzQ2MzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+        "price": 4000,
+        "hours": "09:00 - 18:00"
+    },
+    {
+        "id": 7,
+        "name": "김녕 함덕 해수욕장",
+        "category": "해변/섬",
+        "duration": "3~4시간",
+        "location": "제주시",
+        "shortDescription": "탁 트인 에메랄드빛 바다와 하얀 모래사장이 아름다운 해수욕장.",
+        "fullDescription": "김녕 함덕 해수욕장은 제주 동쪽에 위치한 아름다운 백사장 해변입니다. 맑고 투명한 에메랄드빛 바다와 부드러운 백사장이 특징이며, 수심이 얕아 가족 단위 여행객들에게 인기가 많습니다.",
+        "image": "https://images.unsplash.com/photo-1696335105620-c00aec47521f?w=400",
+        "price": 0,
+        "hours": "24시간"
+    },
+    {
+        "id": 8,
+        "name": "오조포구",
+        "category": "테마파크",
+        "duration": "1~2시간",
+        "location": "서귀포시",
+        "shortDescription": "돌담길과 바다 감성이 어우러진 사진 촬영 명소.",
+        "fullDescription": "오조포구는 제주 남쪽 해안가에 위치한 작은 어촌 마을입니다. 돌담길을 따라 걷다 보면 푸른 바다와 어우러진 아름다운 풍경을 만날 수 있으며, 인생 사진을 남기기 좋은 장소로 유명합니다.",
+        "image": "https://images.unsplash.com/photo-1616798249081-30877e213b16?w=400",
+        "price": 0,
+        "hours": "24시간"
+    }
+]
