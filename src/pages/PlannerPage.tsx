@@ -78,17 +78,9 @@ const DraggableItineraryItem = ({
       }`}
     >
       {/* 드래그 핸들 */}
-<<<<<<< HEAD
-   <div
-      ref={drag}
-      className={`col-span-1 flex justify-center ${canEdit ? "cursor-move" : "cursor-not-allowed opacity-40"}`}>
-  <GripVertical className="w-5 h-5 text-gray-400" />
-</div>
-=======
       <div ref={(node) => { if (node) { drag(node); } }} className="w-8 col-span-1 cursor-move flex justify-center">
         <GripVertical className="w-5 h-5 text-gray-400" />
       </div>
->>>>>>> origin/feature
 
       {/* 일차 */}
       {/* 20260126: w 줄임. h 대신 py로 대체 -> 크기 줄임 */}
@@ -110,12 +102,7 @@ const DraggableItineraryItem = ({
           type="time"
           value={item.time}
           onChange={(e) => onTimeChange(item.id, e.target.value)}
-<<<<<<< HEAD
-          disabled={!canEdit}
-          className="w-full px-2 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
-=======
           className="w-100 px-2 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
->>>>>>> origin/feature
         />
       </div>
 
@@ -164,13 +151,10 @@ export default function PlannerPage() {
 
   const fromMyPlan = location.state?.fromMyPlan || false; // 내 플랜에서 왔는지 확인
   
-<<<<<<< HEAD
-=======
   const handleSurvey = () => {
     navigate("/survey");
   };
   const { isLoggedIn, userName, logout } = useAuth();
->>>>>>> origin/feature
 
   const [planName, setPlanName] = useState(surveyData.packageName || "새 여행 계획");
   const [startDate, setStartDate] = useState("");
@@ -509,12 +493,7 @@ export default function PlannerPage() {
             </button>
           )}
           <button
-<<<<<<< HEAD
-            onClick={() => navigate("/")}
-            disabled={!canEdit}
-=======
             onClick={isLoggedIn ? () => navigate("/") : handleSurvey}
->>>>>>> origin/feature
             className="flex items-center gap-2 px-12 py-4 bg-orange-500 text-white rounded-xl font-bold text-lg hover:bg-orange-600 transition-colors shadow-lg hover:shadow-xl"
           >
             <Save className="w-5 h-5" />
