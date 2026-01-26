@@ -69,7 +69,7 @@
 
 @layer theme {
   :root, :host {
-    --font-sans: "Noto Sans";
+    --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --color-red-50: oklch(.971 .013 17.38);
     --color-red-100: oklch(.936 .032 17.717);
@@ -505,10 +505,6 @@
     top: calc(var(--spacing) * 0);
   }
 
-  .top-45 {
-    top: calc(var(--spacing) * 45);
-  }
-
   .top-1\/2 {
     top: 50%;
   }
@@ -569,16 +565,8 @@
     grid-column: span 2 / span 2;
   }
 
-  .col-span-3 {
-    grid-column: span 3 / span 3;
-  }
-
   .col-span-5 {
     grid-column: span 5 / span 5;
-  }
-
-  .col-span-6 {
-    grid-column: span 6 / span 6;
   }
 
   .mx-auto {
@@ -686,10 +674,6 @@
 
   .aspect-\[4\/3\] {
     aspect-ratio: 4 / 3;
-  }
-
-  .aspect-\[16\/5\] {
-    aspect-ratio: 16 / 5;
   }
 
   .aspect-square {
@@ -949,17 +933,8 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .grid-cols-4 {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
-
   .grid-cols-12 {
     grid-template-columns: repeat(12, minmax(0, 1fr));
-  }
-
-  .grid-cols-14 {
-    grid-template-columns: repeat(14, minmax(0, 1fr));
   }
 
   .flex-col {
@@ -2176,12 +2151,6 @@
   }
 
   @media (width >= 64rem) {
-    .lg\:col-span-3 {
-      grid-column: span 3 / span 3;
-    }
-  }
-
-  @media (width >= 64rem) {
     .lg\:grid-cols-3 {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
@@ -2609,4 +2578,20 @@ html {
     opacity: var(--tw-enter-opacity, 1);
     transform: translate3d(var(--tw-enter-translate-x, 0), var(--tw-enter-translate-y, 0), 0) scale3d(var(--tw-enter-scale, 1), var(--tw-enter-scale, 1), var(--tw-enter-scale, 1)) rotate(var(--tw-enter-rotate, 0));
   }
+}
+
+/* 1. 모달의 입구인 modal-root를 강제로 최상단 레이어로 설정 */
+#modal-root {
+  position: relative;
+  z-index: 9999999 !important;
+}
+
+/* 2. 모달 컨테이너 자체에 대한 강제 설정 */
+#modal-root > div {
+  z-index: 9999999 !important;
+}
+
+/* 3. 메뉴바(header)의 z-index를 상대적으로 낮게 고정 */
+header {
+  z-index: 50 !important;
 }
