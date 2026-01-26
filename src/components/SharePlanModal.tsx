@@ -11,7 +11,7 @@ interface SharePlanModalProps {
   };
 }
 
-
+// 계획 공유 컴포넌트
 export default function SharePlanModal({ isOpen, onClose, plan }: SharePlanModalProps) {
   const [copyMessage, setCopyMessage] = useState<string | null>(null);
 
@@ -24,7 +24,7 @@ export default function SharePlanModal({ isOpen, onClose, plan }: SharePlanModal
       onClose();
     }
   };
-
+  // 클립보드 복사 함수
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(shareUrl);

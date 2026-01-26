@@ -111,10 +111,13 @@ export default function MyPlanPage() {
   };
 
   const handleLoadPlan = (planId: number) => {
-    // 계획 불러오기 - 미리 채워진 데이터로 플래너 페이지 이동
+    const plan = plans.find(p => p.id === planId);
+
+    // 자세히 보기 - 미리 채워진 데이터로 플래너 페이지 이동
     navigate("/planner", {
       state: {
         fromMyPlan: true, // 내 플랜에서 왔다는 표시
+        isReadOnly: plan?.isCompleted ?? false, // 여행 계획 수정 여부를 위해 여행 완료 여부 전달
         surveyData: {
           packageName: plans.find(p => p.id === planId)?.name || "여행 계획",
           purpose: "느긋하게 쉬기(힐링)"
@@ -122,6 +125,8 @@ export default function MyPlanPage() {
       }
     });
   };
+
+
 
   const handleWriteReview = (planId: number) => {
     setSelectedPlanForReview(planId);
@@ -238,7 +243,7 @@ export default function MyPlanPage() {
                     className="flex items-center gap-2 px-5 py-2.5 bg-orange-500 text-white rounded-xl font-semibold hover:bg-orange-600 transition-colors shadow-md"
                   >
                     <FileText className="w-4 h-4" />
-                    계획 불러오기
+                    자세히 보기
                   </button>
 
                   <button
@@ -297,7 +302,7 @@ export default function MyPlanPage() {
           <div className="mt-8 p-5 bg-orange-50 rounded-xl border border-orange-200">
             <h4 className="font-semibold text-gray-900 mb-2">💡 사용 팁</h4>
             <ul className="space-y-1 text-sm text-gray-700">
-              <li>• <strong>계획 불러오기:</strong> 저장된 계획을 수정하거나 재사용할 수 있습니다</li>
+              <li>• <strong>자세히 보기:</strong> 저장된 계획을 수정하거나 재사용할 수 있습니다</li>
               <li>• <strong>공유하기:</strong> 친구들과 여행 계획을 공유해보세요</li>
               <li>• <strong>리뷰 쓰기/보기:</strong> 완료된 여행의 후기를 작성하고 확인할 수 있습니다</li>
             </ul>
