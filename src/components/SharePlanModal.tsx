@@ -11,6 +11,7 @@ interface SharePlanModalProps {
   };
 }
 
+
 export default function SharePlanModal({ isOpen, onClose, plan }: SharePlanModalProps) {
   const [copyMessage, setCopyMessage] = useState<string | null>(null);
 

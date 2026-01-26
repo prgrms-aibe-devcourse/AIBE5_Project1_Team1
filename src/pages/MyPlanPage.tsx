@@ -73,6 +73,7 @@ export default function MyPlanPage() {
   };
 
 
+  
   // 여행 완료 여부를 포함한 플랜 데이터 생성
   const plans = rawPlans.map((plan) => ({
   ...plan,
