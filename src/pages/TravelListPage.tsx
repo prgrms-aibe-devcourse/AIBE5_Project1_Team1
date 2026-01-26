@@ -176,7 +176,6 @@ export default function TravelListPage() {
           isOpen={!!selectedDestination}
           onClose={() => setSelectedDestination(null)}
           destination={selectedDestination as any}
-          searchLinks={getSearchLinks(selectedDestination.name)}
         />
       )}
     </div>
