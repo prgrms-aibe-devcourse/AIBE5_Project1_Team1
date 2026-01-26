@@ -1,6 +1,13 @@
 // src/data/destinations.ts
 
 export type DestinationCategory = "자연" | "해변" | "섬" | "드라이브" | "테마파크";
+export const destinationCategories: string[] = [
+  "자연",
+  "해변",
+  "섬",
+  "드라이브",
+  "테마파크"
+];
 
 export type Destination = {
   id: number;
