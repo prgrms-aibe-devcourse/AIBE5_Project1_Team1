@@ -154,6 +154,10 @@ export default function TravelReviewPage() {
   const [selectedReview, setSelectedReview] = useState<typeof reviews[0] | null>(null);
   const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  // 1. 후기 데이터를 상태로 관리 (초기값은 기존 mock 데이터)
+  const [allReviews, setAllReviews] = useState(reviews);
+
   const { isLoggedIn, userName, logout } = useAuth();
 
   const handleEditReview = () => {
@@ -171,10 +175,35 @@ export default function TravelReviewPage() {
     }
   };
 
-  const filteredReviews = reviews.filter((review) => {
+  // 필터링 로직 수정 (allReviews 기준)
+  const filteredReviews = allReviews.filter((review) => {
     if (selectedCategory === "전체") return true;
     return review.travelType === selectedCategory;
   });
+
+  // 후기 추가 핸들러
+  const handleAddReview = (newReviewData: any) => {
+    const newReview = {
+      id: Date.now(), // 중복 방지를 위해 timestamp 사용
+      author: userName || "익명",
+      date: new Date().toLocaleDateString().replace(/\. /g, '.').replace(/\.$/, ''),
+      tripType: newReviewData.selectedPlan?.type || "자유여행",
+      duration: "일정 참고",
+      rating: newReviewData.rating,
+      title: newReviewData.title,
+      content: newReviewData.content,
+      // 핵심 수정: images 배열에 데이터가 있을 때만 저장
+      images: newReviewData.images.length > 0 ? newReviewData.images : [], 
+      // image 필드는 제거하거나, images[0]만 참조하도록 수정
+      likes: 0,
+      comments: 0,
+      planName: newReviewData.selectedPlan?.title || "선택된 플랜 없음",
+      travelType: newReviewData.selectedPlan?.type || "전체",
+      itinerary: newReviewData.selectedPlan?.itinerary || []
+    };
+    setAllReviews([newReview, ...allReviews]); // 새 후기를 맨 앞에 추가
+  };
+
 
   return (
     <div className="w-full bg-gray-50 min-h-screen">
@@ -308,47 +337,45 @@ export default function TravelReviewPage() {
                 <p className="text-gray-700 leading-relaxed mb-4">{review.content}</p>
 
                 {/* 이미지 */}
-                {review.image && (
-                  <div className="rounded-xl overflow-hidden">
-                    <img 
-                      src={review.image} 
-                      alt="여행 사진"
-                      className="w-full h-auto max-h-96 object-cover"
-                    />
-                  </div>
-                )}
-
-                {review.images && (
-                  <div className="mt-4">
-                    <div className={`grid gap-2 rounded-xl overflow-hidden ${
-                      review.images.length === 1 ? "grid-cols-1 aspect-[16/9]" : 
-                      review.images.length === 2 ? "grid-cols-2 aspect-[16/5]" : 
-                      "grid-cols-3 aspect-[16/5]"
-                    }`}>
-                      {review.images.slice(0, 3).map((img, idx) => (
-                        <div key={idx} className="relative w-full h-full overflow-hidden bg-gray-200">
-                          {/* 1. 기본 이미지 (항상 렌더링) */}
-                          <img
-                            src={img}
-                            alt={`여행 사진 ${idx + 1}`}
-                            className="w-full h-full object-cover"
-                          />
-
-                          {/* 2. 더보기 오버레이 (3번째 칸이고 이미지가 4장 이상일 때만) */}
-                          {idx === 2 && review.images.length > 3 && (
-                            <div 
-                              className="absolute inset-0 flex flex-col items-center justify-center text-white"
-                              style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }} // Tailwind 미작동 대비: 인라인 스타일로 60% 투명도 적용
-                            >
-                              <span className="text-xl font-bold">+{review.images.length - 3}</span>
-                              <span className="text-xs font-medium text-white/80">더보기</span>
-                            </div>
-                          )}
-                        </div>
-                      ))}
+                {review.images && review.images.length > 0 ? (
+                    /* 1. 새로 작성한 후기(배열)가 있는 경우 */
+                    <div className="mt-4">
+                      <div className={`grid gap-2 rounded-xl overflow-hidden ${
+                        review.images.length === 1 ? "grid-cols-1 aspect-[16/9]" : 
+                        review.images.length === 2 ? "grid-cols-2 aspect-[16/5]" : 
+                        "grid-cols-3 aspect-[16/5]"
+                      }`}>
+                        {review.images.slice(0, 3).map((img, idx) => (
+                          <div key={idx} className="relative w-full h-full overflow-hidden bg-gray-200">
+                            <img
+                              src={img}
+                              alt={`여행 사진 ${idx + 1}`}
+                              className="w-full h-full object-cover"
+                            />
+                            {idx === 2 && review.images.length > 3 && (
+                              <div 
+                                className="absolute inset-0 flex flex-col items-center justify-center text-white"
+                                style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}
+                              >
+                                <span className="text-xl font-bold">+{review.images.length - 3}</span>
+                                <span className="text-xs font-medium text-white/80">더보기</span>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  ) : review.image ? (
+                    /* 2. 배열은 없지만 단일 image 필드가 있는 경우 (기존 mock 데이터 대응) */
+                    <div className="rounded-xl overflow-hidden mt-4">
+                      <img 
+                        src={review.image} 
+                        alt="여행 사진"
+                        className="w-full h-auto max-h-96 object-cover"
+                      />
+                    </div>
+                  ) : null
+                }
               </div>
 
               {/* 푸터 */}
@@ -379,14 +406,15 @@ export default function TravelReviewPage() {
         <ReviewDetailModal
           isOpen={!!selectedReview}
           onClose={() => setSelectedReview(null)}
-          onEdit={handleEditReview}
           review={selectedReview}
+          onEdit={handleEditReview}
         />
       )}
 
       <ReviewWriteModal
         isOpen={isWriteModalOpen}
         onClose={() => setIsWriteModalOpen(false)}
+        onSubmit={handleAddReview} // 작성 완료 시 실행될 함수 전달
       />
 
       <ReviewEditModal
