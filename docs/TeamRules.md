@@ -29,6 +29,18 @@
 
 ---
 
+## 프로젝트 시작방법
+```bash
+# 1. README.md와 src가 있는 폴더로 이동한다. (기본값이니 이동할 필요는 없음)
+    - 이동방법: 터미널에서 cd TRAVEL PLANNING WEBSITE
+
+#2. 프로젝트 구동
+- npm run dev
+- https://localhost:3000/ 로 접속
+```
+
+---
+
 ## 1. 매일 작업 전 최신 feature 내용 가져오기
 ```bash
 git fetch origin
@@ -79,6 +91,7 @@ git merge origin/feature
 git push origin [본인브랜치]
 ```
 
+---
 
 ## Merge 중 문제 발생 시
 ```bash
