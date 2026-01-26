@@ -25,6 +25,19 @@
 
 ---
 
+## GitHub Push방법
+```bash
+# 1. git add .
+    - 현재 작업하던 파일들을 git에 보내겠다는 의미
+    - 특정 파일만 보낼때: git add 파일1 파일2 파일3
+# 2. git commit -m " [기능분류]: [파일명] - [작업내용] - [날짜] "
+    - 커밋 규칙에 맞춰서 보내기
+# 3. git push
+    - 반드시 본인 브랜치에 먼저 push하고 feat에는 나중에 merge하기
+```
+
+---
+
 ## 1. 매일 작업 전 최신 feature 내용 가져오기
 ```bash
 git fetch origin
@@ -36,6 +49,13 @@ git merge origin/feature
 ```text
 # 의미있는 단위로 커밋
 # 커밋 규칙: [기능분류]: [파일명] - [작업내용] - [날짜]
+# 기능분류(Type)
+| 타입     | 의미          |
+| ------ | ------------- |
+| feat   | 새로운 기능 추가  |
+| docs   | 문서 작성 / 수정 |
+| fix    | 버그 수정       |
+| refact | 코드 리팩토링    |
 ```
 
 ## 3. 작업 종료시 / PR 제출 전
@@ -75,11 +95,30 @@ git merge origin/feature
 git push origin [본인브랜치]
 ```
 
+---
 
-## Merge 중 문제 발생 시
+## PR 중 문제 발생 시
 ```bash
 # 리눅스 기반 텍스트파일 등장시
-:wq!        # 강제로 저장 후 종료
+1. ESC를 눌러 관리자모드로 나온다.
+2. :wq!        # 강제로 저장 후 종료
+
+# feature의 내용과 본인이 작업한 파일의 불일치 발생시
+1. 문제가 되는 파일이 어떤 것인지 살펴본다.
+2. git fetch origin                               // GitHub Repository에서 최신정보를 가져온다.
+3. git checkout origin/[본인브랜치] --[문제파일]       // 문제되는 파일을 최신버전으로 갱신해온다.
+4. 이후에 모든 파일을 저장하고 다시 push 작업을 수행한다.
+
+# 실제로 main으로 다이렉트로 올리거나 오류가 발생한 파일을 push해서 올렸을 때
+1. 웹페이지에서 https://github.com/prgrms-aibe-devcourse/AIBE5_Project1_Team1/pulls로 이동
+    - 프로젝트를 진행하는 Repository에서 'Pull Request'를 클릭하면 이동할 수 있음
+2. 문제되는 본인의 Commit을 클릭
+3. 보냈던 Commit 목록 아래에 있는 Revert 버튼 누르기
+    - Revert: 이 Commit이 있기전으로 되돌아가기
+4. Revert되는 PR을 만들고 바로 그 PR 진행하기
+5. Commit한 내용이 Revert되면 브랜치를 잘 설정하거나 파일을 잘 수정한 뒤에 push 작업을 수행한다.
 
 # 그외는 저 부르세요 (feat.작성자 고완석)
 ```
+
+---
