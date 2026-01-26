@@ -51,15 +51,15 @@ export default function TravelListPage() {
   return (
     <div className="w-full bg-gray-50 min-h-screen pb-20">
       {/* ✅ 히어로 헤더 (네가 말한 예쁜 버전 유지) */}
-      <section className="bg-gradient-to-br from-orange-500 to-orange-600 text-white py-20">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h1 className="text-5xl font-bold mb-4">제주도 여행지</h1>
-          <p className="text-xl opacity-90">제주의 아름다움을 발견하세요</p>
+      <section className="bg-gradient-to-br from-orange-400 to-orange-500 text-white py-12">
+        <div className="max-w-6xl mx-auto px-6 text-center">
+          <h1 className="text-4xl font-bold mb-3">제주도 여행지</h1>
+          <p className="text-lg opacity-90">제주의 아름다움을 발견하세요</p>
         </div>
       </section>
 
       {/* ✅ 검색 및 필터 섹션 (네가 올린 코드 그대로) */}
-      <section className="bg-white shadow-sm -mt-8 relative z-10">
+      <section className="bg-white shadow-sm  relative z-10">
         <div className="max-w-7xl mx-auto px-6 py-8">
           <div className="space-y-6">
             {/* 검색바 */}
