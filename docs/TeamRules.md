@@ -11,16 +11,45 @@
 
 # 3. GitHub 프로젝트 가져오기
 - 하단에 생긴 'Terminal'에 아래와 같은 Git 명령어를 입력한다.
-- git clone https://github.com/prgrms-aibe-devcourse/AIBE5_Project1_Team1.git
-
-# 4. 패키지 설치하기
-- npm install
+- git remote add origin https://github.com/prgrms-aibe-devcourse/AIBE5_Project1_Team1.git
 
 # 4. 본인 브랜치로 이동하기 및 브랜치 설정
 - git checkout -b [본인브랜치명]
 
-# 5. 본인디렉터리 덮어쓰기
-- git push -f origin [본인브랜치명]
+# 5. git 설치하기
+- git init 
+
+# 6. 본인 디렉터리를 main으로 덮어쓰기
+- git reset --hard origin/main
+
+# 7. 패키지 설치하기
+- npm install
+- npm install --save-dev @types/react @types/react-dom
+```
+
+---
+
+## 프로젝트 시작방법
+```bash
+# 1. README.md와 src가 있는 폴더로 이동한다. (기본값이니 이동할 필요는 없음)
+    - 이동방법: 터미널에서 cd TRAVEL PLANNING WEBSITE
+
+#2. 프로젝트 구동
+- npm run dev
+- https://localhost:3000/ 로 접속
+```
+
+---
+
+## GitHub Push방법
+```bash
+# 1. git add .
+    - 현재 작업하던 파일들을 git에 보내겠다는 의미
+    - 특정 파일만 보낼때: git add 파일1 파일2 파일3
+# 2. git commit -m " [기능분류]: [파일명] - [작업내용] - [날짜] "
+    - 커밋 규칙에 맞춰서 보내기
+# 3. git push
+    - 반드시 본인 브랜치에 먼저 push하고 feat에는 나중에 merge하기
 ```
 
 ---

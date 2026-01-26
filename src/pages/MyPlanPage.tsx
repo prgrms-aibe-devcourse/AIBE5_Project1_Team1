@@ -14,12 +14,11 @@ export default function MyPlanPage() {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [selectedReview, setSelectedReview] = useState<any>(null);
 
-  const plans = [
+  const rawPlans = [
     {
       id: 1,
       name: "제주 동부 힐링 여행",
       date: "2024.03.15 ~ 2024.03.17",
-      isCompleted: true,
       hasReview: true, // 리뷰 작성 완료
       travelType: "힐링형",
       images: [
@@ -32,8 +31,7 @@ export default function MyPlanPage() {
     {
       id: 2,
       name: "제주 서부 맛집 투어",
-      date: "2024.04.20 ~ 2024.04.22",
-      isCompleted: true,
+      date: "2026.04.20 ~ 2026.04.22",
       hasReview: false, // 리뷰 미작성
       travelType: "맛집형",
       images: [
@@ -47,7 +45,6 @@ export default function MyPlanPage() {
       id: 3,
       name: "여름 제주 해변 여행",
       date: "2024.07.10 ~ 2024.07.13",
-      isCompleted: false,
       hasReview: false,
       travelType: "감성형",
       images: [
@@ -56,8 +53,33 @@ export default function MyPlanPage() {
         "https://images.unsplash.com/photo-1740329289241-3adf04a8e3ed?w=200"
       ],
       totalPlaces: 7
-    }
+    },
   ];
+
+   // 여행 완료 여부 판단 함수
+  const isPlanCompleted = (dateRange: string) => {
+    const endDateStr = dateRange.split("~")[1]?.trim(); 
+    if (!endDateStr) return false;
+
+    const [year, month, day] = endDateStr.split(".").map(Number);
+    const endDate = new Date(year, month - 1, day);
+    const today = new Date();
+
+    // 시간 제거해서 날짜만 비교
+    endDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    return endDate < today;
+  };
+
+
+  
+  // 여행 완료 여부를 포함한 플랜 데이터 생성
+  const plans = rawPlans.map((plan) => ({
+  ...plan,
+  isCompleted: isPlanCompleted(plan.date),
+}));
+
 
   // 플랜 ID로 리뷰 데이터를 찾는 mock 함수
   const getReviewByPlanId = (planId: number) => {
@@ -89,10 +111,13 @@ export default function MyPlanPage() {
   };
 
   const handleLoadPlan = (planId: number) => {
-    // 계획 불러오기 - 미리 채워진 데이터로 플래너 페이지 이동
+    const plan = plans.find(p => p.id === planId);
+
+    // 자세히 보기 - 미리 채워진 데이터로 플래너 페이지 이동
     navigate("/planner", {
       state: {
         fromMyPlan: true, // 내 플랜에서 왔다는 표시
+        isReadOnly: plan?.isCompleted ?? false, // 여행 계획 수정 여부를 위해 여행 완료 여부 전달
         surveyData: {
           packageName: plans.find(p => p.id === planId)?.name || "여행 계획",
           purpose: "느긋하게 쉬기(힐링)"
@@ -100,6 +125,8 @@ export default function MyPlanPage() {
       }
     });
   };
+
+
 
   const handleWriteReview = (planId: number) => {
     setSelectedPlanForReview(planId);
@@ -126,6 +153,9 @@ export default function MyPlanPage() {
     setIsShareModalOpen(true);
   };
 
+ 
+  
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
@@ -137,7 +167,7 @@ export default function MyPlanPage() {
       </section>
 
       {/* Content */}
-      <div className="max-w-6xl mx-auto px-6 py-12">
+      <div className="max-w-5xl mx-auto px-6 py-12">
         {/* Tab Navigation */}
         <div className="flex gap-4 mb-8">
           <Link
@@ -213,7 +243,7 @@ export default function MyPlanPage() {
                     className="flex items-center gap-2 px-5 py-2.5 bg-orange-500 text-white rounded-xl font-semibold hover:bg-orange-600 transition-colors shadow-md"
                   >
                     <FileText className="w-4 h-4" />
-                    계획 불러오기
+                    자세히 보기
                   </button>
 
                   <button
@@ -272,7 +302,7 @@ export default function MyPlanPage() {
           <div className="mt-8 p-5 bg-orange-50 rounded-xl border border-orange-200">
             <h4 className="font-semibold text-gray-900 mb-2">💡 사용 팁</h4>
             <ul className="space-y-1 text-sm text-gray-700">
-              <li>• <strong>계획 불러오기:</strong> 저장된 계획을 수정하거나 재사용할 수 있습니다</li>
+              <li>• <strong>자세히 보기:</strong> 저장된 계획을 수정하거나 재사용할 수 있습니다</li>
               <li>• <strong>공유하기:</strong> 친구들과 여행 계획을 공유해보세요</li>
               <li>• <strong>리뷰 쓰기/보기:</strong> 완료된 여행의 후기를 작성하고 확인할 수 있습니다</li>
             </ul>
