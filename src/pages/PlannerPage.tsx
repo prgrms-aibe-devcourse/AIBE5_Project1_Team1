@@ -11,6 +11,8 @@ import data2 from "../data/myPlanPageTempPackageData.json"
 import { useAuth } from "../contexts/AuthContext";
 import { itinerary } from "../data/surveyResult"
 
+import KakaoMap from "../components/KakaoMap";
+
 // 모든 여행지 데이터
 const allDestinations = [
   ...data,
@@ -142,7 +144,45 @@ const DraggableItineraryItem = ({
   );
 };
 
+
+
 export default function PlannerPage() {
+
+  // 여행 일자별 표시 상태
+  const [visibleDays, setVisibleDays] = useState<{ 1: boolean; 2: boolean; 3: boolean }>({
+  1: true,
+  2: true,
+  3: true,
+});
+// KakaoMap에 넘길 여행지 데이터
+type MapItem = {
+  id: string;
+  title: string;
+  day: number;
+  seq: number;
+  lat: number;
+  lng: number;
+};
+
+const mapItems: MapItem[] = [
+  { id: "1-1", day: 1, seq: 1, title: "자매국수", lat: 33.49860561714938, lng: 126.45914739166322 },
+  { id: "1-2", day: 1, seq: 2, title: "함덕 해수욕장", lat: 33.54301337455566, lng: 126.66925526795818 },
+  { id: "1-3", day: 1, seq: 3, title: "오조포구", lat: 33.46315108350201, lng: 126.92097300674901 },
+  { id: "1-4", day: 1, seq: 4, title: "위드시티호텔", lat: 33.4857206402737, lng: 126.4836896813416 },
+
+  { id: "2-1", day: 2, seq: 1, title: "리에또", lat: 33.484166274040284, lng: 126.48498466666912 },
+  { id: "2-2", day: 2, seq: 2, title: "성산일출봉", lat: 33.45880518948728, lng: 126.94097338703314 },
+  { id: "2-3", day: 2, seq: 3, title: "섭지코지", lat: 33.423925527706956, lng: 126.93076085774399 },
+  { id: "2-4", day: 2, seq: 4, title: "성산 수산 식당", lat: 33.46256965940773, lng: 126.93261800885692 },
+
+  { id: "3-1", day: 3, seq: 1, title: "뷰스트", lat: 33.22771220274194, lng: 126.30353852782778 },
+  { id: "3-2", day: 3, seq: 2, title: "사계흑돼지 산방산본점", lat: 33.24814566114882, lng: 126.30243758799476 },
+  { id: "3-3", day: 3, seq: 3, title: "동문시장", lat: 33.51282933037489, lng: 126.52837848272551 },
+  { id: "3-4", day: 3, seq: 4, title: "제주공항", lat: 33.506955052495, lng: 126.4928945703136 },
+];
+const filteredMapItems = mapItems.filter(
+  (it) => visibleDays[it.day as 1 | 2 | 3]
+);
   const navigate = useNavigate();
   const location = useLocation();
   const surveyData = location.state?.surveyData || {};
@@ -420,40 +460,32 @@ export default function PlannerPage() {
 
           {/* Right Column - 동선 지도 & 예상 비용 */}
           <div className="max-h-screen">
-            <div className="space-y-6 h-fit sticky top-45">
-              {/* 동선 지도 */}
-              <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-200">
-                <h2 className="text-lg font-bold text-gray-900 mb-4">동선 지도</h2>
-                <div className="aspect-square bg-gradient-to-br from-blue-100 to-green-100 rounded-lg flex items-center justify-center relative overflow-hidden">
-                  {/* Simple map visualization */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="relative w-48 h-48">
-                      {/* Green island shape */}
-                      <div className="absolute inset-0 bg-green-400 rounded-full border-4 border-gray-800 opacity-80"></div>
-                      {/* Route points */}
-                      {itinerary.slice(0, 5).map((item, idx) => {
-                        const positions = [
-                          { top: '2rem', right: '4rem' },
-                          { top: '4rem', left: '4rem' },
-                          { bottom: '3rem', right: '3rem' },
-                          { bottom: '2rem', left: '5rem' },
-                          { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }
-                        ];
-                        const pos = positions[idx] || positions[4];
-                        return (
-                          <div
-                            key={item.id}
-                            className="absolute w-8 h-8 bg-orange-500 rounded-full border-2 border-white flex items-center justify-center text-white text-xs font-bold shadow-lg"
-                            style={pos}
-                          >
-                            {idx + 1}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              </div>
+  <div className="space-y-6 h-fit sticky top-45">
+    {/* 동선 지도 */}
+    <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-200">
+  <h2 className="text-lg font-bold text-gray-900 mb-2">동선 지도</h2>
+
+  {/* ✅ 일차 필터 체크박스 */}
+  <div className="flex gap-3 mb-3">
+    {[1, 2, 3].map((d) => (
+      <label key={d} className="flex items-center gap-2 text-sm text-gray-700">
+        <input
+          type="checkbox"
+          checked={visibleDays[d as 1 | 2 | 3]}
+          onChange={(e) =>
+            setVisibleDays((prev) => ({ ...prev, [d]: e.target.checked }))
+          }
+        />
+        {d}일차
+      </label>
+    ))}
+  </div>
+
+  <div className="aspect-square rounded-lg overflow-hidden">
+    <KakaoMap items={filteredMapItems} className="w-full h-full" />
+  </div>
+</div>
+
 
               {/* 예상 비용 */}
               <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-200">
@@ -522,3 +554,4 @@ export default function PlannerPage() {
     </div>
   );
 }
+

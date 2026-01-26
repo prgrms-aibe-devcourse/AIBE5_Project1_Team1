@@ -306,3 +306,4 @@ export default function SurveyFullPage() {
     </div>
   );
 }
+//하이요

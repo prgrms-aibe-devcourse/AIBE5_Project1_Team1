@@ -20,7 +20,7 @@
 - **Figma:** https://www.figma.com/design/ItGE3eBC6f0n1sWUBLneVi/PLAN-Jeju?node-id=0-1&p=f&t=bjSm6fVjgN8G1XoF-0
 - **Notion:** https://www.notion.so/PLAN-Jeju-2ed0e26c31448057b95dd224cac91720?source=copy_link
 - **화면구성도:** https://app.diagrams.net/#G1ngPSvWQAmJ6c5TL2ofx-mh1Pcmn1DNSO#%7B%22pageId%22%3A%228zpW1dn6GrMUhxwFQlXW%22%7D
-
+- ****
 ---
 
 ## 🛠 기술 스택
