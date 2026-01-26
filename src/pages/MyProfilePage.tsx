@@ -23,8 +23,8 @@ export default function MyProfilePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-orange-400 to-orange-500 text-white py-16">
-        <div className="max-w-5xl mx-auto px-6 text-center">
+      <section className="bg-gradient-to-br from-orange-400 to-orange-500 text-white py-12">
+        <div className="max-w-6xl mx-auto px-6 text-center">
           <h1 className="text-4xl font-bold mb-3">마이페이지</h1>
           <p className="text-lg opacity-90">나의 여행 정보를 확인하세요</p>
         </div>
