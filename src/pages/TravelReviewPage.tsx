@@ -3,6 +3,7 @@ import { Star, ThumbsUp, MessageCircle, Edit3, Users, Calendar } from "lucide-re
 import ReviewDetailModal from "../components/ReviewDetailModal";
 import ReviewWriteModal from "../components/ReviewWriteModal";
 import ReviewEditModal from "../components/ReviewEditModal";
+import { useAuth } from "../contexts/AuthContext";
 
 const categories = ["전체", "액티비티", "힐링", "맛집", "감성"];
 
@@ -20,7 +21,7 @@ const reviews = [
     likes: 127,
     comments: 23,
     planName: "제주 힐링 2박 3일",
-    travelType: "힐링형",
+    travelType: "힐링",
     itinerary: [
       { day: "1차", schedule: "카페거리 → 애월 → 한라산 → 돼지고기 → 머시기숙소" },
       { day: "2일차", schedule: "성산일출봉 → 섭지코지 → 해산물 맛집 → 숙소" },
@@ -43,10 +44,106 @@ const reviews = [
     likes: 98,
     comments: 17,
     planName: "제주 등산 여행",
-    travelType: "액티비티형",
+    travelType: "액티비티",
     itinerary: [
       { day: "1차", schedule: "한라산 등반" },
       { day: "2일차", schedule: "휴식 및 맛집 투어" },
+      { day: "3일차", schedule: "공항" }
+    ]
+  },
+  {
+    id: 3,
+    author: "최XX",
+    date: "2026.01.20",
+    tripType: "가족",
+    duration: "3박 4일",
+    rating: 5,
+    title: "부모님과 함께한 최고의 효도 여행이었어요!",
+    content: "처음으로 부모님 모시고 가는 제주도라 걱정이 많았는데, PLAN Jeju의 추천 코스 덕분에 칭찬 많이 들었습니다. 특히 주상절리와 천제연 폭포 동선이 너무 좋았어요. 이동 거리도 적당하고 부모님이 힘들어하지 않으면서도 제주의 절경을 만끽할 수 있었습니다.",
+    images: [
+      "../src/images/img9.jpg", 
+      "../src/images/img10.jpg", 
+      "../src/images/img6.jpg", 
+      "../src/images/img5.jpg", 
+      "../src/images/img4.jpg", 
+      "../src/images/img1.jpg"  
+    ],
+    likes: 156,
+    comments: 42,
+    planName: "부모님 맞춤 힐링 투어",
+    travelType: "힐링",
+    itinerary: [
+      { day: "1일차", schedule: "공항 → 서귀포 숙소 → 주상절리 → 천제연 폭포" },
+      { day: "2일차", schedule: "카멜리아 힐 → 오설록 티 뮤지엄 → 갈치조림 맛집" },
+      { day: "3일차", schedule: "정방폭포 → 올레시장 → 호텔 휴식" },
+      { day: "4일차", schedule: "공항" }
+    ]
+  },
+  {
+    id: 4,
+    author: "정XX",
+    date: "2026.01.22",
+    tripType: "친구",
+    duration: "2박 3일",
+    rating: 5,
+    title: "먹다 끝난 제주 맛집 정복기! 흑돼지는 진리입니다.",
+    content: "이번 여행의 테마는 오직 '맛'이었어요. 추천해주신 애월쪽 흑돼지집이랑 함덕 해녀의 집 진짜 대박입니다. 뷰도 환상적이고 맛은 더 환상적이었어요. 특히 웨이팅 꿀팁 알려주신 덕분에 시간 낭비 없이 완벽하게 먹방 찍고 왔습니다!",
+    image: "https://images.unsplash.com/photo-1590301157890-4810ed352733?auto=format&fit=crop&q=80&w=1080", // 제주 음식/고기 느낌
+    likes: 210,
+    comments: 58,
+    planName: "제주 먹방 올인원",
+    travelType: "맛집",
+    itinerary: [
+      { day: "1일차", schedule: "함덕 해수욕장 → 해녀의 집 → 고기국수" },
+      { day: "2일차", schedule: "애월 카페거리 → 흑돼지 구이 → 루프탑 바" },
+      { day: "3일차", schedule: "동문시장 투어 → 공항" }
+    ]
+  },
+  {
+    id: 5,
+    author: "강XX",
+    date: "2026.01.24",
+    tripType: "솔로",
+    duration: "1박 2일",
+    rating: 4,
+    title: "혼자 떠난 제주, 감성 카페에서 힐링하고 왔어요.",
+    content: "짧은 일정이었지만 오로지 나만을 위한 시간을 보냈습니다. 구좌읍 쪽 조용한 카페들을 추천받았는데, 통창 너머로 보이는 에메랄드빛 바다를 보며 책 읽던 시간이 이번 여행 최고의 순간이었어요. 혼자 가기 좋은 숙소 추천도 정말 만족스러웠습니다.",
+    images: [
+      "../src/images/img3.jpg", 
+      "../src/images/img4.jpg", 
+      "../src/images/img_food7.jpg", 
+      "../src/images/img8.jpg",
+      "../src/images/img7.jpg"
+    ],
+    likes: 85,
+    comments: 12,
+    planName: "나홀로 제주 감성 여행",
+    travelType: "감성",
+    itinerary: [
+      { day: "1일차", schedule: "공항 → 구좌읍 카페 → 해안도로 산책 → 독립서점" },
+      { day: "2일차", schedule: "평대리 바다 → 소품샵 투어 → 공항" }
+    ]
+  },
+  {
+    id: 6,
+    author: "한XX",
+    date: "2026.01.25",
+    tripType: "커플",
+    duration: "2박 3일",
+    rating: 5,
+    title: "우도에서 전기차 타고 달린 추억 잊지 못할 거예요.",
+    content: "우도 일정 넣을까 말까 고민했는데 안 갔으면 후회할 뻔했습니다! 추천해주신 대로 아침 일찍 배 타고 들어갔더니 사람도 적고 여유로웠어요. 검멀레 해변에서 먹은 땅콩 아이스크림은 진짜 역대급이었습니다. 날씨까지 도와줘서 사진이 다 화보처럼 나왔네요.",
+    images: [
+       "../src/images/img4.jpg",  
+       "../src/images/img5.jpg",   // 제주 해안 도로
+    ],
+    likes: 189,
+    comments: 31,
+    planName: "우도 & 동부 완전정복",
+    travelType: "액티비티",
+    itinerary: [
+      { day: "1일차", schedule: "성산항 → 우도 입도 → 전기차 투어 → 검멀레 해변" },
+      { day: "2일차", schedule: "비자림 삼림욕 → 월정리 서핑 → 바비큐" },
       { day: "3일차", schedule: "공항" }
     ]
   }
@@ -57,6 +154,7 @@ export default function TravelReviewPage() {
   const [selectedReview, setSelectedReview] = useState<typeof reviews[0] | null>(null);
   const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const { isLoggedIn, userName, logout } = useAuth();
 
   const handleEditReview = () => {
     setSelectedReview(null);
@@ -72,6 +170,11 @@ export default function TravelReviewPage() {
       }, 100);
     }
   };
+
+  const filteredReviews = reviews.filter((review) => {
+    if (selectedCategory === "전체") return true;
+    return review.travelType === selectedCategory;
+  });
 
   return (
     <div className="w-full bg-gray-50 min-h-screen">
@@ -130,9 +233,14 @@ export default function TravelReviewPage() {
             </div>
 
             {/* 후기 작성 버튼 */}
+            {}
             <button 
               onClick={() => setIsWriteModalOpen(true)}
-              className="flex items-center gap-2 px-5 py-2 bg-orange-100 hover:bg-orange-200 text-orange-600 font-medium rounded-xl transition-colors"
+              disabled={!isLoggedIn}
+              className={`flex items-center gap-2 px-5 py-2 font-medium rounded-xl transition-colors ${
+                isLoggedIn ? "bg-orange-100 hover:bg-orange-200 text-orange-600 cursor-pointer" // 로그인 시 스타일 
+                            : "bg-gray-100 text-gray-400 cursor-not-allowed opacity-70"
+              }`}
             >
               <Edit3 className="w-4 h-4" />
               <span>후기작성</span>
@@ -144,11 +252,12 @@ export default function TravelReviewPage() {
       {/* 후기 리스트 */}
       <section className="pb-20">
         <div className="max-w-4xl mx-auto px-6 space-y-8">
-          {reviews.map((review) => (
-            <article 
-              key={review.id} 
-              onClick={() => setSelectedReview(review)}
-              className="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 cursor-pointer hover:shadow-xl transition-shadow"
+          {filteredReviews.length > 0 ? (
+            filteredReviews.map((review) => (
+              <article 
+                key={review.id} 
+                onClick={() => setSelectedReview(review)}
+                className="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 cursor-pointer hover:shadow-xl transition-shadow"
             >
               {/* 헤더 */}
               <div className="p-6 border-b border-gray-100">
@@ -210,16 +319,34 @@ export default function TravelReviewPage() {
                 )}
 
                 {review.images && (
-                  <div className="grid grid-cols-2 gap-3">
-                    {review.images.map((img, idx) => (
-                      <div key={idx} className="rounded-xl overflow-hidden aspect-video">
-                        <img
-                          src={img}
-                          alt={`여행 사진 ${idx + 1}`}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    ))}
+                  <div className="mt-4">
+                    <div className={`grid gap-2 rounded-xl overflow-hidden ${
+                      review.images.length === 1 ? "grid-cols-1 aspect-[16/9]" : 
+                      review.images.length === 2 ? "grid-cols-2 aspect-[16/5]" : 
+                      "grid-cols-3 aspect-[16/5]"
+                    }`}>
+                      {review.images.slice(0, 3).map((img, idx) => (
+                        <div key={idx} className="relative w-full h-full overflow-hidden bg-gray-200">
+                          {/* 1. 기본 이미지 (항상 렌더링) */}
+                          <img
+                            src={img}
+                            alt={`여행 사진 ${idx + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+
+                          {/* 2. 더보기 오버레이 (3번째 칸이고 이미지가 4장 이상일 때만) */}
+                          {idx === 2 && review.images.length > 3 && (
+                            <div 
+                              className="absolute inset-0 flex flex-col items-center justify-center text-white"
+                              style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }} // Tailwind 미작동 대비: 인라인 스타일로 60% 투명도 적용
+                            >
+                              <span className="text-xl font-bold">+{review.images.length - 3}</span>
+                              <span className="text-xs font-medium text-white/80">더보기</span>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
@@ -236,7 +363,14 @@ export default function TravelReviewPage() {
                 </button>
               </div>
             </article>
-          ))}
+            ))
+          ) : (
+            /* [추가] 필터링 결과가 없을 때 보여줄 화면 */
+            <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-gray-300">
+              <p className="text-gray-500">해당 카테고리의 후기가 아직 없습니다.</p>
+            </div>
+          )}
+          
         </div>
       </section>
 

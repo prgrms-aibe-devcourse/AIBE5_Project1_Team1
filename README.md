@@ -1,4 +1,3 @@
-
 # Plan Jeju [ 🌴 제주도 여행계획 추천 서비스 ]
 
 여행 스타일 설문을 기반으로 사용자에게 맞춤형 제주도 여행계획을 추천하고,  
@@ -17,6 +16,7 @@
 ---
 
 ## 📌 프로젝트 기획서
+
 - **Figma:** https://www.figma.com/design/ItGE3eBC6f0n1sWUBLneVi/PLAN-Jeju?node-id=0-1&p=f&t=bjSm6fVjgN8G1XoF-0
 - **Notion:** https://www.notion.so/PLAN-Jeju-2ed0e26c31448057b95dd224cac91720?source=copy_link
 - **화면구성도:** https://app.diagrams.net/#G1ngPSvWQAmJ6c5TL2ofx-mh1Pcmn1DNSO#%7B%22pageId%22%3A%228zpW1dn6GrMUhxwFQlXW%22%7D
@@ -26,8 +26,9 @@
 ## 🛠 기술 스택
 
 ### Frontend
-- JavaScript (ES6+)
-- Vanilla Vite
+- React 
+- TypeScript
+- Vite
 - HTML5
 - jQuery
 - CSS5
@@ -44,7 +45,7 @@
 | 윤석규  |  팀원  |           |
 | 김민국  |  팀원  |           |
 | 김민채  |  팀원  |           |
-| 고완석  |  팀원  | Github 구성, 요구사항 명세서 작성 |
+| 고완석  |  팀원  | Github 구성+문서 작성, 요구사항 명세서 작성 |
 
 ---
 
@@ -54,7 +55,6 @@
 
 사용자는 여행 관련 설문조사를 통해 자신의 여행스타일을 분석받고,  
 분석된 결과를 바탕으로 개인 성향에 맞는 제주도 여행계획을 추천받을 수 있습니다.
-
 
 #### 📌 설문조사 기능
 - 여행에 관련된 설문조사를 통해 사용자의 **여행스타일을 분석**할 수 있다.
@@ -71,14 +71,13 @@
 #### 📌 로그인 연계
 - 로그인한 사용자는 추천된 여행계획을 **저장**할 수 있다.
 - 저장된 추천 여행계획은 **여행 플랜 작성 기능과 연계**하여 수정 및 확장이 가능하다.
-<br>
 
+<br>
 
 ### 2️⃣ 제주도 여행계획 작성 및 관리 (Travel Plan)
 
 제주도 여행 플랜 기능은 사용자가 여행 일정을 체계적으로 구성하고 관리할 수 있도록 돕는 핵심 기능입니다.  
 여행 기간, 인원, 테마 설정부터 일차별 일정·이동수단·비용 관리까지 하나의 계획 안에서 정리할 수 있습니다.
-
 
 #### 📌 기본 기능
 - 여행계획 표지에 **제목, 여행 위치, 대표 이미지**를 작성할 수 있다.
@@ -105,8 +104,8 @@
 - **지도 기반 검색**을 통해 장소를 검색하고 일정에 추가할 수 있다.
 - 숙소의 **주소**를 입력할 수 있다.
 - 숙소의 **체크인 / 체크아웃 시간**을 설정할 수 있다.
-<br>
 
+<br>
 
 ### 3️⃣ 여행 후기 작성 및 공유 (Community)
 
@@ -114,19 +113,16 @@
 본 커뮤니티는 댓글, 대댓글 등 일반적인 커뮤니티 기능보다는  
 **여행 후기 게시 및 열람에 초점을 둔 게시형 커뮤니티**입니다.
 
-
 #### 📌 여행 후기 작성
 - 여행 후기 **제목과 본문**을 작성할 수 있다.
 - 여행 중 촬영한 **이미지(사진)를 첨부**할 수 있다.
 - 작성한 여행 리뷰 게시글을 **커뮤니티에 게시**할 수 있다.
 - 여행 후기 게시글에 **여행스타일 태그**를 추가할 수 있다.
 
-
 #### 📌 여행 후기 열람 및 필터링
 - 전체 여행 후기 게시글 목록을 확인할 수 있다.
 - 특정 **여행스타일 태그 기준으로 게시글을 필터링**할 수 있다.
 - 게시글 선택 시 여행 후기 **상세 내용을 확인**할 수 있다.
-
 
 #### 📌 여행계획 공개 및 공유
 - 본인의 여행계획을 **공개 / 비공개**로 설정할 수 있다.
@@ -154,34 +150,63 @@ npm install
 npm run dev
 
 4. 브라우저에서 아래 주소로 접속
-http://localhost:5173
+http://localhost:3000/
 ```
-
----
 
 ## 📂 디렉토리 구조
 
 ```bash
-📦 AIBE5-Project1
+📦 Travel Planning Website
  ┣ 📂 src
- ┃ ┣ 📂 assets           # 이미지, 스타일, 더미데이터 등의 정적 자원
- ┃ ┃ ┣ 📂 images         # 로고, 아이콘, 배너 등 이미지 파일
- ┃ ┃ ┗ 📂 styles         # CSS/SCSS 등 스타일 파일
- ┃ ┃ ┗ 📂 data           # 설문, 더미 데이터 등 JSON 파일
- ┃ ┣ 📂 components       # 재사용 UI 컴포넌트
- ┃ ┣ 📂 pages            # 기능별 페이지
- ┃ ┃ ┣ 📂 Attractions    # 제주도 관광지 안내
- ┃ ┃ ┣ 📂 Home           # 메인화면 페이지
- ┃ ┃ ┣ 📂 Login          # 로그인 페이지
- ┃ ┃ ┣ 📂 Mypage         # 마이페이지 페이지
- ┃ ┃ ┣ 📂 Plans          # 여행플랜 작성 페이지
- ┃ ┃ ┃ ┗ 📂 Details      # 여행플랜 세부 페이지
- ┃ ┃ ┣ 📂 Reviews        # 여행리뷰 & 후기 페이지
- ┃ ┃ ┗ 📂 Survey         # 여행스타일에 따른 설문조사 페이지
- ┣ 📜 index.html         # 앱 진입점 HTML
- ┗ 📜 README.md          # 프로젝트 설명 문서
+ ┃ ┣ 📂 assets                      # 정적 자원 - 이미지 파일 모음
+ ┃ ┃ ┗ 📜 *.png                    
+ ┃ ┣ 📂 components                  # 재사용 가능한 React UI 컴포넌트
+ ┃ ┃ ┣ 📂 ui
+ ┃ ┃ ┃ ┗ 📜 *.tsx                   
+ ┃ ┃ ┣ 📂 figma                     # Figma 디자인 기반 커스텀 컴포넌트
+ ┃ ┃ ┣ 📜 Header.tsx                # 상단 네비게이션 헤더 컴포넌트
+ ┃ ┃ ┣ 📜 TravelModal.tsx           # 여행 계획 관련 모달 컴포넌트
+ ┃ ┃ ┣ 📜 SharePlanModal.tsx        # 여행 계획 공유 모달
+ ┃ ┃ ┗ 📜 ReviewModal.tsx           # 여행 후기 작성/수정 모달 컴포넌트
+ ┃ ┣ 📂 pages
+ ┃ ┃ ┣ 📜 MainPage.tsx              # 서비스 메인 페이지
+ ┃ ┃ ┣ 📜 LoginPage.tsx             # 사용자 로그인 페이지
+ ┃ ┃ ┣ 📜 SignUpPage.tsx            # 회원가입 페이지
+ ┃ ┃ ┣ 📜 MyProfilePage.tsx         # 마이페이지 - 프로필 관리
+ ┃ ┃ ┣ 📜 MyPlanPage.tsx            # 저장된 여행 계획 목록 페이지
+ ┃ ┃ ┣ 📜 PlannerPage.tsx           # 여행 계획 작성 및 편집 페이지
+ ┃ ┃ ┣ 📜 TravelListPage.tsx        # 제주도 관광지 정보 및 추천 장소 목록
+ ┃ ┃ ┣ 📜 TravelReviewPage.tsx      # 여행 후기 커뮤니티 페이지
+ ┃ ┃ ┣ 📜 SurveyStartPage.tsx       # 설문조사 시작 페이지 (Quick/Full 선택)
+ ┃ ┃ ┣ 📜 SurveyQuickPage.tsx       # Quick 설문 페이지 (간단한 설문)
+ ┃ ┃ ┣ 📜 SurveyFullPage.tsx        # Full 설문 페이지 (상세 설문)
+ ┃ ┃ ┣ 📜 SurveyLoadingPage.tsx     # 설문 결과 로딩 페이지
+ ┃ ┃ ┗ 📜 SurveyResultPage.tsx      # 설문 결과 및 추천 여행 계획 페이지
+ ┃ ┣ 📂 contexts                    # 사용자 인증 상태 및 로그인 정보 관리
+ ┃ ┃ ┗ 📜 AuthContext.tsx   
+ ┃ ┣ 📂 data                        # 정적 데이터 및 상수
+ ┃ ┃ ┗ 📜 destinations.ts   
+ ┃ ┣ 📂 styles                      # 전역 스타일 시트
+ ┃ ┃ ┣ 📜 globals.css     
+ ┃ ┃ ┗ 📜 index.css        
+ ┃ ┣ 📂 imports          
+ ┃ ┃ ┣ 📜 Main.tsx          
+ ┃ ┃ ┣ 📜 Planner.tsx      
+ ┃ ┃ ┣ 📜 TravelReview.tsx  
+ ┃ ┃ ┗ 📜 설문조사.tsx      
+ ┃ ┣ 📂 guidelines          
+ ┃ ┃ ┗ 📜 Guidelines.md    
+ ┃ ┣ 📜 App.tsx            
+ ┃ ┣ 📜 main.tsx            
+ ┃ ┗ 📜 Attributions.md     
+ ┣ 📂 docs                 
+ ┃ ┣ 📜 ObjectRules.md     
+ ┃ ┗ 📜 TeamRules.md        
+ ┣ 📜 index.html           
+ ┣ 📜 package.json          
+ ┣ 📜 vite.config.ts       
+ ┗ 📜 README.md            
 ```
-
 ---
 
 ## 🤝 Team Convention
@@ -201,11 +226,14 @@ http://localhost:5173
 - **수정/작성일:** 작업을 완료한 날짜 (YYYY-MM-DD)
 
 #### 기능분류(Type)
+
+=======
 | 타입     | 의미          |
 | ------ | ------------- |
 | feat   | 새로운 기능 추가  |
 | docs   | 문서 작성 / 수정 |
 | fix    | 버그 수정       |
+>>>>>>> origin/main
 | refact | 코드 리팩토링    |
 
 ### Commit 규칙 상세
@@ -216,11 +244,14 @@ http://localhost:5173
 - 작성내용 앞에 작업한 파일명 명시
 - 작업내용을 중심으로 간단히 작성
 
+
+=======
 ```text
 # 예시
 git commit -m "feat: Login/index.js - 로그인 추가 - 26.01.22"
 git commit -m "feat: components/Header.js - 헤더구현 - 26.01.22"
 git commit -m "feat: component/Header.js, Home/index.js - 헤더로 메인화면 돌아가는 기능 구현 - 26.01.22"
+>>>>>>> origin/main
 ```
 
 ---
@@ -252,7 +283,7 @@ Pull Request 기반 협업 방식을 사용합니다.
 
 - **feature 브랜치**
   - 개인 브랜치에서 작업한 내용을 통합하는 브랜치이다.
-  - 개인 브랜치(t1 ~ t7)에서 **직접 push는 불가**하다.
+  - 개인 브랜치(t1 ~ t7)에서 **직접 main으로의 push**는 불가하다.
   - 반드시 **Pull Request(PR)** 를 통해서만 병합할 수 있다.
   - PR은 **팀장의 승인(Approve) 후에만 merge 가능**하다.
 
