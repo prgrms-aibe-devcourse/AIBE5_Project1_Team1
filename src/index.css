@@ -676,6 +676,10 @@
     aspect-ratio: 4 / 3;
   }
 
+  .aspect-\[16\/5\] {
+    aspect-ratio: 16 / 5;
+  }
+
   .aspect-square {
     aspect-ratio: 1;
   }
@@ -932,6 +936,11 @@
   .grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+
+  .grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
 
   .grid-cols-12 {
     grid-template-columns: repeat(12, minmax(0, 1fr));
