@@ -180,9 +180,6 @@ export default function PlannerPage() {
   const location = useLocation();
   const surveyData = location.state?.surveyData || {};
   // 여행계획 수정 가능 여부를 따지기 위해 추가
-  const isReadOnly = location.state?.isReadOnly || false; 
-  const canEdit = !isReadOnly;
-
   const fromMyPlan = location.state?.fromMyPlan || false; // 내 플랜에서 왔는지 확인
   const isReadOnly = location.state?.isReadOnly || false; 
   const canEdit = !isReadOnly;
@@ -451,7 +448,6 @@ export default function PlannerPage() {
                       onDayChange={handleDayChange}
                       onTimeChange={handleTimeChange}
                       onImageClick={handleImageClick}
-                      canEdit={canEdit}
                     />
                   ))
                 )}
