@@ -44,6 +44,7 @@
 git fetch origin
 git checkout [본인브랜치]
 git merge origin/feature
+  - 위 명령어가 문제된다면 'git reset --hard origin/feature' 을 사용하기
 ```
 
 ## 2. 커밋 메시지 기본 형식

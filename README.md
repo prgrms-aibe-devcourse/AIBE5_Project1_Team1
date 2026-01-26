@@ -11,7 +11,7 @@
 - Quick / Full 설문 모드를 제공하여 사용자 선택권 강화
 - 추천된 여행계획 저장 및 수정·삭제 기능 제공
 - 여행 후기 공유 및 여행 스타일 기반 탐색 기능 제공
-- 본 프로젝트는 Vanilla Vite를 사용하여 JavaScript, jQuery, Ajax를 중심으로 구현했습니다.
+- 본 프로젝트는 React를 사용하여 TypeScript로 구현했습니다.
 
 ---
 
@@ -20,7 +20,7 @@
 - **Figma:** https://www.figma.com/design/ItGE3eBC6f0n1sWUBLneVi/PLAN-Jeju?node-id=0-1&p=f&t=bjSm6fVjgN8G1XoF-0
 - **Notion:** https://www.notion.so/PLAN-Jeju-2ed0e26c31448057b95dd224cac91720?source=copy_link
 - **화면구성도:** https://app.diagrams.net/#G1ngPSvWQAmJ6c5TL2ofx-mh1Pcmn1DNSO#%7B%22pageId%22%3A%228zpW1dn6GrMUhxwFQlXW%22%7D
-- ****
+- **WBS**: https://docs.google.com/spreadsheets/d/1DAWnheXgYjddfo_2WlPGdv8DJ8eu6dW3W88CvRqXrjM/edit?gid=205972354#gid=205972354
 ---
 
 ## 🛠 기술 스택
@@ -312,5 +312,9 @@ Pull Request 기반 협업 방식을 사용합니다.
 --- 
 
 ### 🔹 트러블 슈팅 & 해결 방식
-... 추후 프로젝트 개발 중 발생한 문제 작성할 예정 ...
+```bash
+# 1. Merge하면서 작업파일이 사라짐
+- 상황: 팀원들의 내용을 feature 브랜치에 Merge하고 하루를 마무리하려고 했는데 팀원이 작업한 .css의 .grid가 사라지는 문제 발생
+- 문제해결: .css파일이 사라지기 이전의 Commit을 찾아내기 위해서 Repository에 남아있는 Commit 내용을 모두 뒤져보면서 해당 Commit을 찾아냈습니다. 그리고 그 Commit의 해시코드로 'git checkout [커밋해시] --index.css' 명령어를 사용해서 특정 파일만 되돌려서 해결했습니다.
+```
 
