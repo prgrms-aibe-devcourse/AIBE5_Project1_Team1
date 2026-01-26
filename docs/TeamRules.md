@@ -11,16 +11,20 @@
 
 # 3. GitHub 프로젝트 가져오기
 - 하단에 생긴 'Terminal'에 아래와 같은 Git 명령어를 입력한다.
-- git clone https://github.com/prgrms-aibe-devcourse/AIBE5_Project1_Team1.git
-
-# 4. 패키지 설치하기
-- npm install
+- git remote add origin https://github.com/prgrms-aibe-devcourse/AIBE5_Project1_Team1.git
 
 # 4. 본인 브랜치로 이동하기 및 브랜치 설정
 - git checkout -b [본인브랜치명]
 
-# 5. 본인디렉터리 덮어쓰기
-- git push -f origin [본인브랜치명]
+# 5. git 설치하기
+- git init 
+
+# 6. 본인 디렉터리를 main으로 덮어쓰기
+- git reset --hard origin/main
+
+# 7. 패키지 설치하기
+- npm install
+- npm install --save-dev @types/react @types/react-dom
 ```
 
 ---
