@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { Calendar, Plus, Save, X, Trash2, GripVertical, Search, ChevronDown } from "lucide-react";
 import { useDrag, useDrop } from "react-dnd";
@@ -15,7 +15,9 @@ const allDestinations = [
   ...data,
 ];
 
-const categories = ["전체", "산/동굴", "해변/섬", "섬", "드라이브", "테마파크"];
+
+
+const categories = ["전체", "자연", "해변", "섬", "드라이브", "테마파크"];
 
 type ItineraryItem = {
   id: number;
@@ -37,7 +39,8 @@ const DraggableItineraryItem = ({
   onDelete, 
   onDayChange, 
   onTimeChange,
-  onImageClick
+  onImageClick,
+  canEdit
 }: { 
   item: ItineraryItem; 
   index: number; 
@@ -50,6 +53,7 @@ const DraggableItineraryItem = ({
   const [{ isDragging }, drag, preview] = useDrag({
     type: 'ITINERARY_ITEM',
     item: { index },
+    canDrag: () => canEdit,
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -58,6 +62,7 @@ const DraggableItineraryItem = ({
   const [, drop] = useDrop({
     accept: 'ITINERARY_ITEM',
     hover: (draggedItem: { index: number }) => {
+      if (!canEdit) return;
       if (draggedItem.index !== index) {
         moveItem(draggedItem.index, index);
         draggedItem.index = index;
@@ -84,6 +89,7 @@ const DraggableItineraryItem = ({
           type="number"
           value={item.day}
           onChange={(e) => onDayChange(item.id, parseInt(e.target.value) || 1)}
+          disabled={!canEdit}
           min="1"
           className="w-10 py-2 text-center border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent font-semibold text-gray-700 text-sm"
         />
@@ -123,7 +129,8 @@ const DraggableItineraryItem = ({
       {/* 삭제 */}
       <div className="col-span-1 flex justify-center">
         <button 
-          onClick={() => onDelete(item.id)}
+          onClick={() => canEdit && onDelete(item.id)}
+          disabled={!canEdit}                         
           className="w-8 h-8 flex items-center justify-center bg-red-50 hover:bg-red-100 text-red-600 rounded-lg transition-colors"
           title="삭제"
         >
@@ -138,6 +145,10 @@ export default function PlannerPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const surveyData = location.state?.surveyData || {};
+  // 여행계획 수정 가능 여부를 따지기 위해 추가
+  const isReadOnly = location.state?.isReadOnly || false; 
+  const canEdit = !isReadOnly;
+
   const fromMyPlan = location.state?.fromMyPlan || false; // 내 플랜에서 왔는지 확인
   
   const handleSurvey = () => {
@@ -305,6 +316,7 @@ export default function PlannerPage() {
                       type="text"
                       value={planName}
                       onChange={(e) => setPlanName(e.target.value)}
+                      disabled={!canEdit} 
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     />
                   </div>
@@ -314,6 +326,7 @@ export default function PlannerPage() {
                       type="date"
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
+                      disabled={!canEdit} 
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     />
                   </div>
@@ -327,6 +340,7 @@ export default function PlannerPage() {
                         type="checkbox"
                         checked={isPrivate}
                         onChange={(e) => setIsPrivate(e.target.checked)}
+                        disabled={!canEdit} 
                         className="rounded"
                       />
                       나만보기
@@ -335,6 +349,7 @@ export default function PlannerPage() {
                   <textarea
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
+                    disabled={!canEdit} 
                     rows={3}
                     placeholder="여행 계획 / 주말여행 / 바다"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none"
@@ -348,7 +363,8 @@ export default function PlannerPage() {
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold text-gray-900">여행 일정표</h2>
                 <button 
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={() => canEdit && setIsModalOpen(true)} 
+                  disabled={!canEdit}                            
                   className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors text-sm font-medium"
                 >
                   <Plus className="w-4 h-4" />
@@ -383,6 +399,7 @@ export default function PlannerPage() {
                       onDayChange={handleDayChange}
                       onTimeChange={handleTimeChange}
                       onImageClick={handleImageClick}
+                      canEdit={canEdit}
                     />
                   ))
                 )}
@@ -487,9 +504,9 @@ export default function PlannerPage() {
 
       {/* 여행지 선택 모달 */}
       <AddDestinationModal
-        isOpen={isModalOpen}
+        isOpen={canEdit && isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onAdd={handleAddDestination}
+        onAdd={(d) => canEdit && handleAddDestination(d)}
         destinations={allDestinations}
       />
 

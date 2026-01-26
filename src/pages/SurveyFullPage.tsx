@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
@@ -18,6 +18,11 @@ export default function SurveyFullPage() {
   const [accommodation, setAccommodation] = useState<string>("");
   const [food, setFood] = useState<string>("");
   const [dining, setDining] = useState<string>("");
+  const [focusedSection, setFocusedSection] = useState<string | null>(null);
+
+  const section1Ref = useRef<HTMLDivElement>(null);
+  const section2Ref = useRef<HTMLDivElement>(null);
+  const section3Ref = useRef<HTMLDivElement>(null);
 
   const toggleInterest = (interest: string) => {
     if (interests.includes(interest)) {
@@ -33,6 +38,18 @@ export default function SurveyFullPage() {
     if (isComplete) {
       // 로딩 페이지로 이동
       navigate("/survey/loading");
+    } else {
+      // 첫 번째 미완료 섹션 감지 및 스크롤
+      if (!duration || !companion || !season) {
+        setFocusedSection("section1");
+        section1Ref.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      } else if (interests.length === 0 || !style) {
+        setFocusedSection("section2");
+        section2Ref.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      } else if (!accommodation || !food || !dining) {
+        setFocusedSection("section3");
+        section3Ref.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
     }
   };
 
@@ -49,7 +66,10 @@ export default function SurveyFullPage() {
 
           <div className="space-y-12">
             {/* Section 1: 기본 여행 정보 (필수) */}
-            <div>
+            <div 
+              ref={section1Ref}
+              className={`${focusedSection === "section1" ? "border-2 border-orange-500 bg-orange-50 shadow-lg p-4" : ""}`}
+            >
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
                 <span className="w-8 h-8 bg-orange-500 text-white rounded-lg flex items-center justify-center text-sm font-bold">
                   1
@@ -66,7 +86,7 @@ export default function SurveyFullPage() {
                     {["당일치기", "1박 2일", "2박 3일", "3박 4일 이상"].map((option) => (
                       <button
                         key={option}
-                        onClick={() => setDuration(option)}
+                        onClick={() => setDuration(duration === option ? "" : option)}
                         className={`px-6 py-3 rounded-xl font-medium transition-all ${
                           duration === option
                             ? "bg-orange-500 text-white shadow-md"
@@ -88,7 +108,7 @@ export default function SurveyFullPage() {
                     {["혼자", "연인", "친구", "가족", "반려 동물"].map((option) => (
                       <button
                         key={option}
-                        onClick={() => setCompanion(option)}
+                        onClick={() => setCompanion(companion === option ? "" : option)}
                         className={`px-6 py-3 rounded-xl font-medium transition-all ${
                           companion === option
                             ? "bg-orange-500 text-white shadow-md"
@@ -110,7 +130,7 @@ export default function SurveyFullPage() {
                     {["노을", "1월", "2월", "3월 이상"].map((option) => (
                       <button
                         key={option}
-                        onClick={() => setSeason(option)}
+                        onClick={() => setSeason(season === option ? "" : option)}
                         className={`px-6 py-3 rounded-xl font-medium transition-all ${
                           season === option
                             ? "bg-orange-500 text-white shadow-md"
@@ -126,7 +146,10 @@ export default function SurveyFullPage() {
             </div>
 
             {/* Section 2: 여행 스타일 (패키지 선정 결정) */}
-            <div>
+            <div 
+              ref={section2Ref}
+              className={`${focusedSection === "section2" ? "border-2 border-orange-500 bg-orange-50 shadow-lg p-4" : ""}`}
+            >
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
                 <span className="w-8 h-8 bg-orange-500 text-white rounded-lg flex items-center justify-center text-sm font-bold">
                   2
@@ -165,7 +188,7 @@ export default function SurveyFullPage() {
                     {["촘촘히 채워진 일정", "여유 많은 일정", "자기의기 좋아서는 OK"].map((option) => (
                       <button
                         key={option}
-                        onClick={() => setStyle(option)}
+                        onClick={() => setStyle(style === option ? "" : option)}
                         className={`px-6 py-3 rounded-xl font-medium transition-all ${
                           style === option
                             ? "bg-orange-500 text-white shadow-md"
@@ -181,7 +204,10 @@ export default function SurveyFullPage() {
             </div>
 
             {/* Section 3: 숙소 및 음식 (상세 취향) */}
-            <div>
+            <div 
+              ref={section3Ref}
+              className={`${focusedSection === "section3" ? "border-2 border-orange-500 bg-orange-50 shadow-lg p-4" : ""}`}
+            >
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
                 <span className="w-8 h-8 bg-orange-500 text-white rounded-lg flex items-center justify-center text-sm font-bold">
                   3
@@ -198,7 +224,7 @@ export default function SurveyFullPage() {
                     {["제주 시내(중심가)", "시포트", "여행(게릭터레트)", "음이보기지속", "신라건룡"].map((option) => (
                       <button
                         key={option}
-                        onClick={() => setAccommodation(option)}
+                        onClick={() => setAccommodation(accommodation === option ? "" : option)}
                         className={`px-6 py-3 rounded-xl font-medium transition-all ${
                           accommodation === option
                             ? "bg-orange-500 text-white shadow-md"
@@ -220,7 +246,7 @@ export default function SurveyFullPage() {
                     {["양식", "기타식", "음식", "고유한", "면넥식양"].map((option) => (
                       <button
                         key={option}
-                        onClick={() => setFood(option)}
+                        onClick={() => setFood(food === option ? "" : option)}
                         className={`px-6 py-3 rounded-xl font-medium transition-all ${
                           food === option
                             ? "bg-orange-500 text-white shadow-md"
@@ -242,7 +268,7 @@ export default function SurveyFullPage() {
                     {["제주 로컬가기/수작레식점", "일식알립", "가타어", "가타찌 엄선"].map((option) => (
                       <button
                         key={option}
-                        onClick={() => setDining(option)}
+                        onClick={() => setDining(dining === option ? "" : option)}
                         className={`px-6 py-3 rounded-xl font-medium transition-all ${
                           dining === option
                             ? "bg-orange-500 text-white shadow-md"
@@ -268,7 +294,6 @@ export default function SurveyFullPage() {
               </button>
               <button
                 onClick={handleSubmit}
-                disabled={!isComplete}
                 className="flex items-center gap-2 px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
               >
                 <span>결과 보기</span>
