@@ -688,6 +688,10 @@
     aspect-ratio: 4 / 3;
   }
 
+  .aspect-\[16\/5\] {
+      aspect-ratio: 16 / 5;
+  }
+
   .aspect-square {
     aspect-ratio: 1;
   }
@@ -943,6 +947,10 @@
 
   .grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .grid-cols-12 {
@@ -1220,6 +1228,10 @@
 
   .bg-gray-200 {
     background-color: var(--color-gray-200);
+  }
+
+  .bg-gray-300 {
+    background-color: var(--color-gray-300);
   }
 
   .bg-gray-500 {
@@ -2600,4 +2612,20 @@ html {
     opacity: var(--tw-enter-opacity, 1);
     transform: translate3d(var(--tw-enter-translate-x, 0), var(--tw-enter-translate-y, 0), 0) scale3d(var(--tw-enter-scale, 1), var(--tw-enter-scale, 1), var(--tw-enter-scale, 1)) rotate(var(--tw-enter-rotate, 0));
   }
+}
+
+/* 1. 모달의 입구인 modal-root를 강제로 최상단 레이어로 설정 */
+#modal-root {
+  position: relative;
+  z-index: 9999999 !important;
+}
+
+/* 2. 모달 컨테이너 자체에 대한 강제 설정 */
+#modal-root > div {
+  z-index: 9999999 !important;
+}
+
+/* 3. 메뉴바(header)의 z-index를 상대적으로 낮게 고정 */
+header {
+  z-index: 50 !important;
 }

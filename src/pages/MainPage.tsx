@@ -2,10 +2,16 @@ import { useState } from "react";
 import { ArrowRight, Check, Compass, MapPin, Calendar } from "lucide-react";
 import TravelModal from "../components/TravelModal";
 import { destinations } from "../data/destinations";
-import { useNavigate } from "react-router";
+import { useNavigate } from 'react-router';
+
+
 
 export default function MainPage() {
   const [selectedDestination, setSelectedDestination] = useState<typeof destinations[0] | null>(null);
+  const navigate = useNavigate();
+  const handleSurvey = () => {
+    navigate("/survey");
+  };
 
   return (
     <div className="w-full">
@@ -17,7 +23,7 @@ export default function MainPage() {
             <div className="space-y-8">
               <div className="inline-block">
                 <span className="px-4 py-2 bg-orange-200 text-orange-700 rounded-full text-sm font-bold">
-                  MBTI J형 맞춤 여행 플랫폼
+                  개인형 맞춤 여행 플랫폼
                 </span>
               </div>
 
@@ -54,9 +60,12 @@ export default function MainPage() {
                 </div>
               </div>
 
-              <button className="group flex items-center gap-3 px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all">
-                <span>여행 설문 시작하기</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <button
+              onClick={ handleSurvey }
+              className="group inline-flex items-center gap-3 px-8 py-4 bg-orange-500 text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+              >
+              <span>설문 시작하기</span>
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
 
@@ -64,7 +73,7 @@ export default function MainPage() {
             <div className="relative">
               <div className="aspect-square rounded-3xl overflow-hidden shadow-2xl bg-orange-200">
                 <img
-                  src="https://images.unsplash.com/photo-1694087450396-f6b1031b37d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmF2ZWwlMjBwbGFubmluZyUyMHZhY2F0aW9ufGVufDF8fHx8MTc2OTIzNDYzMnww&ixlib=rb-4.1.0&q=80&w=1080"
+                  src="plash.com/photo-1694087450396-f6b1031b37d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmF2ZWwlMjBwbGFubmluZyUyMHZhY2F0aW9ufGVufDF8fHx8MTc2OTIzNDYzMnww&ixlib=rb-4.1.0&q=80&w=1080"
                   alt="여행 계획"
                   className="w-full h-full object-cover"
                 />
@@ -76,23 +85,23 @@ export default function MainPage() {
         </div>
       </section>
 
-      {/* 필수 여행지 섹션 */}
+      {/* 추천 여행지 섹션 */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">제주도 필수 여행지</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">제주도 추천 여행지</h2>
             <p className="text-lg text-gray-600">제주를 대표하는 아름다운 여행지를 만나보세요</p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-            {destinations.slice(0, 1).map((destination, index) => (
+          <div className="grid md:grid-cols-1 gap-12 max-w-5xl mx-auto">
+            {destinations.slice(0, 6).map((destination, index) => (
               <div
                 key={destination.id}
                 className="group cursor-pointer"
                 onClick={() => setSelectedDestination(destination)}
               >
                 <div className="relative mb-6">
-                  <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-shadow">
+                  <div className="aspect-[4/3] w-full h-25 rounded-2xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-shadow">
                     <img
                       src={destination.image}
                       alt={destination.name}
@@ -185,21 +194,32 @@ export default function MainPage() {
         <div className="max-w-4xl mx-auto px-6 text-center text-white">
           <p className="text-lg mb-4 opacity-90">단 5분이면 완벽한 제주도 여행 계획이 완성됩니다</p>
           <h2 className="text-4xl font-bold mb-8">지금 바로 시작하세요</h2>
-          <button className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-orange-500 font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all">
-            <span>설문 시작하기</span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          <button
+            onClick={ handleSurvey }
+            className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-orange-500 font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+          >
+          <span>설문 시작하기</span>
+          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
       </section>
+      
+
 
       {/* 모달 */}
       {selectedDestination && (
-        <TravelModal
-          isOpen={!!selectedDestination}
-          onClose={() => setSelectedDestination(null)}
-          destination={selectedDestination}
-        />
-      )}
+  <TravelModal
+    isOpen={!!selectedDestination}
+    onClose={() => setSelectedDestination(null)}
+    destination={selectedDestination}
+    searchLinks={{
+      naver: `https://search.naver.com/search.naver?query=${encodeURIComponent(selectedDestination.name)}`,
+      kakao: `https://search.daum.net/search?q=${encodeURIComponent(selectedDestination.name)}`,
+      google: `https://www.google.com/search?q=${encodeURIComponent(selectedDestination.name)}`,
+    }}
+  />
+)}
+
     </div>
   );
 }
