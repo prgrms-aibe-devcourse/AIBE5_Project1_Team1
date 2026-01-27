@@ -2700,3 +2700,88 @@ html {
 .z-\[9999\] {
   z-index: 9999;
 }
+
+/* SocialLogin.css */
+.social-btn {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  height: 50px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px; /* 글자 크기를 살짝 조절하여 균형을 맞춤 */
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 그림자를 조금 더 선명하게 */
+  margin-bottom: 10px;
+  transition: all 0.2s ease;
+  padding: 1px;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+.social-btn:hover {
+  filter: brightness(1.05); /* 호버 시 약간 밝아지게 변경 */
+  transform: translateY(-1px); /* 살짝 떠오르는 효과 */
+}
+
+/* 아이콘 영역 (공통) */
+.btn-icon {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  flex-shrink: 0;
+  margin-left: 8px;
+  /* 아이콘 박스 자체에 입체감을 주는 그림자 */
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* 텍스트 영역 */
+.btn-text {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.social-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* --- 브랜드별 그라데이션 및 테두리 --- */
+
+/* 1. 구글: 상단 파란색 -> 하단 더 짙은 파란색 */
+.social-btn.google {
+  background: linear-gradient(to bottom, #4285F4, #357ae8);
+  color: #fff;
+}
+.social-btn.google .btn-icon {
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* 2. 카카오: 상단 노란색 -> 하단 약간 짙은 노란색 */
+.social-btn.kakao {
+  background: linear-gradient(to bottom, #FEE500, #fada00);
+  color: #191919;
+}
+.social-btn.kakao .btn-icon {
+  /* 아이콘 박스를 아예 밝게 띄워서 구분감 극대화 */
+  background-color: rgba(255, 255, 255, 0.25); 
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* 3. 네이버: 상단 초록색 -> 하단 더 짙은 초록색 */
+.social-btn.naver {
+  background: linear-gradient(to bottom, #03C75A, #02b350);
+  color: #fff;
+}
+.social-btn.naver .btn-icon {
+  /* 배경보다 살짝 어두운 톤의 그라데이션 박스 */
+  background-color: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
