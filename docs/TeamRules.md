@@ -28,13 +28,19 @@
 
 ## GitHub Push방법
 ```bash
-# 1. git add .
-    - 현재 작업하던 파일들을 git에 보내겠다는 의미
-    - 특정 파일만 보낼때: git add 파일1 파일2 파일3
-# 2. git commit -m " [기능분류]: [파일명] - [작업내용] - [날짜] "
-    - 커밋 규칙에 맞춰서 보내기
-# 3. git push
-    - 반드시 본인 브랜치에 먼저 push하고 feat에는 나중에 merge하기
+# 0. branch 확인하기
+  - git branch
+  - 만약 개인 브랜치가 아니라면 'git checkout [본인브랜치명]'
+# 1. 작업한 파일 넣기
+  - git add .
+  - 현재 작업하던 파일들을 git에 보내겠다는 의미
+  - 특정 파일만 보낼때: git add 파일1 파일2 파일3
+# 2. push하기 전에 commit하기
+  - git commit -m " [기능분류]: [파일명] - [작업내용] - [날짜] "
+  - 커밋 규칙에 맞춰서 보내기
+# 3. 작업한 내용을 개인 브랜치로 보내기
+  - git push
+  - 반드시 본인 브랜치에 먼저 push하고 feat에는 나중에 merge하기
 ```
 
 ---
@@ -95,6 +101,7 @@ git commit -m "feat: Header.js, index.js - 헤더로 메인화면 돌아가는 �
 # Pull Request 진행 절차
 1. 개인 브랜치(t1 ~ t7)에서 기능 개발을 진행한다.
 2. 작업이 완료되면 개인 브랜치에 push한다.
+  2-1. Git은 Commit마다 저장하기 때문에 기능을 완성할 때마다 [push 작업]()하는 것을 추천함
 3. push한 내용을 **feature 브랜치를 대상으로 Pull Request를 생성**
 4. PR의 제목에 **기능분류**에 맞게 작업 내용 및 변경 사항을 간단히 설명한다.
 5. 팀장이 PR을 리뷰하고 승인(Approve)한다.
