@@ -9,7 +9,7 @@ export default function SurveyResultPage() {
     navigate("/planner", { 
       state: { 
         surveyData: {
-          purpose: "예쁜 사진 남기기(감성)",
+          travelType: "감성",
           packageName: itinerary.packageName
         }
       }

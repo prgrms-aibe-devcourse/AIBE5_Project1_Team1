@@ -208,15 +208,15 @@ export default function TravelReviewPage() {
   return (
     <div className="w-full bg-gray-50 min-h-screen">
       {/* 히어로 헤더 */}
-      <section className="bg-gradient-to-br from-orange-500 to-orange-600 text-white py-20">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h1 className="text-5xl font-bold mb-4">여행 후기</h1>
-          <p className="text-xl opacity-90">실제 여행자들의 생생한 제주 여행 이야기</p>
+      <section className="bg-gradient-to-br from-orange-400 to-orange-500 text-white py-12">
+        <div className="max-w-6xl mx-auto px-6 text-center">
+          <h1 className="text-4xl font-bold mb-3">여행 후기</h1>
+          <p className="text-lg opacity-90">실제 여행자들의 생생한 제주 여행 이야기</p>
         </div>
       </section>
 
       {/* 통계 카드 */}
-      <section className="bg-white shadow-sm -mt-8 relative z-10">
+      <section className="bg-white shadow-sm relative z-10">
         <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             <div className="bg-gradient-to-br from-orange-50 to-white p-6 rounded-2xl border border-orange-100 text-center">
@@ -253,7 +253,7 @@ export default function TravelReviewPage() {
                   className={`px-5 py-2 rounded-full font-medium transition-all ${
                     selectedCategory === category
                       ? "bg-orange-500 text-white shadow-md"
-                      : "bg-white text-gray-700 border border-gray-300 hover:border-orange-500"
+                      : "bg-white text-gray-700 box-shadow-gray-300 hover:box-shadow-orange-500"
                   }`}
                 >
                   {category}
