@@ -2657,3 +2657,7 @@ html {
 header {
   z-index: 50 !important;
 }
+
+.z-\[9999\] {
+  z-index: 9999;
+}

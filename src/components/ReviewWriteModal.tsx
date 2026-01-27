@@ -266,13 +266,6 @@ export default function ReviewWriteModal({ isOpen, onClose, onSubmit }: ReviewWr
             </div>
           </div>
 
-          {/* 컴포넌트 하단에 모달 배치 */}
-          <PlanSelectModal 
-            isOpen={isPlanModalOpen} 
-            onClose={() => setIsPlanModalOpen(false)} 
-            onSelect={handlePlanSelect} 
-          />
-
           {/* 별점 */}
           <div>
             <label className="block text-sm font-bold text-gray-900 mb-3">별점</label>
@@ -344,6 +337,12 @@ export default function ReviewWriteModal({ isOpen, onClose, onSubmit }: ReviewWr
           </div>
         </div>
       </div>
+      {/* 컴포넌트 하단에 모달 배치 */}
+      <PlanSelectModal 
+        isOpen={isPlanModalOpen} 
+        onClose={() => setIsPlanModalOpen(false)} 
+        onSelect={handlePlanSelect} 
+      />
     </div>
   );
 }
