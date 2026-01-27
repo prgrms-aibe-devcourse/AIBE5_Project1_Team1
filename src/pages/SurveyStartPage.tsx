@@ -5,7 +5,7 @@ export default function SurveyStartPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center px-6 py-20">
+    <div className="h-[calc(100vh-73px)] bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center px-6 pb-20">
       <div className="bg-white rounded-3xl shadow-2xl p-12 max-w-2xl w-full border border-gray-100">
         {/* Step Badge */}
         <div className="inline-block mb-8">

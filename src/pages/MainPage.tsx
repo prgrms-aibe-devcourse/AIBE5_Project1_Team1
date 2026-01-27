@@ -212,11 +212,6 @@ export default function MainPage() {
     isOpen={!!selectedDestination}
     onClose={() => setSelectedDestination(null)}
     destination={selectedDestination}
-    searchLinks={{
-      naver: `https://search.naver.com/search.naver?query=${encodeURIComponent(selectedDestination.name)}`,
-      kakao: `https://search.daum.net/search?q=${encodeURIComponent(selectedDestination.name)}`,
-      google: `https://www.google.com/search?q=${encodeURIComponent(selectedDestination.name)}`,
-    }}
   />
 )}
 

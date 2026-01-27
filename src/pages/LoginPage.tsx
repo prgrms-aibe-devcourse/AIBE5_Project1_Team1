@@ -23,15 +23,20 @@ export default function LoginPage() {
     login("김철수"); // 임의의 사용자 이름
     navigate("/");
   };
+  const logo = "src/assets/logo2.png";
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-blue-50 flex items-center justify-center py-12 px-4">
+    <div className="h-[calc(100vh-73px)] bg-gradient-to-br from-orange-50 to-blue-50 flex items-center justify-center pb-20 px-4">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-yellow-300 to-orange-400 rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-2xl">🍊</span>
+            <div className="w-12 h-12 bg-gradient-to-br from-orange-200 to-orange-300 rounded-xl flex items-center justify-center shadow-lg">
+              <img
+                src={logo}
+                alt="logo"
+                className="w-10 h-10 object-contain"
+              />
             </div>
             <h1 className="text-4xl font-bold">
               PLAN <span className="text-orange-500">Jeju</span>
