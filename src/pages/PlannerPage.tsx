@@ -12,10 +12,17 @@ import { sampleItinerary } from "../data/surveyResult"
 import { itinerary } from "../data/surveyResult"
 import KakaoMap from "../components/KakaoMap";
 
+// 관광지 카테고리, 장소
 import { destinationCategories, destinations } from "../data/destinations";
+
+// 식당, 호텔 장소 
+import { accommodations } from "../data/accommodations"
+import { restaurants } from "../data/restaurants"
 
 import DraggableItineraryItem from "../components/DraggableItineraryItem";
 import type { ItineraryItem }  from "../components/DraggableItineraryItem";
+
+import { findDataById } from "../components/findId"
 
 // 모든 여행지 데이터
 const allDestinations = [
@@ -96,8 +103,8 @@ const mapItemsFromSurvey: MapItem[] = [
   const canEdit = !isReadOnly;
   const isFromSurvey = Boolean(surveyData?.packageName); // 설문조사에서 왔는지 여부
 
-    // 여행 일자별 표시 상태
-  const [visibleDays, setVisibleDays] = useState<Record<number, boolean>>(() => {
+  // 여행 일자별 표시 상태
+  const [visibleDays, setVisibleDays] = useState<Record<number, boolean>>(()=> {
   // 설문 진입이면 처음부터 true로
   if (location.state?.surveyData?.packageName) {
     return { 1: true, 2: true, 3: true };
@@ -250,10 +257,6 @@ const mapItemsFromItinerary = itinerary
   const filteredMapItems = activeMapItems.filter((it) => {
   return visibleDays[it.day] ?? true;
 });
-
-
-
-  
 
   const handleGoBack = () => {
     navigate("/my-plan");
