@@ -75,7 +75,7 @@ export const destinations: Destination[] = [
     duration: "3~4시간",
     price: 0,
     location: "제주시",
-    hours: "24시간 개방 (수영 가능시간 별도)",
+    hours: "24시간 개방",
     shortDescription: "에메랄드빛 바다와 흰 모래사장이 아름다운 제주 최고의 해변.",
     fullDescription: `협재해수욕장은 제주 서쪽에 위치한 대표적인 해변입니다.
 투명한 에메랄드빛 바다와 고운 백사장이 조화를 이룹니다.
@@ -242,7 +242,7 @@ export const destinations: Destination[] = [
     duration: "3~4시간",
     price: 0,
     location: "제주시",
-    hours: "24시간 개방 (수영 가능시간 별도)",
+    hours: "24시간 개방",
     shortDescription: "맑고 얕은 바다의 대표 해변.",
     fullDescription:
       "에메랄드빛 바다와 하얀 백사장이 어우러진 제주의 대표적인 해수욕장입니다.",
@@ -353,7 +353,7 @@ export const destinations: Destination[] = [
     duration: "2~3시간",
     price: 5000,
     location: "제주시",
-    hours: "09:00 - 18:00 (매주 월요일 휴관)",
+    hours: "09:00 - 18:00",
     shortDescription: "제주의 돌문화를 체험.",
     fullDescription:
       "설문대할망 설화와 제주의 독특한 돌문화를 자연 속에서 관람할 수 있습니다.",
