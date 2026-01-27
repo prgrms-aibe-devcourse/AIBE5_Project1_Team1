@@ -928,6 +928,9 @@
   .animate-\[loading_3s_ease-in-out_infinite\] {
     animation: 3s ease-in-out infinite loading;
   }
+   .animate-\[loading_5s_ease-in-out_infinite\] {
+    animation: 5s ease-in-out infinite loading;
+  }
 
   .animate-in {
     animation: enter var(--tw-duration, .15s) var(--tw-ease, ease);
