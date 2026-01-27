@@ -11,8 +11,6 @@ import data2 from "../data/myPlanPageTempPackageData.json"
 import { useAuth } from "../contexts/AuthContext";
 import { itinerary } from "../data/surveyResult"
 
-import KakaoMap from "../components/KakaoMap";
-
 import { restaurants, RestaurantCategory } from "../data/restaurants";
 
 import KakaoMap from "../components/KakaoMap";
