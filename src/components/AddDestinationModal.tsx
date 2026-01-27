@@ -229,7 +229,7 @@ export default function AddDestinationModal({
                       "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80"
                     }
                     alt={item.name}
-                    className="w-full h-40 object-cover group-hover:scale-105 transition-transform"
+                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform"
                   />
                   <div className="p-4">
                     <div className="flex items-start justify-between mb-3">
@@ -254,7 +254,7 @@ export default function AddDestinationModal({
                     )}
 
                     {/* ✅ 아이콘 + 정보 4종 */}
-                    <div className="grid grid-cols-1 gap-2 text-sm text-gray-600">
+                    <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
                       <div className="flex items-center gap-2">
                         <Clock className="w-4 h-4 text-orange-500" />
                         <span>{item.duration ?? "시간 정보 없음"}</span>
