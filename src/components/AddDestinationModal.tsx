@@ -54,10 +54,6 @@ export default function AddDestinationModal({
   const [selectedCategory, setSelectedCategory] = useState<string>("전체");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) onClose();
-  };
-
   const handleTabChange = (tab: PrimaryTab) => {
     setSelectedTab(tab);
     setSelectedCategory("전체");
@@ -110,13 +106,6 @@ export default function AddDestinationModal({
     return item.category ?? "";
   };
 
-  const getPlaceholder = () => {
-    if (selectedTab === "식당") return "식당 이름/설명으로 검색...";
-    if (selectedTab === "숙소") return "숙소 이름/설명으로 검색...";
-    if (selectedTab === "여행지") return "여행지 이름/설명으로 검색...";
-    return "이름/설명으로 검색...";
-  };
-
   if (!isOpen) return null;
 
   const handleBackdropClick = (e: React.MouseEvent) => {
@@ -160,7 +149,7 @@ export default function AddDestinationModal({
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input
               type="text"
-              placeholder={getPlaceholder()}
+              placeholder="이름/설명으로 검색..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
