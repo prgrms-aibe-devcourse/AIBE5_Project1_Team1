@@ -7,6 +7,7 @@ import { findItineraryByKey, makeReviewItinerary } from "../data/commonFunction"
 import { destinations } from "../data/destinations";
 import { restaurants } from "../data/restaurants";
 import { accommodations } from "../data/accommodations";
+import ReviewTextPlan from "./ReviewTextPlan";
 
 export interface Review {
   id: number;
@@ -84,10 +85,10 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review, onA
 
   return (
     <div 
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 overflow-y-auto"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
       onClick={handleBackdropClick}
     >
-      <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[95vh] overflow-y-auto my-8">
+      <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[95vh] overflow-y-auto overscroll-none my-8">
         {/* 헤더 */}
         <div className="sticky top-0 bg-white border-b border-gray-200 px-8 py-6 flex items-center justify-between z-10">
           <div className="flex items-center gap-4">
@@ -161,18 +162,7 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review, onA
                   따라가기 →
                 </button>
               </div>
-              <div className="space-y-3">
-                {makeReviewItinerary(allDestinations, findItineraryByKey(review.itineraryKey)).map((item, idx) => (
-                  <div key={idx} className="bg-orange-50 rounded-lg p-4 flex gap-4">
-                    <div className="flex-shrink-0">
-                      <span className="inline-block px-3 py-1 bg-orange-200 text-orange-800 rounded-full text-sm font-medium">
-                        {item.day}
-                      </span>
-                    </div>
-                    <p className="text-gray-700 flex-1">{item.schedule}</p>
-                  </div>
-                ))}
-              </div>
+              <ReviewTextPlan itineraryKey={review.itineraryKey} />
             </div>
           )}
 

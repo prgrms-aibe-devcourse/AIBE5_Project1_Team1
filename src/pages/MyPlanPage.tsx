@@ -11,6 +11,7 @@ import { accommodations } from "../data/accommodations";
 import { restaurants } from "../data/restaurants";
 
 import type { PlanState } from "../data/commonType";
+import { rawPlans } from "../data/plans";
 
 const allDestinations = [
   ...destinations,
@@ -26,55 +27,6 @@ export default function MyPlanPage() {
   const [selectedPlanForShare, setSelectedPlanForShare] = useState<typeof plans[0] | null>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [selectedReview, setSelectedReview] = useState<Review | null>(null);
-
-  const rawPlans = [
-    {
-      id: 1,
-      key: "my01",
-      travelType: "힐링",
-      itinerary: findItineraryByKey("my01"),
-      name: "제주 동부 힐링 여행",
-      description: "자연과 함께하는 힐링 여행",
-      date: "2024.03.15 ~ 2024.03.17",
-      hasReview: true, // 리뷰 작성 완료
-      images: [
-        "https://images.unsplash.com/photo-1616798249081-30877e213b16?w=200",
-        "https://images.unsplash.com/photo-1674606042265-c9f03a77e286?w=200",
-        "https://images.unsplash.com/photo-1696335105620-c00aec47521f?w=200"
-      ],
-      totalPlaces: 11
-    },
-    // {
-    //   id: 2,
-    //   key: "my02",
-    //   name: "제주 서부 맛집 투어",
-    //   date: "2026.04.20 ~ 2026.04.22",
-    //   hasReview: false, // 리뷰 미작성
-    //   travelType: "맛집형",
-    //   images: [
-    //     "https://images.unsplash.com/photo-1740329289241-3adf04a8e3ed?w=200",
-    //     "https://images.unsplash.com/photo-1758327740342-4e705edea29b?w=200",
-    //     "https://images.unsplash.com/photo-1616798249081-30877e213b16?w=200"
-    //   ],
-    //   totalPlaces: 9
-    // },
-    {
-      id: 2,
-      key: "my02",
-      name: "여름 제주 해변 여행",
-      travelType: "감성",
-      description: "푸른 바다와 함께하는 여름 여행",
-      itinerary: findItineraryByKey("my02"),
-      date: "2024.07.10 ~ 2024.07.13",
-      hasReview: false,
-      images: [
-        "https://images.unsplash.com/photo-1696335105620-c00aec47521f?w=200",
-        "https://images.unsplash.com/photo-1674606042265-c9f03a77e286?w=200",
-        "https://images.unsplash.com/photo-1740329289241-3adf04a8e3ed?w=200"
-      ],
-      totalPlaces: 7
-    },
-  ];
 
    // 여행 완료 여부 판단 함수
   const isPlanCompleted = (dateRange: string) => {

@@ -141,8 +141,14 @@ useEffect(() => {
   });
 }, [availableDays.join(",")]);
 
-
-
+  const getMissingField = () => {
+    if (travelType === "미분류") return "여행 유형을";
+    if (!planName.trim()) return "플랜 이름을";
+    if (!startDate) return "출발일을";
+    if (itinerary.length === 0) return "일정을";
+    return null;
+  };
+  const [warning, setWarning] = useState<string | null>(null);
 
   // itinerary 전체를 순회하여 카테고리별 가격 계산
   const calculateTotalPrice = (items: ItineraryItem[]) => {
@@ -198,10 +204,19 @@ useEffect(() => {
   };
 
   const handleAddDestination = (destination: any) => {
+    const maxDay = itinerary.length > 0
+        ? Math.max(...itinerary.map(item => item.day))
+        : 1;
+  const maxTime =
+    itinerary
+      .filter(item => item.day === maxDay)
+      .map(item => item.time)
+      .sort((a, b) => a.localeCompare(b))
+      .at(-1) ?? "09:00";
     const newItem: ItineraryItem = {
       id: Date.now(),
-      day: 1,
-      time: "09:00",
+      day: maxDay,
+      time: maxTime,
       title: destination.name,
       price: destination.price,
       hours: destination.hours || "09:00 - 18:00",
@@ -209,7 +224,6 @@ useEffect(() => {
       image: destination.image,
       lat: destination.lat,
       lng: destination.lng,
-
     };
     setItinerary([...itinerary, newItem]);
   };
@@ -501,28 +515,52 @@ const filteredMapItems = mapItemsFromItinerary.filter((it) => {
             </button>
           )}
           {!planState.isReadOnly && (
-            <button
-              onClick={() => {
-                isLoggedIn ? navigate("/my-plan") : navigate("/login", {
-                  state: {
-                    sourcePage: "planner",
-                    isReadOnly: isReadOnly,
-                    travelType: travelType,
-                    myPlan: itinerary,
-                    planInfo: {
-                      title: planName,
-                      date: startDate,
-                      description: description,
-                      isPrivate: isPrivate,
-                    },
-                  } satisfies PlanState,
-                });
-              }}
-              className="flex items-center gap-2 px-12 py-4 bg-orange-500 text-white rounded-xl font-bold text-lg hover:bg-orange-600 transition-colors shadow-lg hover:shadow-xl"
-            >
-              <Save className="w-5 h-5" />
-              저장하기
-            </button>
+            <div className="relative inline-block">
+              <button
+                onClick={() => {
+                  const missing = getMissingField();
+
+                  const msg = `${missing} 반드시 작성해주세요!`;
+
+                  if (warning) setWarning(null);
+                  setTimeout(() => setWarning(msg), 0);
+
+                  if (missing) {
+                    setWarning(msg);
+                    setTimeout(() => setWarning(null), 2000);
+                    return;
+                  }
+
+                  isLoggedIn ? navigate("/my-plan") : navigate("/login", {
+                    state: {
+                      sourcePage: "planner",
+                      isReadOnly: isReadOnly,
+                      travelType: travelType,
+                      myPlan: itinerary,
+                      planInfo: {
+                        title: planName,
+                        date: startDate,
+                        description: description,
+                        isPrivate: isPrivate,
+                      },
+                    } satisfies PlanState,
+                  });
+                }}
+                className="flex items-center gap-2 px-12 py-4 bg-orange-500 text-white rounded-xl font-bold text-lg hover:bg-orange-600 transition-colors shadow-lg hover:shadow-xl"
+              >
+                <Save className="w-5 h-5" />
+                저장하기
+              </button>
+              {warning && (
+                <div className="absolute -top-8 left-24.5 -translate-x-1/2
+                  bg-red-600 text-white text-sm whitespace-nowrap
+                  px-3 py-1 rounded-md shadow-lg
+                  animate-fade-in"
+                >
+                  {warning}
+                </div>
+              )}
+            </div>
           )}
 
         </div>
