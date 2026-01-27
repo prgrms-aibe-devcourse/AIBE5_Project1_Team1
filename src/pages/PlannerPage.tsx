@@ -16,8 +16,8 @@ import { destinationCategories, destinations } from "../data/destinations";
 
 import DraggableItineraryItem from "../components/DraggableItineraryItem";
 import type { ItineraryItem }  from "../components/DraggableItineraryItem";
-
-import KakaoMap from "../components/KakaoMap";
+import { accommodations } from "../data/accommodations"
+import { restaurants } from "../data/restaurants"
 
 // 모든 여행지 데이터
 const allDestinations = [
@@ -594,6 +594,7 @@ const mapItemsFromItinerary = itinerary
           isOpen={isDetailModalOpen}
           onClose={() => setIsDetailModalOpen(false)}
           destination={selectedDestination}
+
         />
       )}
     </div>
