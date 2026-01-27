@@ -559,6 +559,8 @@ const mapItemsFromItinerary = itinerary
         onClose={() => setIsModalOpen(false)}
         onAdd={(d) => canEdit && handleAddDestination(d)}
         destinations={allDestinations}
+        restaurants={[]}
+        accommodations={[]}
       />
 
       {/* 여행지 상세 정보 모달 */}
