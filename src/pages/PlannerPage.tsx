@@ -9,12 +9,12 @@ import data from "../data/myPlanPageTempData.json"
 import data2 from "../data/myPlanPageTempPackageData.json"
 import { useAuth } from "../contexts/AuthContext";
 import { sampleItinerary } from "../data/surveyResult"
-
+import { itinerary } from "../data/surveyResult"
 import KakaoMap from "../components/KakaoMap";
 import { destinationCategories, destinations } from "../data/destinations";
 
 import DraggableItineraryItem from "../components/DraggableItineraryItem";
-import type {ItineraryItem}  from "../components/DraggableItineraryItem";
+import type { ItineraryItem }  from "../components/DraggableItineraryItem";
 
 // 모든 여행지 데이터
 const allDestinations = [
@@ -89,6 +89,7 @@ const mapItems: MapItem[] = [
   { id: "3-3", day: 3, seq: 3, title: "동문시장", lat: 33.51282933037489, lng: 126.52837848272551 },
   { id: "3-4", day: 3, seq: 4, title: "제주공항", lat: 33.506955052495, lng: 126.4928945703136 },
 ];
+
 const filteredMapItems = mapItems.filter(
   (it) => visibleDays[it.day as 1 | 2 | 3]
 );
@@ -408,7 +409,6 @@ const filteredMapItems = mapItems.filter(
     <KakaoMap items={filteredMapItems} className="w-full h-full" />
   </div>
 </div>
-
 
               {/* 예상 비용 */}
               <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-200">
