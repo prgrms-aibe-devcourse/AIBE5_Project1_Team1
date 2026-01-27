@@ -22,6 +22,7 @@ type ItineraryItem = {
 };
 type singleItinerary = {
     key: string;
+    travelType: string;
     value: ItineraryItem[];
 };
 type DaySchedule = {
@@ -103,11 +104,7 @@ const reviews = [
     likes: 98,
     planName: "제주 등산 여행",
     travelType: "액티비티",
-    itinerary: [
-      { day: "1차", schedule: "한라산 등반" },
-      { day: "2일차", schedule: "휴식 및 맛집 투어" },
-      { day: "3일차", schedule: "공항" }
-    ],
+    itinerary: makeReviewItinerary(findItineraryByKey('02')),
     comments: [{ id: 1, author: "한XX", content: "한라산 코스 난이도 어땠나요?" }],
   },
   // (나머지 데이터 생략 - 기존 코드 유지)

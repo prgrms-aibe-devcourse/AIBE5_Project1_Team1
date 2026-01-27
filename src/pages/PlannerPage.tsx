@@ -16,6 +16,7 @@ import DraggableItineraryItem from "../components/DraggableItineraryItem";
 import type { ItineraryItem }  from "../components/DraggableItineraryItem";
 import { restaurants } from "../data/restaurants";
 import { accommodations } from "../data/accommodations";
+import { itineraryArray } from "../data/itineraryArray";
 
 // 모든 여행지 데이터
 const allDestinations = [
@@ -47,7 +48,10 @@ export default function PlannerPage() {
     hotelPrice: 0, 
     foodPrice: 0
   });
-
+  const findItineraryByKey = (planName: string) => { 
+    const plan = itineraryArray.find(item => item.key === planName);
+    return plan ? plan.value : itineraryArray[0].value;
+  }
   const updateTotalPrice = ({
     attractionPrice = 0, 
     hotelPrice = 0, 
@@ -118,7 +122,7 @@ const mapItemsFromSurvey: MapItem[] = [
   const [description, setDescription] = useState("여행 계획 / 주말여행 / 바다");
   const [isPrivate, setIsPrivate] = useState(true);
   const [itinerary, setItinerary] = useState<ItineraryItem[]>(
-    surveyData.packageName ? sampleItinerary.map((item: any, idx: number) => {
+    surveyData.packageName ? findItineraryByKey("survey").map((item: any, idx: number) => {
       const matchedData = allDestinations.find((d: any) => d.id === item.id);
       return {
         id: idx + 1,

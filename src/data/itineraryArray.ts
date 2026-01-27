@@ -4,6 +4,7 @@ export const itineraryArray = [
   // 1) 동쪽에 머무는 조용한 제주 2박 3일
   {
     key: "survey",
+    travelType: "감성",
     value: [
       // DAY 1 (제주시/동부 진입)
       { id: 101, day: 1, time: "12:30" }, // 자매국수
@@ -28,6 +29,7 @@ export const itineraryArray = [
   // 2) 서귀포 시내 + 폭포 + 바다 카페 (2박3일)
   {
     key: "01",
+    travelType: "힐링",
     value: [
       // DAY 1 (서귀포 시내 베이스)
       { id: 210, day: 1, time: "15:00" }, // 서귀포시티호텔 체크인
@@ -50,6 +52,7 @@ export const itineraryArray = [
   // 3) 서쪽(협재/애월) 감성 + 산책로 + 고기 (2박3일)
   {
     key: "02",
+    travelType: "감성",
     value: [
       // DAY 1 (애월 감성)
       { id: 204, day: 1, time: "15:30" }, // 애월감성스테이 체크인
@@ -72,6 +75,7 @@ export const itineraryArray = [
   // 4) 숲 힐링 + 오름 + 티뮤지엄 (2박3일)
   {
     key: "03",
+    travelType: "힐링",
     value: [
       // DAY 1 (숲/휴양)
       { id: 202, day: 1, time: "15:00" }, // 루시드엠 펜션 체크인
@@ -94,6 +98,7 @@ export const itineraryArray = [
   // 5) 가족/아이 동반용: 에코랜드 + 돌문화 + 해변 (2박3일)
   {
     key: "04",
+    travelType: "액티비티",
     value: [
       // DAY 1
       { id: 205, day: 1, time: "15:00" }, // 중문힐링리조트 체크인(가족 무난)
@@ -116,6 +121,7 @@ export const itineraryArray = [
   // 6) 혼행/가성비: 게하 + 만장굴 + 비자림 + 함덕 (2박3일)
   {
     key: "05",
+    travelType: "맛집",
     value: [
       // DAY 1 (가성비 베이스)
       { id: 208, day: 1, time: "15:00" }, // 한림가든게스트하우스 체크인
@@ -141,6 +147,7 @@ export const itineraryArray = [
    * ========================= */
   {
     key: "review01",
+    travelType: "감성",
     value: [
       // Day 1
       { id: 201, day: 1, time: "15:00" }, // 위드시티호텔
@@ -165,6 +172,7 @@ export const itineraryArray = [
    * ========================= */
   {
     key: "review02",
+    travelType: "맛집",
     value: [
       // Day 1
       { id: 201, day: 1, time: "15:00" }, // 위드시티호텔
@@ -187,6 +195,7 @@ export const itineraryArray = [
    * ========================= */
   {
     key: "review03",
+    travelType: "힐링",
     value: [
       // Day 1
       { id: 210, day: 1, time: "15:00" }, // 서귀포시티호텔
@@ -214,6 +223,7 @@ export const itineraryArray = [
    * ========================= */
   {
     key: "review04",
+    travelType: "맛집",
     value: [
       // Day 1
       { id: 204, day: 1, time: "15:30" }, // 애월감성스테이
@@ -236,6 +246,7 @@ export const itineraryArray = [
    * ========================= */
   {
     key: "my01",
+    travelType: "힐링",
     value: [
       // Day 1
       { id: 207, day: 1, time: "15:00" }, // 성산바다펜션
@@ -258,6 +269,7 @@ export const itineraryArray = [
    * ========================= */
   {
     key: "my02",
+    travelType: "감성",
     value: [
       // Day 1
       { id: 204, day: 1, time: "15:00" }, // 애월감성스테이
