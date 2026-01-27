@@ -11,16 +11,18 @@ import { itinerary } from "../data/surveyResult"
 import KakaoMap from "../components/KakaoMap";
 
 // 관광지 카테고리, 장소
-import { destinationCategories, destinations } from "../data/destinations";
+import { destinations } from "../data/destinations";
 
 // 식당, 호텔 장소 
-import { accommodations } from "../data/accommodations"
-import { restaurants } from "../data/restaurants"
-
 import DraggableItineraryItem from "../components/DraggableItineraryItem";
 import type { ItineraryItem }  from "../components/DraggableItineraryItem";
 
 import { itineraryArray } from "../data/itineraryArray";
+
+import { destinationCategories, accommodationCategories, restaurantCategories } from "../data/commonType";
+import { travelTypeCategories } from "../data/commonType";
+import type { TotalPrice } from "../data/commonType";
+import type { PlanState } from "../data/commonType";
 
 // 모든 여행지 데이터
 const allDestinations = [
@@ -29,21 +31,13 @@ const allDestinations = [
   ...accommodations,
 ];
 
-const attractionCategory = [...destinationCategories];
-const hotelCategory = ["호텔", "리조트", "게스트하우스", "펜션", "스테이"];
-const foodCategory = ["한식", "해산물", "카페", "고기", "흑돼지", "양식", "시장"];
 const categories = ["전체", 
-  ...attractionCategory, 
-  ...hotelCategory, 
-  ...foodCategory
+  ...destinationCategories, 
+  ...accommodationCategories, 
+  ...restaurantCategories
 ];
-const travelTypeCategories = ["미분류", "감성", "힐링", "맛집", "액티비티"];
 
-type TotalPrice = {
-  attractionPrice: number;
-  hotelPrice: number;
-  foodPrice: number;
-}
+const thisTravelTypeCategories = ["미분류", ...travelTypeCategories];
 
 export default function PlannerPage() {
   // 예상 비용 계산용
@@ -52,7 +46,8 @@ export default function PlannerPage() {
     hotelPrice: 0, 
     foodPrice: 0
   });
-const findItineraryByKey = (planName: string) => { 
+  
+  const findItineraryByKey = (planName: string) => { 
     const plan = itineraryArray.find(item => item.key === planName);
     return plan ? plan.value : itineraryArray[0].value;
   }
@@ -70,33 +65,34 @@ const findItineraryByKey = (planName: string) => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const surveyData = location.state?.surveyData || {};
-  // 여행계획 수정 가능 여부를 따지기 위해 추가
-  const fromMyPlan = location.state?.fromMyPlan || false; // 내 플랜에서 왔는지 확인
-  const isReadOnly = location.state?.isReadOnly || false; 
-  const canEdit = !isReadOnly;
-  const isFromSurvey = Boolean(surveyData?.packageName); // 설문조사에서 왔는지 여부
+  const planState = {
+    sourcePage: location.state?.sourcePage || null,
+    isReadOnly: location.state?.isReadOnly || false,
+    travelType: location.state?.travelType || null,
+    myPlan: location.state?.myPlan || [],
+    planInfo: location.state?.planInfo || {
+      title: "새 여행 계획",
+      date: Date().toString().slice(0, 10),
+      description: null,
+      isPrivate: false
+    }
+  } as PlanState;
 
   // 여행 일자별 표시 상태
   const [visibleDays, setVisibleDays] = useState<Record<number, boolean>>(()=> {
-  // 설문 진입이면 처음부터 true로
-  if (location.state?.surveyData?.packageName) {
-    return { 1: true, 2: true, 3: true };
-  }
-  return {};
+    // 설문 진입이면 처음부터 true로
+    if (planState.sourcePage) {
+      return { 1: true, 2: true, 3: true };
+    }
+    return {} as Record<number, boolean>;
   });
 
-  const handleSurvey = () => {
-    navigate("/survey");
-  };
-  const { isLoggedIn, userName, logout } = useAuth();
-
-  const [planName, setPlanName] = useState(surveyData.packageName || "새 여행 계획");
-  const [startDate, setStartDate] = useState("");
-  const [description, setDescription] = useState("여행 계획 / 주말여행 / 바다");
-  const [isPrivate, setIsPrivate] = useState(true);
+  const [planName, setPlanName] = useState(planState.planInfo.title || "새 여행 계획");
+  const [startDate, setStartDate] = useState(planState.planInfo.date);
+  const [description, setDescription] = useState(planState.planInfo.description || "");
+  const [isPrivate, setIsPrivate] = useState(planState.planInfo.isPrivate);
   const [itinerary, setItinerary] = useState<ItineraryItem[]>(
-    surveyData.packageName ? findItineraryByKey("survey").map((item: any, idx: number) => {
+    planState.myPlan ? planState.myPlan.map((item: any, idx: number) => {
       const matchedData = allDestinations.find((d: any) => d.id === item.id);
       return {
         id: idx + 1,
@@ -150,11 +146,11 @@ useEffect(() => {
     let foodPrice = 0;
 
     items.forEach(item => {
-      if (attractionCategory.includes(item.category)) {
+      if (destinationCategories.includes(item.category)) {
         attractionPrice += item.price;
-      } else if (hotelCategory.includes(item.category)) {
+      } else if (accommodationCategories.includes(item.category)) {
         hotelPrice += item.price;
-      } else if (foodCategory.includes(item.category)) {
+      } else if (restaurantCategories.includes(item.category)) {
         foodPrice += item.price;
       }
     });
@@ -171,9 +167,8 @@ useEffect(() => {
   const [isAddDestinationModalOpen, setIsAddDestinationModalOpen] = useState(false);
   const [selectedDestination, setSelectedDestination] = useState<any | null>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [travelType, setTravelType] = useState<string>(surveyData.travelType || '미분류');
+  const [travelType, setTravelType] = useState<string>(planState.travelType || '미분류');
 
-  const getTravelType = () => travelType;
   const moveItem = (fromIndex: number, toIndex: number) => {
     const updatedItinerary = [...itinerary];
     const [movedItem] = updatedItinerary.splice(fromIndex, 1);  
@@ -241,8 +236,8 @@ const filteredMapItems = mapItemsFromItinerary.filter((it) => {
   return visibleDays[it.day] ?? true;
 });
 
-  const handleGoBack = () => {
-    navigate("/my-plan");
+  const handleGoBack = (sourcePage: string) => {
+    navigate(`/${sourcePage}`);
   };
 
   const handleImageClick = (item: ItineraryItem) => {
@@ -296,7 +291,7 @@ const filteredMapItems = mapItemsFromItinerary.filter((it) => {
                       <select
                         value={travelType}
                         onChange={(e) => setTravelType(e.target.value)}
-                        disabled={!canEdit}
+                        disabled={planState.isReadOnly}
                         className="
                           appearance-none
                           bg-white
@@ -310,7 +305,7 @@ const filteredMapItems = mapItemsFromItinerary.filter((it) => {
                           focus:border-transparent
                         "
                       >
-                        {travelTypeCategories.map((category) => (
+                        {thisTravelTypeCategories.map((category) => (
                           <option key={category} value={category}>
                             {category}
                           </option>
@@ -327,7 +322,7 @@ const filteredMapItems = mapItemsFromItinerary.filter((it) => {
                       type="text"
                       value={planName}
                       onChange={(e) => setPlanName(e.target.value)}
-                      disabled={!canEdit}
+                      disabled={planState.isReadOnly}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     />
                   </div>
@@ -337,7 +332,7 @@ const filteredMapItems = mapItemsFromItinerary.filter((it) => {
                       type="date"
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
-                      disabled={!canEdit}
+                      disabled={planState.isReadOnly}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     />
                   </div>
@@ -351,7 +346,7 @@ const filteredMapItems = mapItemsFromItinerary.filter((it) => {
                         type="checkbox"
                         checked={isPrivate}
                         onChange={(e) => setIsPrivate(e.target.checked)}
-                        disabled={!canEdit}
+                        disabled={planState.isReadOnly}
                         className="rounded"
                       />
                       나만보기
@@ -360,7 +355,7 @@ const filteredMapItems = mapItemsFromItinerary.filter((it) => {
                   <textarea
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    disabled={!canEdit}
+                    disabled={planState.isReadOnly}
                     rows={3}
                     placeholder="여행 계획 / 주말여행 / 바다"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none"
@@ -374,9 +369,9 @@ const filteredMapItems = mapItemsFromItinerary.filter((it) => {
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold text-gray-900">여행 일정표</h2>
                 <button 
-                  onClick={() => canEdit && setIsModalOpen(true)} 
-                  disabled={!canEdit}      
-                  className={canEdit ? 
+                  onClick={() => !planState.isReadOnly && setIsModalOpen(true)} 
+                  disabled={planState.isReadOnly}      
+                  className={!planState.isReadOnly ? 
                     "flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors text-sm font-medium" : 
                     "flex items-center gap-2 px-4 py-2 bg-gray-300 text-black rounded-lg text-sm font-medium cursor-not-allowed"}
                 >
@@ -407,7 +402,7 @@ const filteredMapItems = mapItemsFromItinerary.filter((it) => {
                       key={item.id}
                       item={item}
                       index={idx}
-                      canEdit={canEdit}
+                      canEdit={!planState.isReadOnly}
                       moveItem={moveItem}
                       onDelete={handleDelete}
                       onDayChange={handleDayChange}
@@ -492,15 +487,15 @@ const filteredMapItems = mapItemsFromItinerary.filter((it) => {
 
         {/* 저장하기/뒤로가기 버튼 */}
         <div className="mt-8 flex justify-center gap-4">
-          {fromMyPlan && (
+          {["my-plan"].includes(planState.sourcePage) && (
             <button
-              onClick={handleGoBack}
+              onClick={() => handleGoBack(planState.sourcePage)}
               className="flex items-center gap-2 px-12 py-4 bg-gray-500 text-white rounded-xl font-bold text-lg hover:bg-gray-600 transition-colors shadow-lg hover:shadow-xl"
             >
               뒤로가기
             </button>
           )}
-          {canEdit && (
+          {!planState.isReadOnly && (
             <button
               onClick={() => navigate("/my-plan")}
               className="flex items-center gap-2 px-12 py-4 bg-orange-500 text-white rounded-xl font-bold text-lg hover:bg-orange-600 transition-colors shadow-lg hover:shadow-xl"
@@ -515,10 +510,10 @@ const filteredMapItems = mapItemsFromItinerary.filter((it) => {
 
       {/* 여행지 선택 모달 */}
       <AddDestinationModal
-        isOpen={canEdit && isModalOpen}
+        isOpen={!planState.isReadOnly && isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onAdd={(item, type) => {
-          if (!canEdit) return;
+          if (planState.isReadOnly) return;
 
           // ✅ type별 필드 통일(정규화)
           const normalized = {

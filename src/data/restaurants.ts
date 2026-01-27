@@ -1,34 +1,6 @@
 // src/data/restaurants.ts
 
-export type RestaurantCategory =
-  | "한식"
-  | "해산물"
-  | "카페"
-  | "고기"
-  | "흑돼지"
-  | "양식"
-  | "시장";
-
-export type Restaurant = {
-  id: number;
-  name: string;
-  category: RestaurantCategory;
-
-  // ✅ 추가: PlannerPage/itinerary가 price:number 기준으로 합산하니까 필요
-  price: number;
-
-  // ✅ 기존 유지: 가격대 표시는 UI에서 뱃지/텍스트로 사용 가능
-  priceRange: string;
-
-  location: string;
-  hours: string;
-  shortDescription: string;
-  fullDescription: string;
-  image: string;
-  tags: string[];
-    lat?: number;
-  lng?: number;
-};
+import { TravelDestination } from "./commonType";
 
 // ✅ 고정 이미지 (전부 실사용 검증된 URL)
 const IMAGES = {
@@ -73,13 +45,12 @@ const IMAGES = {
     "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
 };
 
-export const restaurants: Restaurant[] = [
+export const restaurants: TravelDestination[] = [
   {
     id: 101,
     name: "자매국수",
     category: "한식",
     price: 11000,
-    priceRange: "₩",
     location: "제주시",
     hours: "10:00 - 20:00",
     shortDescription: "제주 고기국수 대표 맛집.",
@@ -96,7 +67,6 @@ export const restaurants: Restaurant[] = [
     name: "리에또",
     category: "카페",
     price: 12000,
-    priceRange: "₩₩",
     location: "제주시",
     hours: "평일 13:30 - 22:00 / 토 10:00 - 22:00 / 일 휴무",
     shortDescription: "디저트 중심의 감성 카페.",
@@ -112,7 +82,6 @@ export const restaurants: Restaurant[] = [
     name: "뷰스트",
     category: "카페",
     price: 9000,
-    priceRange: "₩₩",
     location: "서귀포시",
     hours: "10:00 - 19:00",
     shortDescription: "전망 좋은 감성 카페.",
@@ -128,7 +97,6 @@ export const restaurants: Restaurant[] = [
     name: "동문시장",
     category: "시장",
     price: 15000,
-    priceRange: "₩",
     location: "제주시",
     hours: "09:00 - 21:00",
     shortDescription: "제주 대표 전통시장.",
@@ -144,7 +112,6 @@ export const restaurants: Restaurant[] = [
     name: "성산수산식당",
     category: "해산물",
     price: 30000,
-    priceRange: "₩₩₩",
     location: "서귀포시",
     hours: "10:00 - 20:00",
     shortDescription: "성산 인근 해산물.",
@@ -160,7 +127,6 @@ export const restaurants: Restaurant[] = [
     name: "사계흑돼지 산방산본점",
     category: "흑돼지",
     price: 35000,
-    priceRange: "₩₩₩",
     location: "서귀포시",
     hours: "12:00 - 22:00",
     shortDescription: "산방산 흑돼지.",
@@ -176,7 +142,6 @@ export const restaurants: Restaurant[] = [
     name: "우진해장국",
     category: "한식",
     price: 12000,
-    priceRange: "₩₩",
     location: "제주시",
     hours: "06:00 - 22:00",
     shortDescription: "고사리 해장국.",
@@ -192,7 +157,6 @@ export const restaurants: Restaurant[] = [
     name: "숙성도",
     category: "고기",
     price: 38000,
-    priceRange: "₩₩₩",
     location: "제주시",
     hours: "15:00 - 23:00",
     shortDescription: "숙성 고기 전문.",
@@ -207,7 +171,6 @@ export const restaurants: Restaurant[] = [
     name: "네거리식당",
     category: "한식",
     price: 18000,
-    priceRange: "₩₩",
     location: "서귀포시",
     hours: "08:00 - 20:00",
     shortDescription: "생선조림 한식.",
@@ -223,7 +186,6 @@ export const restaurants: Restaurant[] = [
     name: "봄날카페",
     category: "카페",
     price: 9000,
-    priceRange: "₩₩",
     location: "서귀포시",
     hours: "09:00 - 19:00",
     shortDescription: "바다 앞 카페.",

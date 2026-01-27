@@ -5,11 +5,23 @@ import ReviewEditModal from "../components/ReviewEditModal";
 import ReviewDetailModal, { Review } from "../components/ReviewDetailModal";
 import { useAuth } from "../contexts/AuthContext";
 
-const categories = ["전체", "액티비티", "힐링", "맛집", "감성"];
+
+import { travelTypeCategories } from "../data/commonType";
+import { findItineraryByKey, makeReviewItinerary } from "../data/commonFunction";
 
 // (reviews 데이터는 분량상 생략 - 기존 작성하신 데이터 그대로 두시면 됩니다!)
 // *중요: TypeScript 에러 방지를 위해 reviews 상수에 : Review[] 타입을 붙여주는 것이 좋지만
 // 지금은 아래 state 초기값에서 casting을 하므로 그대로 두셔도 됩니다.
+import { destinations } from "../data/destinations";
+import { restaurants } from "../data/restaurants";
+import { accommodations } from "../data/accommodations";
+const allDestinations = [
+  ...destinations,
+  ...restaurants,
+  ...accommodations,
+];
+const thisTravelTypeCategories = ["전체", ...travelTypeCategories];
+
 const reviews = [
   {
     id: 1,
@@ -24,11 +36,7 @@ const reviews = [
     likes: 127,
     planName: "제주 힐링 2박 3일",
     travelType: "힐링",
-    itinerary: [
-      { day: "1차", schedule: "카페거리 → 애월 → 한라산 → 돼지고기 → 머시기숙소" },
-      { day: "2일차", schedule: "성산일출봉 → 섭지코지 → 해산물 맛집 → 숙소" },
-      { day: "3일차", schedule: "공항" }
-    ],
+    itinerary: makeReviewItinerary(allDestinations, findItineraryByKey('survey')),
     comments: [ 
       { id: 1, author: "이XX", content: "성산일출봉 정보 감사합니다!" },
       { id: 2, author: "최XX", content: "사진이 너무 예술이네요." }
@@ -50,11 +58,7 @@ const reviews = [
     likes: 98,
     planName: "제주 등산 여행",
     travelType: "액티비티",
-    itinerary: [
-      { day: "1차", schedule: "한라산 등반" },
-      { day: "2일차", schedule: "휴식 및 맛집 투어" },
-      { day: "3일차", schedule: "공항" }
-    ],
+    itinerary: makeReviewItinerary(allDestinations, findItineraryByKey('02')),
     comments: [{ id: 1, author: "한XX", content: "한라산 코스 난이도 어땠나요?" }],
   },
   // (나머지 데이터 생략 - 기존 코드 유지)
@@ -304,7 +308,7 @@ export default function TravelReviewPage() {
         <div className="max-w-4xl mx-auto px-6">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div className="flex items-center gap-3 flex-wrap">
-              {categories.map((category) => (
+              {thisTravelTypeCategories.map((category) => (
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}

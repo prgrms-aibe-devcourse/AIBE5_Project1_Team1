@@ -1,6 +1,8 @@
 // ✅ itineraryArray: 여행 케이스 12개 (destinations: 1~30 / restaurants: 101~110 / accommodations: 201~210)
 
-export const itineraryArray = [
+import { ItineraryData, ItinerarySchedule } from "./commonType";
+
+export const itineraryArray: ItineraryData[] = [
   // 1) 동쪽에 머무는 조용한 제주 2박 3일
   {
     key: "survey",
