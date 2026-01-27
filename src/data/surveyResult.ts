@@ -118,7 +118,7 @@ export const sampleItinerary = [
     {
         "id": 101,
         "day": 1,
-        "time": "09:00"
+        "time": "10:00"
     },
     {
         "id": 14,
@@ -140,7 +140,7 @@ export const sampleItinerary = [
     {
         "id": 102,
         "day": 2,
-        "time": "09:30"
+        "time": "12:00"
     },
     {
         "id": 2,
@@ -150,12 +150,12 @@ export const sampleItinerary = [
     {
         "id": 5,
         "day": 2,
-        "time": "14:00"
+        "time": "16:00"
     },
     {
         "id": 105,
         "day": 2,
-        "time": "14:00"
+        "time": "18:00"
     },
     // 3일차 - 뷰스트, 사계흑돼지 산방산본점, 동문시장, 제주공항
     {
@@ -166,11 +166,11 @@ export const sampleItinerary = [
     {
         "id": 106,
         "day": 3,
-        "time": "10:00"
+        "time": "13:00"
     },
     {
         "id": 104,
         "day": 3,
-        "time": "10:00"
+        "time": "15:00"
     },
 ];
