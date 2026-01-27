@@ -6,29 +6,13 @@ import ReviewDetailModal, { Review } from "../components/ReviewDetailModal";
 import { useAuth } from "../contexts/AuthContext";
 import { itineraryArray } from "../data/itineraryArray";
 
-const categories = ["전체", "액티비티", "힐링", "맛집", "감성"];
+
+import { travelTypeCategories } from "../data/commonType";
+import { findItineraryByKey, makeReviewItinerary } from "../data/commonFunction";
 
 // (reviews 데이터는 분량상 생략 - 기존 작성하신 데이터 그대로 두시면 됩니다!)
 // *중요: TypeScript 에러 방지를 위해 reviews 상수에 : Review[] 타입을 붙여주는 것이 좋지만
 // 지금은 아래 state 초기값에서 casting을 하므로 그대로 두셔도 됩니다.
-const findItineraryByKey = (planName: string) => { 
-  const plan = itineraryArray.find(item => item.key === planName);
-  return plan ? plan.value : itineraryArray[0].value;
-}
-type ItineraryItem = {
-  id: number;
-  day: number;
-  time: string;
-};
-type singleItinerary = {
-    key: string;
-    travelType: string;
-    value: ItineraryItem[];
-};
-type DaySchedule = {
-  day: string;
-  schedule: string;
-};
 import { destinations } from "../data/destinations";
 import { restaurants } from "../data/restaurants";
 import { accommodations } from "../data/accommodations";
@@ -37,36 +21,7 @@ const allDestinations = [
   ...restaurants,
   ...accommodations,
 ];
-
-const makeReviewItinerary = (itinerary: ItineraryItem[]): DaySchedule[] => {
-  if (!Array.isArray(itinerary) || itinerary.length === 0) {
-    return [];
-  }
-
-  // 일차별로 그룹화
-  const dayMap = new Map<number, string[]>();
-  
-  itinerary.forEach((item) => {
-    const destination = allDestinations.find(d => d.id === item.id);
-    if (!destination) return;
-
-    const day = item.day;
-    if (!dayMap.has(day)) {
-      dayMap.set(day, []);
-    }
-    dayMap.get(day)?.push(destination.name);
-  });
-
-  // 일차순으로 정렬하여 결과 생성
-  const result: DaySchedule[] = Array.from(dayMap)
-    // .sort((a, b) => a[0] - b[0])
-    .map(([day, names]) => ({
-      day: `${day}일차`,
-      schedule: names.join(" → ")
-    }));
-
-  return result;
-}
+const thisTravelTypeCategories = ["전체", ...travelTypeCategories];
 
 const reviews = [
   {
@@ -82,7 +37,7 @@ const reviews = [
     likes: 127,
     planName: "제주 힐링 2박 3일",
     travelType: "힐링",
-    itinerary: makeReviewItinerary(findItineraryByKey('survey')),
+    itinerary: makeReviewItinerary(allDestinations, findItineraryByKey('survey')),
     comments: [ 
       { id: 1, author: "이XX", content: "성산일출봉 정보 감사합니다!" },
       { id: 2, author: "최XX", content: "사진이 너무 예술이네요." }
@@ -104,7 +59,7 @@ const reviews = [
     likes: 98,
     planName: "제주 등산 여행",
     travelType: "액티비티",
-    itinerary: makeReviewItinerary(findItineraryByKey('02')),
+    itinerary: makeReviewItinerary(allDestinations, findItineraryByKey('02')),
     comments: [{ id: 1, author: "한XX", content: "한라산 코스 난이도 어땠나요?" }],
   },
   // (나머지 데이터 생략 - 기존 코드 유지)
@@ -344,7 +299,7 @@ export default function TravelReviewPage() {
         <div className="max-w-4xl mx-auto px-6">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div className="flex items-center gap-3 flex-wrap">
-              {categories.map((category) => (
+              {thisTravelTypeCategories.map((category) => (
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}

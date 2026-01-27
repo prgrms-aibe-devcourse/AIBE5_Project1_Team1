@@ -2,17 +2,26 @@ import { useNavigate } from "react-router";
 import { ArrowLeft, ArrowRight, Calendar, MapPin } from "lucide-react";
 import { itinerary } from '../data/surveyResult'
 
+import { PlanState } from "../data/commonType";
+import { itineraryArray } from "../data/itineraryArray";
+
 export default function SurveyResultPage() {
   const navigate = useNavigate();
 
   const handlePlannerClick = () => {
     navigate("/planner", { 
-      state: { 
-        surveyData: {
-          travelType: "감성",
-          packageName: itinerary.packageName
+      state: {
+        sourcePage: "planner",
+        isReadOnly: false,
+        travelType: itinerary.keywords[0] || null,
+        myPlan: itineraryArray[0].value,
+        planInfo: {
+          title: itinerary.packageName,
+          date: Date().toString().slice(0, 10),
+          description: "여행 계획 / 주말여행 / 바다",
+          isPrivate: false
         }
-      }
+      } satisfies PlanState
     });
   };
 
@@ -31,7 +40,7 @@ export default function SurveyResultPage() {
         <div className="space-y-6">
           {/* Package Title Card */}
           <div className="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden">
-            <div className="bg-gradient-to-r from-orange-400 to-orange-500 p-6 text-center">
+            <div className="bg-gradient-to-r from-orange-300 to-orange-300 p-6 text-center">
               <div className="text-white">
                 <p className="text-3xl mb-2">{itinerary.packageEmoji} AI 추천 여행 패키지</p>
                 <p className="text-2xl font-bold">「{itinerary.packageName}」</p>

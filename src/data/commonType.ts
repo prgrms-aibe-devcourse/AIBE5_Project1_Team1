@@ -59,8 +59,8 @@ export type TravelDestination = {
   fullDescription: string;
   image: string;
   tags: string[];
-  lat?: number;
-  lng?: number;
+  lat: number;
+  lng: number;
 };
 
 
@@ -73,7 +73,6 @@ export const travelTypeCategories: string[] = [
   "맛집",
   "액티비티"
 ];
-export const allTravelTypeCategories = ["미분류", ...travelTypeCategories];
 
 
 
@@ -97,10 +96,34 @@ export type MapItem = {
   lng: number;
 };
 
+export type ItinerarySchedule = {
+  id: number;
+  day: number;
+  time: string;
+}
+
+export type PlanInfo = {
+  title: string;
+  date: string;
+  description: string | null;
+  isPrivate: boolean;
+}
 
 export type PlanState = {
   sourcePage: string;
   isReadOnly: boolean;
-  itineraryKey: string | null;
-  packageName: string;
+  travelType: string | null;
+  myPlan: ItinerarySchedule[];
+  planInfo: PlanInfo;
 };
+
+export type ItineraryData = {
+  key: string;
+  travelType: TravelTypeCategory | null;
+  value: ItinerarySchedule[];
+}
+
+export type StringSchedule = {
+  day: string;
+  schedule: string;
+}
