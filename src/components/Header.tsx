@@ -16,7 +16,7 @@ export default function Header() {
     navigate("/");
   };
 
-  const logo = "src/assets/logo2.png";
+  const logo = "/src/assets/logo2.png";
 
   return (
     <header className="sticky top-0 z-40 w-full bg-white border-b border-gray-200 shadow-sm">
