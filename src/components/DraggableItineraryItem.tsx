@@ -15,7 +15,7 @@ export type ItineraryItem = {
 
 const DraggableItineraryItem = ({
   item, 
-  index, 
+  index,
   canEdit = true,
   moveItem, 
   onDelete, 
@@ -103,9 +103,9 @@ const DraggableItineraryItem = ({
       <div className="col-span-5 space-y-1">
         <h3 className="font-semibold text-gray-900 text-sm">{item.title}</h3>
         <p className="text-xs text-orange-600">{item.price === 0 ? '무료' : `${item.price.toLocaleString()}원`}</p>
-        <div className="flex items-center gap-2 text-xs text-gray-500">
-          <span>● {item.hours}</span>
+        <div className="flex flex-col text-xs text-gray-500">
           <span>● {item.category}</span>
+          <span>● {item.hours}</span>
         </div>
       </div>
 

@@ -184,7 +184,9 @@ const filteredMapItems = mapItems.filter(
   const handleAddDestination = (destination: any) => {
     const newItem: ItineraryItem = {
       id: Date.now(),
-      day: 1,
+      day: itinerary.length > 0
+        ? Math.max(...itinerary.map(item => item.day))
+        : 1,
       time: "09:00",
       title: destination.name,
       price: destination.price,
@@ -340,12 +342,12 @@ const filteredMapItems = mapItems.filter(
               </div>
 
               {/* Table Header */}
-              <div className="grid grid-cols-12 gap-3 pb-3 border-b border-gray-200 text-xs font-semibold text-gray-600">
+              <div className="grid grid-cols-14 gap-2 pb-3 px-3 border-b border-gray-200 text-sm font-semibold text-gray-600">
                 <div className="col-span-1"></div>
                 <div className="col-span-1 text-center">일차</div>
-                <div className="col-span-2">시간</div>
-                <div className="col-span-2">사진</div>
-                <div className="col-span-5">관광지 정보</div>
+                <div className="col-span-3 text-center">시간</div>
+                <div className="col-span-3 text-center">사진</div>
+                <div className="col-span-5 text-center">관광지 정보</div>
                 <div className="col-span-1 text-center">삭제</div>
               </div>
 

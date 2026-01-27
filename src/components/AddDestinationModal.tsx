@@ -54,10 +54,6 @@ export default function AddDestinationModal({
   const [selectedCategory, setSelectedCategory] = useState<string>("전체");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) onClose();
-  };
-
   const handleTabChange = (tab: PrimaryTab) => {
     setSelectedTab(tab);
     setSelectedCategory("전체");
@@ -110,18 +106,28 @@ export default function AddDestinationModal({
     return item.category ?? "";
   };
 
-  const getPlaceholder = () => {
-    if (selectedTab === "식당") return "식당 이름/설명으로 검색...";
-    if (selectedTab === "숙소") return "숙소 이름/설명으로 검색...";
-    if (selectedTab === "여행지") return "여행지 이름/설명으로 검색...";
-    return "이름/설명으로 검색...";
-  };
-
   if (!isOpen) return null;
 
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  // 본문(shortDescription)만 검색
+  const filteredDestinations = destinations.filter(dest => {
+    const q = searchQuery.trim().toLowerCase();
+    const matchesCategory = selectedCategory === "전체" || dest.category === selectedCategory;
+    const matchesSearch = 
+        q.length === 0 ||
+        String(dest.name).toLowerCase().includes(q) ||
+        String(dest.shortDescription).toLowerCase().includes(q);
+
+    return matchesCategory && matchesSearch;
+  });
+
   return (
-    <div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center z-50 pt-20"
       onClick={handleBackdropClick}
     >
       <div className="bg-white rounded-2xl max-w-5xl w-full max-h-[85vh] overflow-hidden flex flex-col">
@@ -143,7 +149,7 @@ export default function AddDestinationModal({
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input
               type="text"
-              placeholder={getPlaceholder()}
+              placeholder="이름/설명으로 검색..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
