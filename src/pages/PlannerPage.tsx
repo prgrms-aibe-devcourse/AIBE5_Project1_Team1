@@ -9,11 +9,13 @@ import data from "../data/myPlanPageTempData.json"
 import data2 from "../data/myPlanPageTempPackageData.json"
 import { useAuth } from "../contexts/AuthContext";
 import { sampleItinerary } from "../data/surveyResult"
+import { itinerary } from "../data/surveyResult"
+import KakaoMap from "../components/KakaoMap";
 
 import { destinationCategories, destinations } from "../data/destinations";
 
 import DraggableItineraryItem from "../components/DraggableItineraryItem";
-import type {ItineraryItem}  from "../components/DraggableItineraryItem";
+import type { ItineraryItem }  from "../components/DraggableItineraryItem";
 
 import KakaoMap from "../components/KakaoMap";
 
@@ -57,11 +59,6 @@ export default function PlannerPage() {
       foodPrice: prev.foodPrice + (foodPrice || 0)
     }));
   };
-
-
-
-
-
 
 
 // KakaoMap에 넘길 여행지 데이터
@@ -500,7 +497,6 @@ const mapItemsFromItinerary = itinerary
     <KakaoMap items={filteredMapItems} className="w-full h-full" fitBounds={false} />
   </div>
 </div>
-
 
               {/* 예상 비용 */}
               <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-200">
