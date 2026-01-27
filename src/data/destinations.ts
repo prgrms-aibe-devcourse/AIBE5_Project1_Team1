@@ -45,7 +45,7 @@ export const destinations: Destination[] = [
 이러한 자연적 가치를 인정받아 유네스코 세계자연유산으로 등재되어 있습니다.`,
     // ✅ 불안정한 검색 링크 대신 안정적인 Unsplash 포맷으로 교체 추천
     image: "https://images.unsplash.com/photo-1740329289241-3adf04a8e3ed?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqZWp1JTIwaXNsYW5kJTIwaGFsbGFzYW4lMjBtb3VudGFpbnxlbnwxfHx8fDE3NjkyMzQ2MzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    tags: ["자연", "등산", " 진명소"],
+    tags: ["자연", "등산", "사진명소"],
   },
   {
     id: 2,
