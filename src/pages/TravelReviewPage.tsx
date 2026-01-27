@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { Star, ThumbsUp, MessageCircle, Edit3, Users, Calendar } from "lucide-react";
-import ReviewDetailModal from "../components/ReviewDetailModal";
 import ReviewWriteModal from "../components/ReviewWriteModal";
 import ReviewEditModal from "../components/ReviewEditModal";
+import ReviewDetailModal, { Review } from "../components/ReviewDetailModal";
 import { useAuth } from "../contexts/AuthContext";
 
 const categories = ["전체", "액티비티", "힐링", "맛집", "감성"];
 
+// (reviews 데이터는 분량상 생략 - 기존 작성하신 데이터 그대로 두시면 됩니다!)
+// *중요: TypeScript 에러 방지를 위해 reviews 상수에 : Review[] 타입을 붙여주는 것이 좋지만
+// 지금은 아래 state 초기값에서 casting을 하므로 그대로 두셔도 됩니다.
 const reviews = [
   {
     id: 1,
@@ -19,14 +22,17 @@ const reviews = [
     content: "PLAN Jeju 덕분에 제주 여행을 너무 편하게 다녀왔습니다. 특히 성산일출봉 일정이 완벽했어요. 새벽 일찍 출발했는데, 일출 시간 계산까지 다 되어 있어서 최고의 일출을 볼 수 있었습니다. 추천 일정대로 움직였더니 시간도 절약되고 좋았어요.",
     image: "https://images.unsplash.com/photo-1758327740342-4e705edea29b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqZWp1JTIwaXNsYW5kJTIwYmVhY2glMjBjb2FzdGFsfGVufDF8fHx8MTc2OTIzNDYzMXww&ixlib=rb-4.1.0&q=80&w=1080",
     likes: 127,
-    comments: 23,
     planName: "제주 힐링 2박 3일",
     travelType: "힐링",
     itinerary: [
       { day: "1차", schedule: "카페거리 → 애월 → 한라산 → 돼지고기 → 머시기숙소" },
       { day: "2일차", schedule: "성산일출봉 → 섭지코지 → 해산물 맛집 → 숙소" },
       { day: "3일차", schedule: "공항" }
-    ]
+    ],
+    comments: [ 
+      { id: 1, author: "이XX", content: "성산일출봉 정보 감사합니다!" },
+      { id: 2, author: "최XX", content: "사진이 너무 예술이네요." }
+    ],
   },
   {
     id: 2,
@@ -42,15 +48,17 @@ const reviews = [
       "https://images.unsplash.com/photo-1674606042265-c9f03a77e286?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqZWp1JTIwaXNsYW5kJTIwd2F0ZXJmYWxsJTIwbmF0dXJlfGVufDF8fHx8MTc2OTIzNDYzM3ww&ixlib=rb-4.1.0&q=80&w=1080"
     ],
     likes: 98,
-    comments: 17,
     planName: "제주 등산 여행",
     travelType: "액티비티",
     itinerary: [
       { day: "1차", schedule: "한라산 등반" },
       { day: "2일차", schedule: "휴식 및 맛집 투어" },
       { day: "3일차", schedule: "공항" }
-    ]
+    ],
+    comments: [{ id: 1, author: "한XX", content: "한라산 코스 난이도 어땠나요?" }],
   },
+  // (나머지 데이터 생략 - 기존 코드 유지)
+  // ... 
   {
     id: 3,
     author: "최XX",
@@ -69,7 +77,7 @@ const reviews = [
       "../src/images/img1.jpg"  
     ],
     likes: 156,
-    comments: 42,
+    comments: [],
     planName: "부모님 맞춤 힐링 투어",
     travelType: "힐링",
     itinerary: [
@@ -90,7 +98,7 @@ const reviews = [
     content: "이번 여행의 테마는 오직 '맛'이었어요. 추천해주신 애월쪽 흑돼지집이랑 함덕 해녀의 집 진짜 대박입니다. 뷰도 환상적이고 맛은 더 환상적이었어요. 특히 웨이팅 꿀팁 알려주신 덕분에 시간 낭비 없이 완벽하게 먹방 찍고 왔습니다!",
     image: "https://images.unsplash.com/photo-1590301157890-4810ed352733?auto=format&fit=crop&q=80&w=1080", // 제주 음식/고기 느낌
     likes: 210,
-    comments: 58,
+    comments: [],
     planName: "제주 먹방 올인원",
     travelType: "맛집",
     itinerary: [
@@ -116,7 +124,7 @@ const reviews = [
       "../src/images/img7.jpg"
     ],
     likes: 85,
-    comments: 12,
+    comments: [],
     planName: "나홀로 제주 감성 여행",
     travelType: "감성",
     itinerary: [
@@ -138,7 +146,7 @@ const reviews = [
        "../src/images/img5.jpg",   // 제주 해안 도로
     ],
     likes: 189,
-    comments: 31,
+    comments: [],
     planName: "우도 & 동부 완전정복",
     travelType: "액티비티",
     itinerary: [
@@ -151,12 +159,10 @@ const reviews = [
 
 export default function TravelReviewPage() {
   const [selectedCategory, setSelectedCategory] = useState("전체");
-  const [selectedReview, setSelectedReview] = useState<typeof reviews[0] | null>(null);
   const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-
-  // 1. 후기 데이터를 상태로 관리 (초기값은 기존 mock 데이터)
-  const [allReviews, setAllReviews] = useState(reviews);
+  const [allReviews, setAllReviews] = useState<Review[]>(reviews as Review[]);
+  const [selectedReview, setSelectedReview] = useState<Review | null>(null);
 
   const { isLoggedIn, userName, logout } = useAuth();
 
@@ -168,23 +174,20 @@ export default function TravelReviewPage() {
   const handleCloseEdit = () => {
     setIsEditModalOpen(false);
     if (selectedReview) {
-      // 수정 완료 후 다시 상세 보기로 돌아가기
       setTimeout(() => {
-        // selectedReview 유지하여 다시 열기
+        // 필요 시 로직
       }, 100);
     }
   };
 
-  // 필터링 로직 수정 (allReviews 기준)
   const filteredReviews = allReviews.filter((review) => {
     if (selectedCategory === "전체") return true;
     return review.travelType === selectedCategory;
   });
 
-  // 후기 추가 핸들러
   const handleAddReview = (newReviewData: any) => {
     const newReview = {
-      id: Date.now(), // 중복 방지를 위해 timestamp 사용
+      id: Date.now(),
       author: userName || "익명",
       date: new Date().toLocaleDateString().replace(/\. /g, '.').replace(/\.$/, ''),
       tripType: newReviewData.selectedPlan?.type || "자유여행",
@@ -192,18 +195,64 @@ export default function TravelReviewPage() {
       rating: newReviewData.rating,
       title: newReviewData.title,
       content: newReviewData.content,
-      // 핵심 수정: images 배열에 데이터가 있을 때만 저장
-      images: newReviewData.images.length > 0 ? newReviewData.images : [], 
-      // image 필드는 제거하거나, images[0]만 참조하도록 수정
+      images: newReviewData.images || [],
       likes: 0,
-      comments: 0,
+      comments: [],
       planName: newReviewData.selectedPlan?.title || "선택된 플랜 없음",
       travelType: newReviewData.selectedPlan?.type || "전체",
       itinerary: newReviewData.selectedPlan?.itinerary || []
     };
-    setAllReviews([newReview, ...allReviews]); // 새 후기를 맨 앞에 추가
+    setAllReviews([newReview, ...allReviews]);
+    setIsWriteModalOpen(false);
   };
 
+  const handleAddComment = (reviewId: number, content: string) => {
+    const newComment = {
+      id: Date.now(),
+      author: userName || "익명",
+      content: content,
+    };
+    
+    setAllReviews(prev => prev.map(r => 
+      r.id === reviewId ? { ...r, comments: [...(r.comments || []), newComment] } : r
+    ));
+
+    setSelectedReview(prev => {
+      if (prev && prev.id === reviewId) {
+        return { ...prev, comments: [...(prev.comments || []), newComment] };
+      }
+      return prev;
+    });
+  };
+
+  // [수정] 좋아요 토글 핸들러
+  const handleLikeReview = (reviewId: number) => {
+    // 1. 목록 업데이트
+    setAllReviews(prev => prev.map(r => {
+      if (r.id === reviewId) {
+        const isLiked = r.isLiked || false; // 현재 상태 확인
+        return {
+          ...r,
+          isLiked: !isLiked, // 상태 뒤집기
+          likes: isLiked ? r.likes - 1 : r.likes + 1 // 켜져있으면 빼고, 꺼져있으면 더하기
+        };
+      }
+      return r;
+    }));
+
+    // 2. 현재 모달 업데이트 (화면 즉시 반영)
+    setSelectedReview(prev => {
+      if (prev && prev.id === reviewId) {
+        const isLiked = prev.isLiked || false;
+        return {
+          ...prev,
+          isLiked: !isLiked,
+          likes: isLiked ? prev.likes - 1 : prev.likes + 1
+        };
+      }
+      return prev;
+    });
+  };
 
   return (
     <div className="w-full bg-gray-50 min-h-screen">
@@ -244,7 +293,6 @@ export default function TravelReviewPage() {
       <section className="py-8">
         <div className="max-w-4xl mx-auto px-6">
           <div className="flex items-center justify-between flex-wrap gap-4">
-            {/* 카테고리 필터 */}
             <div className="flex items-center gap-3 flex-wrap">
               {categories.map((category) => (
                 <button
@@ -261,14 +309,12 @@ export default function TravelReviewPage() {
               ))}
             </div>
 
-            {/* 후기 작성 버튼 */}
-            {}
             <button 
               onClick={() => setIsWriteModalOpen(true)}
               disabled={!isLoggedIn}
               className={`flex items-center gap-2 px-5 py-2 font-medium rounded-xl transition-colors ${
-                isLoggedIn ? "bg-orange-100 hover:bg-orange-200 text-orange-600 cursor-pointer" // 로그인 시 스타일 
-                            : "bg-gray-100 text-gray-400 cursor-not-allowed opacity-70"
+                isLoggedIn ? "bg-orange-100 hover:bg-orange-200 text-orange-600 cursor-pointer" 
+                           : "bg-gray-100 text-gray-400 cursor-not-allowed opacity-70"
               }`}
             >
               <Edit3 className="w-4 h-4" />
@@ -287,77 +333,71 @@ export default function TravelReviewPage() {
                 key={review.id} 
                 onClick={() => setSelectedReview(review)}
                 className="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 cursor-pointer hover:shadow-xl transition-shadow"
-            >
-              {/* 헤더 */}
-              <div className="p-6 border-b border-gray-100">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center text-white font-bold text-lg">
-                      {review.author[0]}
+              >
+                <div className="p-6 border-b border-gray-100">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center text-white font-bold text-lg">
+                        {review.author[0]}
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-3 mb-1">
+                          <p className="font-semibold text-gray-900">{review.author}</p>
+                          <span className="text-sm text-gray-500">{review.date}</span>
+                          {review.travelType && (
+                            <span className="px-3 py-1 bg-orange-100 text-orange-600 rounded-full text-xs font-semibold">
+                              #{review.travelType}
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                          <Users className="w-4 h-4" />
+                          <span>{review.tripType}</span>
+                          <span>•</span>
+                          <Calendar className="w-4 h-4" />
+                          <span>{review.duration}</span>
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <div className="flex items-center gap-3 mb-1">
-                        <p className="font-semibold text-gray-900">{review.author}</p>
-                        <span className="text-sm text-gray-500">{review.date}</span>
-                        {review.travelType && (
-                          <span className="px-3 py-1 bg-orange-100 text-orange-600 rounded-full text-xs font-semibold">
-                            #{review.travelType}
-                          </span>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
-                        <Users className="w-4 h-4" />
-                        <span>{review.tripType}</span>
-                        <span>•</span>
-                        <Calendar className="w-4 h-4" />
-                        <span>{review.duration}</span>
-                      </div>
+
+                    <div className="flex items-center gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className={`w-5 h-5 ${
+                            i < review.rating
+                              ? "fill-yellow-400 text-yellow-400"
+                              : "fill-gray-200 text-gray-200"
+                          }`}
+                        />
+                      ))}
                     </div>
                   </div>
 
-                  {/* 별점 */}
-                  <div className="flex items-center gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`w-5 h-5 ${
-                          i < review.rating
-                            ? "fill-yellow-400 text-yellow-400"
-                            : "fill-gray-200 text-gray-200"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">{review.title}</h3>
+                  <p className="text-gray-700 leading-relaxed mb-4">{review.content}</p>
 
-                {/* 제목 */}
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{review.title}</h3>
-
-                {/* 내용 */}
-                <p className="text-gray-700 leading-relaxed mb-4">{review.content}</p>
-
-                {/* 이미지 */}
-                {review.images && review.images.length > 0 ? (
-                    /* 1. 새로 작성한 후기(배열)가 있는 경우 */
+                  {/* 이미지 섹션 */}
+                  {review.images && review.images.length > 0 ? (
                     <div className="mt-4">
                       <div className={`grid gap-2 rounded-xl overflow-hidden ${
-                        review.images.length === 1 ? "grid-cols-1 aspect-[16/9]" : 
-                        review.images.length === 2 ? "grid-cols-2 aspect-[16/5]" : 
+                        (review.images?.length ?? 0) === 1 ? "grid-cols-1 aspect-[16/9]" : 
+                        (review.images?.length ?? 0) === 2 ? "grid-cols-2 aspect-[16/5]" : 
                         "grid-cols-3 aspect-[16/5]"
                       }`}>
-                        {review.images.slice(0, 3).map((img, idx) => (
+                        {review.images?.slice(0, 3).map((img, idx) => (
                           <div key={idx} className="relative w-full h-full overflow-hidden bg-gray-200">
                             <img
                               src={img}
                               alt={`여행 사진 ${idx + 1}`}
                               className="w-full h-full object-cover"
                             />
-                            {idx === 2 && review.images.length > 3 && (
+                            {idx === 2 && (review.images?.length ?? 0) > 3 && (
                               <div 
                                 className="absolute inset-0 flex flex-col items-center justify-center text-white"
                                 style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}
                               >
-                                <span className="text-xl font-bold">+{review.images.length - 3}</span>
+                                <span className="text-xl font-bold">+{(review.images?.length ?? 0) - 3}</span>
                                 <span className="text-xs font-medium text-white/80">더보기</span>
                               </div>
                             )}
@@ -366,7 +406,6 @@ export default function TravelReviewPage() {
                       </div>
                     </div>
                   ) : review.image ? (
-                    /* 2. 배열은 없지만 단일 image 필드가 있는 경우 (기존 mock 데이터 대응) */
                     <div className="rounded-xl overflow-hidden mt-4">
                       <img 
                         src={review.image} 
@@ -374,30 +413,28 @@ export default function TravelReviewPage() {
                         className="w-full h-auto max-h-96 object-cover"
                       />
                     </div>
-                  ) : null
-                }
-              </div>
+                  ) : null}
+                </div>
 
-              {/* 푸터 */}
-              <div className="px-6 py-4 bg-gray-50 flex items-center gap-6">
-                <button className="flex items-center gap-2 text-gray-600 hover:text-orange-500 transition-colors">
-                  <ThumbsUp className="w-5 h-5" />
-                  <span className="text-sm font-medium">{review.likes}</span>
-                </button>
-                <button className="flex items-center gap-2 text-gray-600 hover:text-orange-500 transition-colors">
-                  <MessageCircle className="w-5 h-5" />
-                  <span className="text-sm font-medium">{review.comments}</span>
-                </button>
-              </div>
-            </article>
+                {/* 푸터 */}
+                <div className="px-6 py-4 bg-gray-50 flex items-center gap-6">
+                  {/* [수정] 좋아요 상태에 따른 색상 토글 (CSS만 살짝 조정) */}
+                  <button className={`flex items-center gap-2 transition-colors ${review.isLiked ? 'text-orange-500' : 'text-gray-600 hover:text-orange-500'}`}>
+                    <ThumbsUp className={`w-5 h-5 ${review.isLiked ? 'fill-orange-500' : ''}`} />
+                    <span className="text-sm font-medium">{review.likes}</span>
+                  </button>
+                  <button className="flex items-center gap-2 text-gray-600 hover:text-orange-500 transition-colors">
+                    <MessageCircle className="w-5 h-5" />
+                    <span className="text-sm font-medium">{review.comments?.length || 0}</span>
+                  </button>
+                </div>
+              </article>
             ))
           ) : (
-            /* [추가] 필터링 결과가 없을 때 보여줄 화면 */
             <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-gray-300">
               <p className="text-gray-500">해당 카테고리의 후기가 아직 없습니다.</p>
             </div>
           )}
-          
         </div>
       </section>
 
@@ -408,20 +445,24 @@ export default function TravelReviewPage() {
           onClose={() => setSelectedReview(null)}
           review={selectedReview}
           onEdit={handleEditReview}
+          onAddComment={handleAddComment}
+          onLike={handleLikeReview} // 함수 전달
         />
       )}
 
       <ReviewWriteModal
         isOpen={isWriteModalOpen}
         onClose={() => setIsWriteModalOpen(false)}
-        onSubmit={handleAddReview} // 작성 완료 시 실행될 함수 전달
+        onSubmit={handleAddReview}
       />
 
-      <ReviewEditModal
-        isOpen={isEditModalOpen}
-        onClose={handleCloseEdit}
-        review={selectedReview || reviews[0]}
-      />
+      {isEditModalOpen && selectedReview && (
+        <ReviewEditModal
+          isOpen={isEditModalOpen}
+          onClose={handleCloseEdit}
+          review={selectedReview}
+        />
+      )}
     </div>
   );
 }
