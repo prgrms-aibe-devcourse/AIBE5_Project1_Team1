@@ -21,6 +21,8 @@ export type Destination = {
   fullDescription: string;
   image: string;
   tags: string[];
+  lat?: number;
+  lng?: number;
 };
 
 const DEFAULT_HOURS = "09:00 - 18:00 (연중무휴)";
@@ -46,6 +48,7 @@ export const destinations: Destination[] = [
     // ✅ 불안정한 검색 링크 대신 안정적인 Unsplash 포맷으로 교체 추천
     image: "https://images.unsplash.com/photo-1740329289241-3adf04a8e3ed?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqZWp1JTIwaXNsYW5kJTIwaGFsbGFzYW4lMjBtb3VudGFpbnxlbnwxfHx8fDE3NjkyMzQ2MzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
     tags: ["자연", "등산", "사진명소"],
+    lat: 33.361667, lng: 126.529167
   },
   {
     id: 2,
@@ -63,6 +66,7 @@ export const destinations: Destination[] = [
 주변 해녀 문화와 함께 제주의 독특한 문화를 경험할 수 있습니다.`,
     image: "https://images.unsplash.com/photo-1758327740342-4e705edea29b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqZWp1JTIwaXNsYW5kJTIwYmVhY2glMjBjb2FzdGFsfGVufDF8fHx8MTc2OTIzNDYzMXww&ixlib=rb-4.1.0&q=80&w=1080",
     tags: ["일출", "유네스코", "트레킹"],
+    lat: 33.45880518948728, lng: 126.94097338703314 
   },
   {
     id: 3,
@@ -79,6 +83,7 @@ export const destinations: Destination[] = [
 주변에 카페와 식당이 많아 여유로운 휴양을 즐기기 좋습니다.`,
     image: "https://images.unsplash.com/photo-1674606042265-c9f03a77e286?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqZWp1JTIwaXNsYW5kJTIwd2F0ZXJmYWxsJTIwbmF0dXJlfGVufDF8fHx8MTc2OTIzNDYzM3ww&ixlib=rb-4.1.0&q=80&w=1080",
     tags: ["해변", "석양", "휴양"],
+    lat: 33.3941325, lng: 126.239728
   },
 
   // ✅ TravelListPage에 있던 4~30 (그대로 이관 + hours 기본값 포함)
@@ -96,6 +101,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
     tags: ["섬", "자전거", "해변"],
+    lat: 33.5064494277481 , lng:126.952985318412
   },
   {
     id: 5,
@@ -110,6 +116,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80",
     tags: ["절벽", "사진명소"],
+    lat: 33.423925527706956, lng: 126.93076085774399
   },
   {
     id: 6,
@@ -124,6 +131,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
     tags: ["동굴", "유네스코"],
+    lat: 33.5282463, lng: 126.7702874
   },
   {
     id: 7,
@@ -138,6 +146,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
     tags: ["폭포", "산책"],
+    lat: 33.246944 , lng: 126.554417
   },
   {
     id: 8,
@@ -152,6 +161,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80",
     tags: ["폭포", "바다"],
+    lat:33.2448521, lng: 126.5718032
   },
   {
     id: 9,
@@ -166,6 +176,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=1200&q=80",
     tags: ["해안", "절벽"],
+    lat: 33.2316155 , lng: 126.3148321
   },
   {
     id: 10,
@@ -180,6 +191,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80",
     tags: ["산", "전망"],
+    lat: 33.2410682, lng: 126.3134467
   },
   {
     id: 11,
@@ -236,6 +248,7 @@ export const destinations: Destination[] = [
       "에메랄드빛 바다와 하얀 백사장이 어우러진 제주의 대표적인 해수욕장입니다.",
     image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
     tags: ["해변", "자연"],
+    lat: 33.54301337455566, lng: 126.66925526795818 
   },
   {
     id: 15,
@@ -251,6 +264,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&w=1200&q=80",
     tags: ["테마파크", "자연"],
+    lat: 33.5368768, lng: 126.7725371
   },
   {
     id: 16,
@@ -266,6 +280,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80",
     tags: ["드라이브", "자연"],
+    lat: 33.2043511 , lng: 126.2896137
   },
   {
     id: 17,
@@ -281,6 +296,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1596701062351-8c2c14d1fdd0?auto=format&fit=crop&w=1200&q=80",
     tags: ["해변", "자연"],
+    lat: 33.4505158, lng: 126.3042485
   },
   {
     id: 18,
@@ -296,6 +312,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=1200&q=80",
     tags: ["자연"],
+    lat: 33.4273021, lng:126.6616589
   },
   {
     id: 19,
@@ -311,6 +328,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1545579133-99bb5ab189bd?auto=format&fit=crop&w=1200&q=80",
     tags: ["드라이브", "해변", "자연"],
+    lat: 33.4591293, lng: 126.3103796
   },
   {
     id: 20,
@@ -326,6 +344,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
     tags: ["자연"],
+    lat: 33.4599676, lng: 126.831477
   },
   {
     id: 21,
@@ -340,6 +359,7 @@ export const destinations: Destination[] = [
       "설문대할망 설화와 제주의 독특한 돌문화를 자연 속에서 관람할 수 있습니다.",
     image: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80",
     tags: ["테마파크", "자연"],
+    lat: 33.4485653, lng: 126.6586582
   },
   {
     id: 22,
@@ -355,6 +375,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1502680390469-be75c86b636f?auto=format&fit=crop&w=1200&q=80",
     tags: ["해변", "자연"],
+    lat: 33.2451968, lng: 126.4111861
   },
   {
     id: 23,
@@ -370,6 +391,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1425913397330-cf8af2ff40a1?auto=format&fit=crop&w=1200&q=80",
     tags: ["자연"],
+    lat: 33.4393622, lng: 126.62991
   },
   {
     id: 24,
@@ -385,6 +407,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1471922694854-ff1b63b20054?auto=format&fit=crop&w=1200&q=80",
     tags: ["해변", "자연"],
+    lat: 33.49793630000001 , lng: 126.4531587
   },
   {
     id: 25,
@@ -400,6 +423,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1200&q=80",
     tags: ["자연"],
+    lat: 33.43303, lng: 126.690658
   },
   {
     id: 26,
@@ -415,6 +439,7 @@ export const destinations: Destination[] = [
     image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
 
     tags: ["테마파크", "자연"],
+    lat: 33.30594380000001 , lng: 126.289437
   },
   {
     id: 27,
@@ -430,6 +455,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80",
     tags: ["자연"],
+    lat: 33.3659432, lng: 126.35644
   },
   {
     id: 28,
@@ -445,6 +471,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1544148103-0773bf10d330?auto=format&fit=crop&w=1200&q=80",
     tags: ["자연"],
+    lat: 33.4699272, lng: 126.4932445
   },
   {
     id: 29,
@@ -460,6 +487,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=1200&q=80",
     tags: ["자연"],
+    lat: 33.2524694, lng:  126.6235333
   },
   {
     id: 30,

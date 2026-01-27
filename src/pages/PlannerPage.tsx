@@ -10,14 +10,12 @@ import data2 from "../data/myPlanPageTempPackageData.json"
 import { useAuth } from "../contexts/AuthContext";
 import { sampleItinerary } from "../data/surveyResult"
 
-import KakaoMap from "../components/KakaoMap";
 import { destinationCategories, destinations } from "../data/destinations";
-import { restaurants } from "../data/restaurants";
-import { accommodations } from "../data/accommodations";
-
 
 import DraggableItineraryItem from "../components/DraggableItineraryItem";
 import type {ItineraryItem}  from "../components/DraggableItineraryItem";
+
+import KakaoMap from "../components/KakaoMap";
 
 // 모든 여행지 데이터
 const allDestinations = [
@@ -60,12 +58,12 @@ export default function PlannerPage() {
     }));
   };
 
-// 여행 일자별 표시 상태
-  const [visibleDays, setVisibleDays] = useState<{ 1: boolean; 2: boolean; 3: boolean }>({
-  1: true,
-  2: true,
-  3: true,
-});
+
+
+
+
+
+
 // KakaoMap에 넘길 여행지 데이터
 type MapItem = {
   id: string;
@@ -76,7 +74,7 @@ type MapItem = {
   lng: number;
 };
 
-const mapItems: MapItem[] = [
+const mapItemsFromSurvey: MapItem[] = [
   { id: "1-1", day: 1, seq: 1, title: "자매국수", lat: 33.49860561714938, lng: 126.45914739166322 },
   { id: "1-2", day: 1, seq: 2, title: "함덕 해수욕장", lat: 33.54301337455566, lng: 126.66925526795818 },
   { id: "1-3", day: 1, seq: 3, title: "오조포구", lat: 33.46315108350201, lng: 126.92097300674901 },
@@ -92,9 +90,9 @@ const mapItems: MapItem[] = [
   { id: "3-3", day: 3, seq: 3, title: "동문시장", lat: 33.51282933037489, lng: 126.52837848272551 },
   { id: "3-4", day: 3, seq: 4, title: "제주공항", lat: 33.506955052495, lng: 126.4928945703136 },
 ];
-const filteredMapItems = mapItems.filter(
-  (it) => visibleDays[it.day as 1 | 2 | 3]
-);
+
+
+
   const navigate = useNavigate();
   const location = useLocation();
   const surveyData = location.state?.surveyData || {};
@@ -102,7 +100,17 @@ const filteredMapItems = mapItems.filter(
   const fromMyPlan = location.state?.fromMyPlan || false; // 내 플랜에서 왔는지 확인
   const isReadOnly = location.state?.isReadOnly || false; 
   const canEdit = !isReadOnly;
-  
+  const isFromSurvey = Boolean(surveyData?.packageName); // 설문조사에서 왔는지 여부
+
+    // 여행 일자별 표시 상태
+  const [visibleDays, setVisibleDays] = useState<Record<number, boolean>>(() => {
+  // 설문 진입이면 처음부터 true로
+  if (location.state?.surveyData?.packageName) {
+    return { 1: true, 2: true, 3: true };
+  }
+  return {};
+});
+
   const handleSurvey = () => {
     navigate("/survey");
   };
@@ -127,6 +135,28 @@ const filteredMapItems = mapItems.filter(
       };
     }) : []
   );
+
+    // ✅ itinerary에 존재하는 day 목록 (예: [1,2,4])
+  const availableDays = Array.from(new Set(itinerary.map(i => i.day)))
+    .filter((d) => Number.isFinite(d))
+    .sort((a, b) => a - b);
+
+
+ useEffect(() => {
+  if (isFromSurvey) return;
+
+  setVisibleDays((prev) => {
+    const next: Record<number, boolean> = {};
+    for (const d of availableDays) {
+      next[d] = prev[d] ?? true;
+    }
+    return next;
+  });
+}, [availableDays.join(","), isFromSurvey]);
+
+
+
+
   // itinerary 전체를 순회하여 카테고리별 가격 계산
   const calculateTotalPrice = (items: ItineraryItem[]) => {
     let attractionPrice = 0;
@@ -160,7 +190,7 @@ const filteredMapItems = mapItems.filter(
   const getTravelType = () => travelType;
   const moveItem = (fromIndex: number, toIndex: number) => {
     const updatedItinerary = [...itinerary];
-    const [movedItem] = updatedItinerary.splice(fromIndex, 1);
+    const [movedItem] = updatedItinerary.splice(fromIndex, 1);  
     updatedItinerary.splice(toIndex, 0, movedItem);
     setItinerary(updatedItinerary);
   };
@@ -184,18 +214,52 @@ const filteredMapItems = mapItems.filter(
   const handleAddDestination = (destination: any) => {
     const newItem: ItineraryItem = {
       id: Date.now(),
-      day: itinerary.length > 0
-        ? Math.max(...itinerary.map(item => item.day))
-        : 1,
+      day: 1,
       time: "09:00",
       title: destination.name,
       price: destination.price,
       hours: destination.hours || "09:00 - 18:00",
       category: destination.category,
-      image: destination.image
+      image: destination.image,
+      lat: destination.lat,
+      lng: destination.lng,
+
     };
     setItinerary([...itinerary, newItem]);
   };
+  
+  // 지도에 표시할 여행지 데이터 생성(그냥 여행계획 페이지에 들어갔을때)
+const mapItemsFromItinerary = itinerary
+  .filter((i: any) => i.lat != null && i.lng != null)
+  .slice()
+  .sort((a, b) => (a.day - b.day) || a.time.localeCompare(b.time))
+  .reduce((acc: any[], cur) => {
+    const countInDay = acc.filter((x) => x.day === cur.day).length;
+    const seq = countInDay + 1;
+
+    acc.push({
+      id: String(cur.id),
+      title: cur.title,
+      day: cur.day,
+      seq,
+      lat: cur.lat,
+      lng: cur.lng,
+    });
+
+    return acc;
+  }, []);
+
+  const activeMapItems = isFromSurvey
+  ? mapItemsFromSurvey       // ✅ 설문 진입: 하드코딩 마커
+  : mapItemsFromItinerary;  // ✅ 일반 진입: itinerary 기반 마커
+
+  const filteredMapItems = activeMapItems.filter((it) => {
+  return visibleDays[it.day] ?? true;
+});
+
+
+
+  
 
   const handleGoBack = () => {
     navigate("/my-plan");
@@ -342,12 +406,12 @@ const filteredMapItems = mapItems.filter(
               </div>
 
               {/* Table Header */}
-              <div className="grid grid-cols-14 gap-2 pb-3 px-3 border-b border-gray-200 text-sm font-semibold text-gray-600">
+              <div className="grid grid-cols-12 gap-3 pb-3 border-b border-gray-200 text-xs font-semibold text-gray-600">
                 <div className="col-span-1"></div>
                 <div className="col-span-1 text-center">일차</div>
-                <div className="col-span-3 text-center">시간</div>
-                <div className="col-span-3 text-center">사진</div>
-                <div className="col-span-5 text-center">관광지 정보</div>
+                <div className="col-span-2">시간</div>
+                <div className="col-span-2">사진</div>
+                <div className="col-span-5">관광지 정보</div>
                 <div className="col-span-1 text-center">삭제</div>
               </div>
 
@@ -393,13 +457,14 @@ const filteredMapItems = mapItems.filter(
     <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-200">
   <h2 className="text-lg font-bold text-gray-900 mb-2">동선 지도</h2>
 
-  {/* ✅ 일차 필터 체크박스 */}
-  <div className="flex gap-3 mb-3">
+  {/* ✅ 설문 진입: 1,2,3 고정 체크박스 */}
+{isFromSurvey && (
+  <div className="flex flex-wrap gap-3 mb-3">
     {[1, 2, 3].map((d) => (
       <label key={d} className="flex items-center gap-2 text-sm text-gray-700">
         <input
           type="checkbox"
-          checked={visibleDays[d as 1 | 2 | 3]}
+          checked={visibleDays[d] ?? true}
           onChange={(e) =>
             setVisibleDays((prev) => ({ ...prev, [d]: e.target.checked }))
           }
@@ -408,9 +473,31 @@ const filteredMapItems = mapItems.filter(
       </label>
     ))}
   </div>
+)}
+
+
+{/* ✅ 일반 진입: itinerary 기반 체크박스 */}
+{!isFromSurvey && availableDays.length > 0 && (
+  <div className="flex flex-wrap gap-3 mb-3">
+    {availableDays.map((d) => (
+      <label key={d} className="flex items-center gap-2 text-sm text-gray-700">
+        <input
+          type="checkbox"
+          checked={visibleDays[d] ?? true}
+          onChange={(e) =>
+            setVisibleDays((prev) => ({ ...prev, [d]: e.target.checked }))
+          }
+        />
+        {d}일차
+      </label>
+    ))}
+  </div>
+)}
+
+
 
   <div className="aspect-square rounded-lg overflow-hidden">
-    <KakaoMap items={filteredMapItems} className="w-full h-full" />
+    <KakaoMap items={filteredMapItems} className="w-full h-full" fitBounds={false} />
   </div>
 </div>
 
@@ -470,17 +557,10 @@ const filteredMapItems = mapItems.filter(
       <AddDestinationModal
         isOpen={canEdit && isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onAdd={(item, type) => {
-          if (!canEdit) return;
-          // type이 "여행지/숙소/식당" 중 뭐든 와도
-          // 지금 handleAddDestination는 destination 구조만 기대하니까
-          // 공통 필드(name, price, category, image 등)만 맞춰서 넣어주면 됨.
-          handleAddDestination(item);
-        }}
-        destinations={destinations}
-        restaurants={restaurants}
-        accommodations={accommodations}
-        title="일정 추가"
+        onAdd={(d) => canEdit && handleAddDestination(d)}
+        destinations={allDestinations}
+        restaurants={[]}
+        accommodations={[]}
       />
 
       {/* 여행지 상세 정보 모달 */}
