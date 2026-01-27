@@ -115,7 +115,7 @@ export default function SurveyFullPage() {
                     1-2. 누구와 함께인가요?
                   </label>
                   <div className="flex flex-wrap gap-3">
-                    {["혼자", "연인", "친구", "가족", "반려 동물"].map((option) => (
+                    {["혼자", "연인", "친구", "가족", "아이 동반"].map((option) => (
                       <button
                         key={option}
                         onClick={() => setCompanion(companion === option ? "" : option)}
@@ -134,10 +134,10 @@ export default function SurveyFullPage() {
                 {/* 1-3. 선호 계절 */}
                 <div>
                   <label className="block text-gray-700 font-medium mb-3">
-                    1-3. 선호할 때 떠나세요?
+                    1-3. 숙박은 몇 박 할래요?
                   </label>
                   <div className="flex flex-wrap gap-3">
-                    {["노을", "1월", "2월", "3월 이상"].map((option) => (
+                    {["노숙", "1박", "2박", "3박 이상"].map((option) => (
                       <button
                         key={option}
                         onClick={() => setSeason(season === option ? "" : option)}
@@ -173,7 +173,7 @@ export default function SurveyFullPage() {
                     2-1. 이번 여행의 목적은?
                   </label>
                   <div className="flex flex-wrap gap-3">
-                    {["가족여행", "액티비티", "휴대미", "공공기 엄선", "공부 사람"].map((option) => (
+                    {["자연/힐링", "맛집/카페", "액티비티", "관광지 정복", "감성 사진"].map((option) => (
                       <button
                         key={option}
                         onClick={() => toggleInterest(option)}
@@ -195,7 +195,7 @@ export default function SurveyFullPage() {
                     2-2. 여행 스타일은?
                   </label>
                   <div className="flex flex-wrap gap-3">
-                    {["촘촘히 채워진 일정", "여유 많은 일정", "자기의기 좋아서는 OK"].map((option) => (
+                    {["동선 최소(근처 위주)", "핵심만 찍고 이동", "여기저기 돌아다녀도 OK"].map((option) => (
                       <button
                         key={option}
                         onClick={() => setStyle(style === option ? "" : option)}
@@ -231,7 +231,7 @@ export default function SurveyFullPage() {
                     3-1. 숙소 지역 선호도?
                   </label>
                   <div className="flex flex-wrap gap-3">
-                    {["제주 시내(중심가)", "시포트", "여행(게릭터레트)", "음이보기지속", "신라건룡"].map((option) => (
+                    {["제주 시내(제주시)", "서귀포", "애월/한림(서쪽)", "성산/표선(동쪽)", "상관없음"].map((option) => (
                       <button
                         key={option}
                         onClick={() => setAccommodation(accommodation === option ? "" : option)}
@@ -247,13 +247,13 @@ export default function SurveyFullPage() {
                   </div>
                 </div>
 
-                {/* 3-2. 음식 */}
+                {/* 3-2. 숙소 */}
                 <div>
                   <label className="block text-gray-700 font-medium mb-3">
-                    3-2. 음식에서 가장 중요한건?
+                    3-2. 숙소에서 가장 중요한건?
                   </label>
                   <div className="flex flex-wrap gap-3">
-                    {["양식", "기타식", "음식", "고유한", "면넥식양"].map((option) => (
+                    {["위치", "가성비", "풍경", "조용함", "편의시설"].map((option) => (
                       <button
                         key={option}
                         onClick={() => setFood(food === option ? "" : option)}
@@ -272,13 +272,13 @@ export default function SurveyFullPage() {
                 {/* 3-3. 식사 스타일 */}
                 <div>
                   <label className="block text-gray-700 font-medium mb-3">
-                    3-3. 식사는는 음식 스타일은?
+                    3-3. 선호하는 음식 스타일은?
                   </label>
                   <div className="flex flex-wrap gap-3">
-                    {["제주 로컬가기/수작레식점", "일식알립", "가타어", "가타찌 엄선"].map((option) => (
+                    {["제주 로컬(고기국수/해산물)", "인스타감성", "가성비", "가리지 않음"].map((option) => (
                       <button
                         key={option}
-                        onClick={() => setDining(dining === option ? "" : option)}
+                        onClick={() => setDining(dining === option  ? "" : option)}
                         className={`px-6 py-3 rounded-xl font-medium transition-all ${
                           dining === option
                             ? "bg-orange-500 text-white shadow-md"
