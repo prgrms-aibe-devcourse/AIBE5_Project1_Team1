@@ -227,13 +227,11 @@ http://localhost:3000/
 
 #### 기능분류(Type)
 
-=======
 | 타입     | 의미          |
 | ------ | ------------- |
 | feat   | 새로운 기능 추가  |
 | docs   | 문서 작성 / 수정 |
 | fix    | 버그 수정       |
->>>>>>> origin/main
 | refact | 코드 리팩토링    |
 
 ### Commit 규칙 상세
@@ -244,14 +242,11 @@ http://localhost:3000/
 - 작성내용 앞에 작업한 파일명 명시
 - 작업내용을 중심으로 간단히 작성
 
-
-=======
 ```text
 # 예시
 git commit -m "feat: Login/index.js - 로그인 추가 - 26.01.22"
 git commit -m "feat: components/Header.js - 헤더구현 - 26.01.22"
 git commit -m "feat: component/Header.js, Home/index.js - 헤더로 메인화면 돌아가는 기능 구현 - 26.01.22"
->>>>>>> origin/main
 ```
 
 ---
@@ -312,9 +307,10 @@ Pull Request 기반 협업 방식을 사용합니다.
 --- 
 
 ### 🔹 트러블 슈팅 & 해결 방식
-```bash
+```t
 # 1. Merge하면서 작업파일이 사라짐
+
 - 상황: 팀원들의 내용을 feature 브랜치에 Merge하고 하루를 마무리하려고 했는데 팀원이 작업한 .css의 .grid가 사라지는 문제 발생
-- 문제해결: .css파일이 사라지기 이전의 Commit을 찾아내기 위해서 Repository에 남아있는 Commit 내용을 모두 뒤져보면서 해당 Commit을 찾아냈습니다. 그리고 그 Commit의 해시코드로 'git checkout [커밋해시] --index.css' 명령어를 사용해서 특정 파일만 되돌려서 해결했습니다.
+- 문제해결: .css파일이 사라지기 이전의 Commit을 찾아내기 위해서 Repository에 남아있는 Commit 내용을 모두 뒤져보면서 해당 Commit을 찾아냈습니다 그리고 그 Commit의 해시코드로 'git checkout [커밋해시] --index.css' 명령어를 사용해서 특정 파일만 되돌려서 해결했습니다.
 ```
 
