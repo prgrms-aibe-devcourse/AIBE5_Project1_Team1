@@ -112,3 +112,40 @@ export const itinerary = {
     }
   ]
 };
+export const sampleItinerary = [
+    {
+        "id": 2,
+        "day": 1,
+        "time": "09:00"
+    },
+    {
+        "id": 5,
+        "day": 1,
+        "time": "11:30"
+    },
+    {
+        "id": 7,
+        "day": 1,
+        "time": "14:00"
+    },
+    {
+        "id": 8,
+        "day": 1,
+        "time": "17:00"
+    },
+    {
+        "id": 1,
+        "day": 2,
+        "time": "09:30"
+    },
+    {
+        "id": 4,
+        "day": 2,
+        "time": "14:00"
+    },
+    {
+        "id": 6,
+        "day": 3,
+        "time": "10:00"
+    }
+];

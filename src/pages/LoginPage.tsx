@@ -25,7 +25,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-blue-50 flex items-center justify-center py-12 px-4">
+    <div className="h-[calc(100vh-73px)] bg-gradient-to-br from-orange-50 to-blue-50 flex items-center justify-center pb-20 px-4">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-10">

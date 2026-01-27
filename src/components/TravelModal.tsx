@@ -33,18 +33,12 @@ interface TravelModalProps {
   isOpen: boolean;
   onClose: () => void;
   destination: any;
-  searchLinks: {
-    naver: string;
-    kakao: string;
-    google: string;
-  };
 }
 
 export default function TravelModal({
   isOpen,
   onClose,
   destination,
-  searchLinks,
 }: TravelModalProps) {
   // 모달이 닫혀있거나 데이터가 없으면 아무것도 렌더링하지 않음
   if (!isOpen || !destination) return null;
@@ -135,7 +129,7 @@ export default function TravelModal({
           {/* 외부 링크 버튼 모음 */}
           <div className="mt-auto flex gap-2">
             <a
-              href={searchLinks.naver}
+              href={`https://search.naver.com/search.naver?query=${encodeURIComponent(destination.name)}`}
               target="_blank"
               rel="noreferrer"
               style={{ backgroundColor: "#2DB400" }}
@@ -144,7 +138,7 @@ export default function TravelModal({
               <ExternalLink className="w-3.5 h-3.5" /> 네이버
             </a>
             <a
-              href={searchLinks.kakao}
+              href={`https://search.daum.net/search?q=${encodeURIComponent(destination.name)}`}
               target="_blank"
               rel="noreferrer"
               style={{ backgroundColor: "#FEE500" }}
@@ -153,7 +147,7 @@ export default function TravelModal({
               <ExternalLink className="w-3.5 h-3.5" /> 카카오
             </a>
             <a
-              href={searchLinks.google}
+              href={`https://www.google.com/search?q=${encodeURIComponent(destination.name)}`}
               target="_blank"
               rel="noreferrer"
               style={{ backgroundColor: "#4285F4" }}
