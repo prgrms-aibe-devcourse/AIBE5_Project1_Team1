@@ -12,6 +12,9 @@ import { sampleItinerary } from "../data/surveyResult"
 
 import KakaoMap from "../components/KakaoMap";
 import { destinationCategories, destinations } from "../data/destinations";
+import { restaurants } from "../data/restaurants";
+import { accommodations } from "../data/accommodations";
+
 
 import DraggableItineraryItem from "../components/DraggableItineraryItem";
 import type {ItineraryItem}  from "../components/DraggableItineraryItem";
@@ -469,8 +472,17 @@ const filteredMapItems = mapItems.filter(
       <AddDestinationModal
         isOpen={canEdit && isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onAdd={(d) => canEdit && handleAddDestination(d)}
-        destinations={allDestinations}
+        onAdd={(item, type) => {
+          if (!canEdit) return;
+          // type이 "여행지/숙소/식당" 중 뭐든 와도
+          // 지금 handleAddDestination는 destination 구조만 기대하니까
+          // 공통 필드(name, price, category, image 등)만 맞춰서 넣어주면 됨.
+          handleAddDestination(item);
+        }}
+        destinations={destinations}
+        restaurants={restaurants}
+        accommodations={accommodations}
+        title="일정 추가"
       />
 
       {/* 여행지 상세 정보 모달 */}
