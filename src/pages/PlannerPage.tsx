@@ -594,6 +594,7 @@ const mapItemsFromItinerary = itinerary
           isOpen={isDetailModalOpen}
           onClose={() => setIsDetailModalOpen(false)}
           destination={selectedDestination}
+
         />
       )}
     </div>
