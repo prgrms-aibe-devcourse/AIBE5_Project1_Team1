@@ -22,6 +22,8 @@ import KakaoMap from "../components/KakaoMap";
 // 모든 여행지 데이터
 const allDestinations = [
   ...destinations,
+  ...restaurants,
+  ...accommodations,
 ];
 
 const attractionCategory = [...destinationCategories];
@@ -553,10 +555,37 @@ const mapItemsFromItinerary = itinerary
       <AddDestinationModal
         isOpen={canEdit && isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onAdd={(d) => canEdit && handleAddDestination(d)}
-        destinations={allDestinations}
-        restaurants={[]}
-        accommodations={[]}
+        onAdd={(item, type) => {
+          if (!canEdit) return;
+
+          // ✅ type별 필드 통일(정규화)
+          const normalized = {
+            ...item,
+
+            // 여행지: price
+            // 식당: priceRange(문자) → 숫자로 바꾸기 어려우니 0 처리 or 문자열 유지 전략 필요
+            // 숙소: (아마) pricePerNight 같은 필드일 것
+            price:
+              typeof (item as any).price === "number"
+                ? (item as any).price
+                : typeof (item as any).pricePerNight === "number"
+                ? (item as any).pricePerNight
+                : 0, // 식당은 가격 합산이 목적이면 0으로 두는 게 안전
+
+            hours: (item as any).hours ?? (item as any).openHours ?? "운영시간 정보 없음",
+
+            category: (item as any).category ?? type,
+
+            // (선택) 식당 가격대 표시용으로 따로 저장하고 싶으면:
+            priceRange: (item as any).priceRange,
+          };
+
+          handleAddDestination(normalized);
+        }}
+        destinations={destinations}
+        restaurants={restaurants}
+        accommodations={accommodations}
+        title="일정 추가"
       />
 
       {/* 여행지 상세 정보 모달 */}

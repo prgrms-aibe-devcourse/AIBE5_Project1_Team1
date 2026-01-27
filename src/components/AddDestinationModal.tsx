@@ -262,7 +262,11 @@ export default function AddDestinationModal({
 
                       <div className="flex items-center gap-2">
                         <Calendar className="w-4 h-4 text-orange-500" />
-                        <span>{item.hours ?? "운영시간 정보 없음"}</span>
+                        <span>
+                          {selectedTab === "숙소" || item.checkInOut
+                            ? item.checkInOut ?? "체크인/아웃 정보 없음"
+                            : item.hours ?? "운영시간 정보 없음"}
+                        </span>
                       </div>
 
                       <div className="flex items-center gap-2">
