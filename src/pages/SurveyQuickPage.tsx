@@ -56,7 +56,7 @@ export default function SurveyQuickPage() {
             ref={section1Ref}
             className={`p-6 rounded-xl transition-all ${
               focusedSection === "section1" && !isSection1Complete
-                ? "border-2 border-orange-500 bg-orange-50 shadow-lg"
+                ? "box-shadow-orange-500 bg-orange-50 "
                 : ""
             }`}
           >
@@ -80,7 +80,7 @@ export default function SurveyQuickPage() {
                       className={`px-6 py-3 rounded-xl font-medium transition-all ${
                         duration === option
                           ? "bg-orange-500 text-white shadow-md"
-                          : "bg-gray-50 text-gray-700 border border-gray-200 hover:border-orange-500"
+                          : "bg-gray-50 text-gray-700 box-shadow-gray-200 hover:box-shadow-orange-500"
                       }`}
                     >
                       {option}
@@ -102,7 +102,7 @@ export default function SurveyQuickPage() {
                       className={`px-6 py-3 rounded-xl font-medium transition-all ${
                         companion === option
                           ? "bg-orange-500 text-white shadow-md"
-                          : "bg-gray-50 text-gray-700 border border-gray-200 hover:border-orange-500"
+                          : "bg-gray-50 text-gray-700 box-shadow-gray-200 hover:box-shadow-orange-500"
                       }`}
                     >
                       {option}
@@ -118,7 +118,7 @@ export default function SurveyQuickPage() {
             ref={section2Ref}
             className={`p-6 rounded-xl transition-all ${
               focusedSection === "section2" && !isSection2Complete
-                ? "border-2 border-orange-500 bg-orange-50 shadow-lg"
+                ? "box-shadow-orange-500 bg-orange-50"
                 : ""
             }`}
           >
@@ -142,7 +142,7 @@ export default function SurveyQuickPage() {
                       className={`px-6 py-3 rounded-xl font-medium transition-all ${
                         region === option
                           ? "bg-orange-500 text-white shadow-md"
-                          : "bg-gray-50 text-gray-700 border border-gray-200 hover:border-orange-500"
+                          : "bg-gray-50 text-gray-700 box-shadow-gray-200 hover:box-shadow-orange-500"
                       }`}
                     >
                       {option}
@@ -164,7 +164,7 @@ export default function SurveyQuickPage() {
                       className={`px-6 py-3 rounded-xl font-medium transition-all ${
                         purpose === option
                           ? "bg-orange-500 text-white shadow-md"
-                          : "bg-gray-50 text-gray-700 border border-gray-200 hover:border-orange-500"
+                          : "bg-gray-50 text-gray-700 box-shadow-gray-200 hover:box-shadow-orange-500"
                       }`}
                     >
                       {option}

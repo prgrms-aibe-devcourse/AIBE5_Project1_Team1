@@ -65,6 +65,8 @@ export default function PlannerPage() {
     }));
   };
 
+  const { isLoggedIn, userName, logout } = useAuth();
+
   const navigate = useNavigate();
   const location = useLocation();
   const planState = {
@@ -74,7 +76,7 @@ export default function PlannerPage() {
     myPlan: location.state?.myPlan || [],
     planInfo: location.state?.planInfo || {
       title: "새 여행 계획",
-      date: Date().toString().slice(0, 10),
+      date: new Date().toISOString().slice(0, 10),
       description: null,
       isPrivate: false
     }
@@ -89,6 +91,7 @@ export default function PlannerPage() {
     return {} as Record<number, boolean>;
   });
 
+  const [isReadOnly, setIsReadOnly] = useState(planState.isReadOnly);
   const [planName, setPlanName] = useState(planState.planInfo.title || "새 여행 계획");
   const [startDate, setStartDate] = useState(planState.planInfo.date);
   const [description, setDescription] = useState(planState.planInfo.description || "");
@@ -293,7 +296,7 @@ const filteredMapItems = mapItemsFromItinerary.filter((it) => {
                       <select
                         value={travelType}
                         onChange={(e) => setTravelType(e.target.value)}
-                        disabled={planState.isReadOnly}
+                        disabled={isReadOnly}
                         className="
                           appearance-none
                           bg-white
@@ -499,7 +502,22 @@ const filteredMapItems = mapItemsFromItinerary.filter((it) => {
           )}
           {!planState.isReadOnly && (
             <button
-              onClick={() => navigate("/my-plan")}
+              onClick={() => {
+                isLoggedIn ? navigate("/my-plan") : navigate("/login", {
+                  state: {
+                    sourcePage: "planner",
+                    isReadOnly: isReadOnly,
+                    travelType: travelType,
+                    myPlan: itinerary,
+                    planInfo: {
+                      title: planName,
+                      date: startDate,
+                      description: description,
+                      isPrivate: isPrivate,
+                    },
+                  } satisfies PlanState,
+                });
+              }}
               className="flex items-center gap-2 px-12 py-4 bg-orange-500 text-white rounded-xl font-bold text-lg hover:bg-orange-600 transition-colors shadow-lg hover:shadow-xl"
             >
               <Save className="w-5 h-5" />
