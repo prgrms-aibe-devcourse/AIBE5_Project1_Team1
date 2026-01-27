@@ -166,18 +166,28 @@ export default function TravelReviewPage() {
 
   const { isLoggedIn, userName, logout } = useAuth();
 
+  // 수정 모달 open
   const handleEditReview = () => {
-    setSelectedReview(null);
     setIsEditModalOpen(true);
   };
 
+  // 수정 모달 close
   const handleCloseEdit = () => {
     setIsEditModalOpen(false);
-    if (selectedReview) {
-      setTimeout(() => {
-        // 필요 시 로직
-      }, 100);
-    }
+  };
+  
+  // 실제 리뷰 수정 로직
+  const handleUpdateReview = (updatedData: any) => {
+    // 1. 전체 리스트 업데이트
+    setAllReviews(prev => prev.map(review => 
+      review.id === updatedData.id ? { ...review, ...updatedData } : review
+    ));
+
+    // 2. 현재 보고 있는 상세 데이터도 업데이트 (상세창으로 돌아갔을 때 반영됨)
+    setSelectedReview(prev => prev ? { ...prev, ...updatedData } : null);
+
+    // 3. 수정창 닫기
+    setIsEditModalOpen(false);
   };
 
   const filteredReviews = allReviews.filter((review) => {
@@ -449,14 +459,15 @@ export default function TravelReviewPage() {
       </section>
 
       {/* 모달들 */}
-      {selectedReview && (
+      {/*상세 모달: 수정 중(isEditModalOpen)이 아닐 때만 보여줌 */}
+      {selectedReview && !isEditModalOpen && (
         <ReviewDetailModal
           isOpen={!!selectedReview}
           onClose={() => setSelectedReview(null)}
           review={selectedReview}
           onEdit={handleEditReview}
           onAddComment={handleAddComment}
-          onLike={handleLikeReview} // 함수 전달
+          onLike={handleLikeReview}
         />
       )}
 
@@ -466,11 +477,13 @@ export default function TravelReviewPage() {
         onSubmit={handleAddReview}
       />
 
+      {/* [수정] 수정 모달: onSubmit 연결 */}
       {isEditModalOpen && selectedReview && (
         <ReviewEditModal
           isOpen={isEditModalOpen}
           onClose={handleCloseEdit}
           review={selectedReview}
+          onSubmit={handleUpdateReview}
         />
       )}
     </div>
