@@ -29,13 +29,18 @@ export default function AddDestinationModal({
 
   // 본문(shortDescription)만 검색
   const filteredDestinations = destinations.filter(dest => {
+    const q = searchQuery.trim().toLowerCase();
     const matchesCategory = selectedCategory === "전체" || dest.category === selectedCategory;
-    const matchesSearch = dest.shortDescription?.toLowerCase().includes(searchQuery.toLowerCase()) || false;
+    const matchesSearch = 
+        q.length === 0 ||
+        String(dest.name).toLowerCase().includes(q) ||
+        String(dest.shortDescription).toLowerCase().includes(q);
+
     return matchesCategory && matchesSearch;
   });
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center z-50 pt-20"
       onClick={handleBackdropClick}
     >
       <div className="bg-white rounded-2xl max-w-5xl w-full max-h-[85vh] overflow-hidden flex flex-col">
