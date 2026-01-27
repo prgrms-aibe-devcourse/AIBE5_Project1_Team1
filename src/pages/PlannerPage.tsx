@@ -57,9 +57,7 @@ export default function PlannerPage() {
     }));
   };
 
-
-
-  // 여행 일자별 표시 상태
+// 여행 일자별 표시 상태
   const [visibleDays, setVisibleDays] = useState<{ 1: boolean; 2: boolean; 3: boolean }>({
   1: true,
   2: true,
