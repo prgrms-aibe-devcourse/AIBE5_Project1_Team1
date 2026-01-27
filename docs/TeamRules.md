@@ -171,7 +171,7 @@ git push origin [본인브랜치]
     - Revert: 이 Commit이 있기전으로 되돌아가기
 4. Revert되는 PR을 만들고 바로 그 PR 진행하기
 5. Commit한 내용이 Revert되면 브랜치를 잘 설정하거나 파일을 잘 수정한 뒤에 push 작업을 수행한다.
-
+  
 # 그외는 저 부르세요 (feat.작성자 고완석)
 ```
 
