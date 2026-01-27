@@ -1,6 +1,14 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
+import GoogleLoginButton from "../components/GoogleLoginButton";
+
+type GoogleUser = {
+  name?: string;
+  email?: string;
+  picture?: string;
+  sub?: string;
+};
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -10,19 +18,16 @@ export default function LoginPage() {
   const [error, setError] = useState("");
 
   const handleLogin = () => {
-    if (!userId.trim()) {
-      setError("아이디를 입력해주세요");
-      return;
-    }
-    if (!password.trim()) {
-      setError("비밀번호를 입력해주세요");
-      return;
-    }
+    if (!userId.trim()) return setError("아이디를 입력해주세요");
+    if (!password.trim()) return setError("비밀번호를 입력해주세요");
 
-    // 간단한 로그인 처리 - 실제로는 여기서 서버 통신
-    login("김철수"); // 임의의 사용자 이름
+// 일반 로그인 표시용 provider 저장
+  localStorage.setItem("auth_provider", "local");
+
+    login("김철수");
     navigate("/");
   };
+
   const logo = "src/assets/logo2.png";
 
   return (
@@ -32,11 +37,7 @@ export default function LoginPage() {
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-3 mb-4">
             <div className="w-12 h-12 bg-gradient-to-br from-orange-200 to-orange-300 rounded-xl flex items-center justify-center shadow-lg">
-              <img
-                src={logo}
-                alt="logo"
-                className="w-10 h-10 object-contain"
-              />
+              <img src={logo} alt="logo" className="w-10 h-10 object-contain" />
             </div>
             <h1 className="text-4xl font-bold">
               PLAN <span className="text-orange-500">Jeju</span>
@@ -45,45 +46,41 @@ export default function LoginPage() {
           <p className="text-gray-600">제주도 여행 계획의 시작</p>
         </div>
 
-        {/* Login Form */}
+        {/* Login Form Card */}
         <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-200">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">로그인</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+            로그인
+          </h2>
 
           <div className="space-y-4">
             {/* User ID */}
-            <div>
-              <input
-                type="text"
-                placeholder="아이디"
-                value={userId}
-                onChange={(e) => {
-                  setUserId(e.target.value);
-                  setError("");
-                }}
-                onKeyPress={(e) => e.key === "Enter" && handleLogin()}
-                className="w-full px-5 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all text-lg"
-              />
-            </div>
+            <input
+              type="text"
+              placeholder="아이디"
+              value={userId}
+              onChange={(e) => {
+                setUserId(e.target.value);
+                setError("");
+              }}
+              onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+              className="w-full px-5 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all text-lg"
+            />
 
             {/* Password */}
-            <div>
-              <input
-                type="password"
-                placeholder="비밀번호"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  setError("");
-                }}
-                onKeyPress={(e) => e.key === "Enter" && handleLogin()}
-                className="w-full px-5 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all text-lg"
-              />
-            </div>
+            <input
+              type="password"
+              placeholder="비밀번호"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setError("");
+              }}
+              onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+              className="w-full px-5 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all text-lg"
+            />
 
             {/* Error Message */}
-            {error && (
-              <p className="text-red-500 text-sm text-center">{error}</p>
-            )}
+            {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
             {/* Login Button */}
             <button
@@ -92,15 +89,48 @@ export default function LoginPage() {
             >
               로그인
             </button>
+
+            {/* 구분선 */}
+            <div className="flex items-center gap-3 py-2">
+              <div className="h-px bg-gray-200 flex-1" />
+              <span className="text-xs text-gray-400">또는</span>
+              <div className="h-px bg-gray-200 flex-1" />
+            </div>
+
+{/* 구글 로그인 */}
+<GoogleLoginButton
+  onSuccess={(user: GoogleUser) => {
+    localStorage.setItem("auth_provider", "google");
+
+    const googleProfile = {
+      name: user.name ?? "Google User",
+      email: user.email ?? "",
+    };
+    localStorage.setItem("google_profile", JSON.stringify(googleProfile));
+
+    login(googleProfile.name);
+    navigate("/");
+  }}
+/>
+
+
+
           </div>
 
           {/* Links */}
           <div className="mt-6 flex items-center justify-center gap-3 text-sm text-gray-600">
-            <button className="hover:text-orange-500 transition-colors">비밀번호 찾기</button>
+            <button className="hover:text-orange-500 transition-colors">
+              비밀번호 찾기
+            </button>
             <span>|</span>
-            <button className="hover:text-orange-500 transition-colors">아이디 찾기</button>
+            <button className="hover:text-orange-500 transition-colors">
+              아이디 찾기
+            </button>
             <span>|</span>
-            <Link to="/signup" className="hover:text-orange-500 transition-colors font-medium">
+            <Link
+              to="/signup"
+              className="hover:text-orange-500 transition-colors font-medium"
+            >
               회원가입
             </Link>
           </div>

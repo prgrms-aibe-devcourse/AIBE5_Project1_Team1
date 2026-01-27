@@ -53,7 +53,7 @@ export default function TravelModal({
   // 모달 레이아웃 정의
   const modalContent = (
     <div
-      className="fixed inset-0 z-[999999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-[999999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
       onClick={handleBackdropClick}
     >
       <div

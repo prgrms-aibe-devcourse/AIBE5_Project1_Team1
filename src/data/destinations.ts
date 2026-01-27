@@ -21,6 +21,8 @@ export type Destination = {
   fullDescription: string;
   image: string;
   tags: string[];
+  lat?: number;
+  lng?: number;
 };
 
 const DEFAULT_HOURS = "09:00 - 18:00 (연중무휴)";
@@ -46,6 +48,7 @@ export const destinations: Destination[] = [
     // ✅ 불안정한 검색 링크 대신 안정적인 Unsplash 포맷으로 교체 추천
     image: "https://images.unsplash.com/photo-1740329289241-3adf04a8e3ed?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqZWp1JTIwaXNsYW5kJTIwaGFsbGFzYW4lMjBtb3VudGFpbnxlbnwxfHx8fDE3NjkyMzQ2MzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
     tags: ["자연", "등산", "사진명소"],
+    lat: 33.361667, lng: 126.529167
   },
   {
     id: 2,
@@ -63,6 +66,7 @@ export const destinations: Destination[] = [
 주변 해녀 문화와 함께 제주의 독특한 문화를 경험할 수 있습니다.`,
     image: "https://images.unsplash.com/photo-1758327740342-4e705edea29b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqZWp1JTIwaXNsYW5kJTIwYmVhY2glMjBjb2FzdGFsfGVufDF8fHx8MTc2OTIzNDYzMXww&ixlib=rb-4.1.0&q=80&w=1080",
     tags: ["일출", "유네스코", "트레킹"],
+    lat: 33.45880518948728, lng: 126.94097338703314 
   },
   {
     id: 3,
@@ -71,7 +75,7 @@ export const destinations: Destination[] = [
     duration: "3~4시간",
     price: 0,
     location: "제주시",
-    hours: "24시간 개방 (수영 가능시간 별도)",
+    hours: "24시간 개방",
     shortDescription: "에메랄드빛 바다와 흰 모래사장이 아름다운 제주 최고의 해변.",
     fullDescription: `협재해수욕장은 제주 서쪽에 위치한 대표적인 해변입니다.
 투명한 에메랄드빛 바다와 고운 백사장이 조화를 이룹니다.
@@ -79,6 +83,7 @@ export const destinations: Destination[] = [
 주변에 카페와 식당이 많아 여유로운 휴양을 즐기기 좋습니다.`,
     image: "https://images.unsplash.com/photo-1674606042265-c9f03a77e286?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqZWp1JTIwaXNsYW5kJTIwd2F0ZXJmYWxsJTIwbmF0dXJlfGVufDF8fHx8MTc2OTIzNDYzM3ww&ixlib=rb-4.1.0&q=80&w=1080",
     tags: ["해변", "석양", "휴양"],
+    lat: 33.3941325, lng: 126.239728
   },
 
   // ✅ TravelListPage에 있던 4~30 (그대로 이관 + hours 기본값 포함)
@@ -96,6 +101,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
     tags: ["섬", "자전거", "해변"],
+    lat: 33.5064494277481 , lng:126.952985318412
   },
   {
     id: 5,
@@ -110,6 +116,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80",
     tags: ["절벽", "사진명소"],
+    lat: 33.423925527706956, lng: 126.93076085774399
   },
   {
     id: 6,
@@ -124,6 +131,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
     tags: ["동굴", "유네스코"],
+    lat: 33.5282463, lng: 126.7702874
   },
   {
     id: 7,
@@ -138,6 +146,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
     tags: ["폭포", "산책"],
+    lat: 33.246944 , lng: 126.554417
   },
   {
     id: 8,
@@ -152,6 +161,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80",
     tags: ["폭포", "바다"],
+    lat:33.2448521, lng: 126.5718032
   },
   {
     id: 9,
@@ -166,6 +176,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=1200&q=80",
     tags: ["해안", "절벽"],
+    lat: 33.2316155 , lng: 126.3148321
   },
   {
     id: 10,
@@ -180,6 +191,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80",
     tags: ["산", "전망"],
+    lat: 33.2410682, lng: 126.3134467
   },
   {
     id: 11,
@@ -230,12 +242,13 @@ export const destinations: Destination[] = [
     duration: "3~4시간",
     price: 0,
     location: "제주시",
-    hours: "24시간 개방 (수영 가능시간 별도)",
+    hours: "24시간 개방",
     shortDescription: "맑고 얕은 바다의 대표 해변.",
     fullDescription:
       "에메랄드빛 바다와 하얀 백사장이 어우러진 제주의 대표적인 해수욕장입니다.",
     image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
     tags: ["해변", "자연"],
+    lat: 33.54301337455566, lng: 126.66925526795818 
   },
   {
     id: 15,
@@ -251,6 +264,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&w=1200&q=80",
     tags: ["테마파크", "자연"],
+    lat: 33.5368768, lng: 126.7725371
   },
   {
     id: 16,
@@ -266,6 +280,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80",
     tags: ["드라이브", "자연"],
+    lat: 33.2043511 , lng: 126.2896137
   },
   {
     id: 17,
@@ -281,6 +296,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1596701062351-8c2c14d1fdd0?auto=format&fit=crop&w=1200&q=80",
     tags: ["해변", "자연"],
+    lat: 33.4505158, lng: 126.3042485
   },
   {
     id: 18,
@@ -296,6 +312,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=1200&q=80",
     tags: ["자연"],
+    lat: 33.4273021, lng:126.6616589
   },
   {
     id: 19,
@@ -311,6 +328,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1545579133-99bb5ab189bd?auto=format&fit=crop&w=1200&q=80",
     tags: ["드라이브", "해변", "자연"],
+    lat: 33.4591293, lng: 126.3103796
   },
   {
     id: 20,
@@ -326,6 +344,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
     tags: ["자연"],
+    lat: 33.4599676, lng: 126.831477
   },
   {
     id: 21,
@@ -334,12 +353,13 @@ export const destinations: Destination[] = [
     duration: "2~3시간",
     price: 5000,
     location: "제주시",
-    hours: "09:00 - 18:00 (매주 월요일 휴관)",
+    hours: "09:00 - 18:00",
     shortDescription: "제주의 돌문화를 체험.",
     fullDescription:
       "설문대할망 설화와 제주의 독특한 돌문화를 자연 속에서 관람할 수 있습니다.",
     image: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80",
     tags: ["테마파크", "자연"],
+    lat: 33.4485653, lng: 126.6586582
   },
   {
     id: 22,
@@ -355,6 +375,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1502680390469-be75c86b636f?auto=format&fit=crop&w=1200&q=80",
     tags: ["해변", "자연"],
+    lat: 33.2451968, lng: 126.4111861
   },
   {
     id: 23,
@@ -370,6 +391,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1425913397330-cf8af2ff40a1?auto=format&fit=crop&w=1200&q=80",
     tags: ["자연"],
+    lat: 33.4393622, lng: 126.62991
   },
   {
     id: 24,
@@ -385,6 +407,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1471922694854-ff1b63b20054?auto=format&fit=crop&w=1200&q=80",
     tags: ["해변", "자연"],
+    lat: 33.49793630000001 , lng: 126.4531587
   },
   {
     id: 25,
@@ -400,6 +423,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1200&q=80",
     tags: ["자연"],
+    lat: 33.43303, lng: 126.690658
   },
   {
     id: 26,
@@ -415,6 +439,7 @@ export const destinations: Destination[] = [
     image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
 
     tags: ["테마파크", "자연"],
+    lat: 33.30594380000001 , lng: 126.289437
   },
   {
     id: 27,
@@ -430,6 +455,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80",
     tags: ["자연"],
+    lat: 33.3659432, lng: 126.35644
   },
   {
     id: 28,
@@ -445,6 +471,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1544148103-0773bf10d330?auto=format&fit=crop&w=1200&q=80",
     tags: ["자연"],
+    lat: 33.4699272, lng: 126.4932445
   },
   {
     id: 29,
@@ -460,6 +487,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=1200&q=80",
     tags: ["자연"],
+    lat: 33.2524694, lng:  126.6235333
   },
   {
     id: 30,
@@ -475,5 +503,123 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1490077476659-095159692ab5?auto=format&fit=crop&w=1200&q=80",
     tags: ["드라이브", "해변", "자연"],
+  },
+  // 더미데이터 추가내용 - 1일차
+  {
+    id: 31,
+    name: "자매국수",
+    category: "자연",
+    duration: "1~2시간",
+    price: 10000,
+    location: "제주 제주시 항골남길 46 자매국수",
+    hours: DEFAULT_HOURS,
+    shortDescription: "고기국수 or 멸치국수 맛집!",
+    fullDescription: "맛있는 고기국수 or 멸치국수를 먹을 수 있어요",
+    image: "https://ugc-images.catchtable.co.kr/catchtable/shopinfo/sN799hM0JFhfspej6z67_Vg/m/fe7eddc7e9224308a7a7cb62de00d3bd",
+    tags: ["드라이브", "해변", "자연"],
+  },
+  {
+    id: 32,
+    name: "오조포구",
+    category: "자연",
+    duration: "2~3시간",
+    price: 0,
+    location: "제주 서귀포시 성산읍 오조리",
+    hours: DEFAULT_HOURS,
+    shortDescription: "고기국수 or 멸치국수 맛집!",
+    fullDescription: "맛있는 고기국수 or 멸치국수를 먹을 수 있어요",
+    image: "https://oopy.lazyrockets.com/api/v2/notion/image?src=https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F6bd8ce15-96fe-4b1d-9034-c55541ff4411%2Fafe20c97-129d-40c7-bbae-fefe983c0800%2F20210415_125422_1.jpg&blockId=3074ba28-9e9b-4ebe-bd3f-2c6e0fd76e0e",
+    tags: ["드라이브", "해변", "자연"],
+  },
+  {
+    id: 33,
+    name: "위드시티호텔",
+    category: "자연",
+    duration: "2~3시간",
+    price: 25000,
+    location: "제주특별자치도 제주시 노연로 34 (노형동), 제주 시내, 제주, 대한민국, 63082",
+    hours: DEFAULT_HOURS,
+    shortDescription: "고기국수 or 멸치국수 맛집!",
+    fullDescription: "맛있는 고기국수 or 멸치국수를 먹을 수 있어요",
+    image: "https://oopy.lazyrockets.com/api/v2/notion/image?src=https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F6bd8ce15-96fe-4b1d-9034-c55541ff4411%2Fafe20c97-129d-40c7-bbae-fefe983c0800%2F20210415_125422_1.jpg&blockId=3074ba28-9e9b-4ebe-bd3f-2c6e0fd76e0e",
+    tags: ["드라이브", "해변", "자연"],
+  },
+  {
+    id: 34,
+    name: "리에또 카페",
+    category: "자연",
+    duration: "2~3시간",
+    price: 10000,
+    location: "제주 제주시 원노형로 49-1 리에또카페",
+    hours: DEFAULT_HOURS,
+    shortDescription: "고기국수 or 멸치국수 맛집!",
+    fullDescription: "맛있는 고기국수 or 멸치국수를 먹을 수 있어요",
+    image: "https://mblogthumb-phinf.pstatic.net/MjAyMzEyMTVfNTMg/MDAxNzAyNjEwNDYxMzQy.PfwjJXfoSEB4CYC5IwwP3NUdCAIClvhw6GYYHDKMzUcg.yvgrTvtE6LiV-JKcSPS2_eJJ-cc1ARx0b0sdllvQF2sg.JPEG.likihong/IMG_9719.JPG?type=w800",
+    tags: ["드라이브", "해변", "자연"],
+  },
+  {
+    id: 35,
+    name: "성산 수산 식당",
+    category: "자연",
+    duration: "2~3시간",
+    price: 30000,
+    location: "제주 서귀포시 성산읍 성산중앙로 29",
+    hours: DEFAULT_HOURS,
+    shortDescription: "고기국수 or 멸치국수 맛집!",
+    fullDescription: "맛있는 고기국수 or 멸치국수를 먹을 수 있어요",
+    image: "https://mblogthumb-phinf.pstatic.net/MjAyMTEwMjFfNzEg/MDAxNjM0Nzg3OTE2OTA0.zg5fXN9VJpq-gR99C8kZ_gHnPRZn-fMBPxpBcyX1Z-og.6tKw-lWrdqj1hRIzF2Ei7erL1ZVZVFDuTgUxEAeko_Ig.JPEG.layups/SE-2acbb769-b229-4e40-ab36-b7227733127f.jpg?type=w800",
+    tags: ["드라이브", "해변", "자연"],
+  },
+  {
+    id: 36,
+    name: "뷰스트",
+    category: "자연",
+    duration: "2~3시간",
+    price: 8000,
+    location: "제주 서귀포시 안덕면 형제해안로 30",
+    hours: DEFAULT_HOURS,
+    shortDescription: "고기국수 or 멸치국수 맛집!",
+    fullDescription: "맛있는 고기국수 or 멸치국수를 먹을 수 있어요",
+    image: "https://mblogthumb-phinf.pstatic.net/MjAxOTExMTNfMjk5/MDAxNTczNTk0OTY5MDQ1.4cXERCyZNMCCXhRZTUuotZu9MyhIhSJ-DazR4K7hztIg.juZ4QEbbNJ_cT1uvIBg_LfnorzGEO4kVmh-_gjjuGGAg.JPEG.wkwmd81/%EC%A0%9C%EC%A3%BC%EB%8F%84%EC%B9%B4%ED%8E%98_%EB%B7%B0%EC%8A%A4%ED%8A%B8_04.jpg?type=w800",
+    tags: ["드라이브", "해변", "자연"],
+  },
+  {
+    id: 37,
+    name: "사계흑돼지 산방산본점",
+    category: "자연",
+    duration: "2~3시간",
+    price: 43000,
+    location: "제주 서귀포시 안덕면 사계로 201 1층",
+    hours: DEFAULT_HOURS,
+    shortDescription: "흑돼지",
+    fullDescription: "흑돼지1",
+    image: "https://mblogthumb-phinf.pstatic.net/MjAyMzAxMjBfMjc0/MDAxNjc0MjE2MTE5MDA2.as2gqk1jB3YD7kAZqi3y7iYvwivZvKY-LL-Qi1Q-3_0g.NVtNxP4T-DgWaYWP9r0Qk_wC1rUzLs8jT5jsv9Z4-xUg.JPEG.zltm31/20230120%EF%BC%BF172732.jpg?type=w800",
+    tags: ["드라이브"],
+  },
+  {
+    id: 38,
+    name: "동문시장",
+    category: "자연",
+    duration: "2~3시간",
+    price: 0,
+    location: "제주 제주시 관덕로14길 20",
+    hours: DEFAULT_HOURS,
+    shortDescription: "동문시장1",
+    fullDescription: "동문시장2",
+    image: "https://mblogthumb-phinf.pstatic.net/MjAyNDExMDZfMTQ5/MDAxNzMwODIyMjgxMzY5.d9Ar1DGwsVnLb5NwXUqcd4q9O8ZRajmh_EB78-gn2Gwg.KY9g3vOZPyIvl_YHqkXfzA4OXFFXhgEu3jTUL9lfMXkg.JPEG/DSC09033.jpg?type=w800",
+    tags: ["드라이브"],
+  },
+  {
+    id: 39,
+    name: "제주공항",
+    category: "자연",
+    duration: "2~3시간",
+    price: 0,
+    location: "제주 제주시 공항로 2 제주국제공항",
+    hours: DEFAULT_HOURS,
+    shortDescription: "제주공항1",
+    fullDescription: "제주공항2",
+    image: "https://cdn.jejudomin.co.kr/news/photo/202310/220114_218866_5818.jpg",
+    tags: ["드라이브"],
   },
 ];

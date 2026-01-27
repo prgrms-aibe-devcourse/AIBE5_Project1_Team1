@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
@@ -14,6 +14,15 @@ export default function SurveyQuickPage() {
   const [focusedSection, setFocusedSection] = useState<string | null>(null);
 
   const isComplete = duration && companion && region && purpose;
+  const isSection1Complete = duration && companion;
+  const isSection2Complete = region && purpose;
+
+  // 모든 선택이 완료되면 focusedSection 초기화
+  useEffect(() => {
+    if (isComplete) {
+      setFocusedSection(null);
+    }
+  }, [isComplete]);
 
   const handleSubmit = () => {
     if (isComplete) {
@@ -46,7 +55,7 @@ export default function SurveyQuickPage() {
           <div 
             ref={section1Ref}
             className={`p-6 rounded-xl transition-all ${
-              focusedSection === "section1"
+              focusedSection === "section1" && !isSection1Complete
                 ? "border-2 border-orange-500 bg-orange-50 shadow-lg"
                 : ""
             }`}
@@ -108,7 +117,7 @@ export default function SurveyQuickPage() {
           <div 
             ref={section2Ref}
             className={`p-6 rounded-xl transition-all ${
-              focusedSection === "section2"
+              focusedSection === "section2" && !isSection2Complete
                 ? "border-2 border-orange-500 bg-orange-50 shadow-lg"
                 : ""
             }`}
