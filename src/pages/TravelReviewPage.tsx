@@ -253,7 +253,7 @@ export default function TravelReviewPage() {
                   className={`px-5 py-2 rounded-full font-medium transition-all ${
                     selectedCategory === category
                       ? "bg-orange-500 text-white shadow-md"
-                      : "bg-white text-gray-700 border border-gray-300 hover:border-orange-500"
+                      : "bg-white text-gray-700 box-shadow-gray-300 hover:box-shadow-orange-500"
                   }`}
                 >
                   {category}
