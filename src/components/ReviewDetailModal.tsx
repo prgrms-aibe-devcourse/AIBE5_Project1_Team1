@@ -78,7 +78,7 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review, onA
       className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 overflow-y-auto"
       onClick={handleBackdropClick}
     >
-      <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[95vh] overflow-y-auto">
+      <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[95vh] overflow-y-auto my-8">
         {/* 헤더 */}
         <div className="sticky top-0 bg-white border-b border-gray-200 px-8 py-6 flex items-center justify-between z-10">
           <div className="flex items-center gap-4">
@@ -171,18 +171,27 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review, onA
           <div className="bg-gray-50 rounded-xl p-6 text-center">
             <h3 className="text-lg font-bold text-gray-900 mb-4">여행 만족도</h3>
             <div className="flex items-center justify-center gap-2 mb-2">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  className={`w-12 h-12 ${
-                    i < review.rating
-                      ? "fill-yellow-400 text-yellow-400"
-                      : "fill-gray-200 text-gray-200"
-                  }`}
-                />
-              ))}
+              {[...Array(5)].map((_, i) => {
+                const fillPercentage = Math.max(0, Math.min(100, (review.rating - i) * 100));
+                
+                return (
+                  <div key={i} className="relative w-12 h-12">
+                    {/* 1. 회색 배경 별 */}
+                    <Star className="absolute top-0 left-0 w-12 h-12 text-gray-200 fill-gray-200" />
+                    
+                    {/* 2. 노란색 채워지는 별 */}
+                    <div 
+                      className="absolute top-0 left-0 h-full overflow-hidden" 
+                      style={{ width: `${fillPercentage}%` }}
+                    >
+                      {/* [핵심] 부모 너비가 줄어도 별 크기는 w-12 h-12로 유지되어야 잘려 보임 */}
+                      <Star className="w-12 h-12 text-yellow-400 fill-yellow-400" />
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-            <p className="text-4xl font-bold text-gray-900">{review.rating}.0</p>
+            <p className="text-4xl font-bold text-gray-900">{review.rating.toFixed(1)}</p>
           </div>
 
           {/* [수정] 좋아요 버튼 섹션 */}

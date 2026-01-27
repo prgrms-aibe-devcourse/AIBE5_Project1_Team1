@@ -4,70 +4,12 @@ import ReviewWriteModal from "../components/ReviewWriteModal";
 import ReviewEditModal from "../components/ReviewEditModal";
 import ReviewDetailModal, { Review } from "../components/ReviewDetailModal";
 import { useAuth } from "../contexts/AuthContext";
-import { itineraryArray } from "../data/itineraryArray";
 
 const categories = ["전체", "액티비티", "힐링", "맛집", "감성"];
 
 // (reviews 데이터는 분량상 생략 - 기존 작성하신 데이터 그대로 두시면 됩니다!)
 // *중요: TypeScript 에러 방지를 위해 reviews 상수에 : Review[] 타입을 붙여주는 것이 좋지만
 // 지금은 아래 state 초기값에서 casting을 하므로 그대로 두셔도 됩니다.
-const findItineraryByKey = (planName: string) => { 
-  const plan = itineraryArray.find(item => item.key === planName);
-  return plan ? plan.value : itineraryArray[0].value;
-}
-type ItineraryItem = {
-  id: number;
-  day: number;
-  time: string;
-};
-type singleItinerary = {
-    key: string;
-    travelType: string;
-    value: ItineraryItem[];
-};
-type DaySchedule = {
-  day: string;
-  schedule: string;
-};
-import { destinations } from "../data/destinations";
-import { restaurants } from "../data/restaurants";
-import { accommodations } from "../data/accommodations";
-const allDestinations = [
-  ...destinations,
-  ...restaurants,
-  ...accommodations,
-];
-
-const makeReviewItinerary = (itinerary: ItineraryItem[]): DaySchedule[] => {
-  if (!Array.isArray(itinerary) || itinerary.length === 0) {
-    return [];
-  }
-
-  // 일차별로 그룹화
-  const dayMap = new Map<number, string[]>();
-  
-  itinerary.forEach((item) => {
-    const destination = allDestinations.find(d => d.id === item.id);
-    if (!destination) return;
-
-    const day = item.day;
-    if (!dayMap.has(day)) {
-      dayMap.set(day, []);
-    }
-    dayMap.get(day)?.push(destination.name);
-  });
-
-  // 일차순으로 정렬하여 결과 생성
-  const result: DaySchedule[] = Array.from(dayMap)
-    // .sort((a, b) => a[0] - b[0])
-    .map(([day, names]) => ({
-      day: `${day}일차`,
-      schedule: names.join(" → ")
-    }));
-
-  return result;
-}
-
 const reviews = [
   {
     id: 1,
@@ -82,7 +24,11 @@ const reviews = [
     likes: 127,
     planName: "제주 힐링 2박 3일",
     travelType: "힐링",
-    itinerary: makeReviewItinerary(findItineraryByKey('survey')),
+    itinerary: [
+      { day: "1차", schedule: "카페거리 → 애월 → 한라산 → 돼지고기 → 머시기숙소" },
+      { day: "2일차", schedule: "성산일출봉 → 섭지코지 → 해산물 맛집 → 숙소" },
+      { day: "3일차", schedule: "공항" }
+    ],
     comments: [ 
       { id: 1, author: "이XX", content: "성산일출봉 정보 감사합니다!" },
       { id: 2, author: "최XX", content: "사진이 너무 예술이네요." }
@@ -104,7 +50,11 @@ const reviews = [
     likes: 98,
     planName: "제주 등산 여행",
     travelType: "액티비티",
-    itinerary: makeReviewItinerary(findItineraryByKey('02')),
+    itinerary: [
+      { day: "1차", schedule: "한라산 등반" },
+      { day: "2일차", schedule: "휴식 및 맛집 투어" },
+      { day: "3일차", schedule: "공항" }
+    ],
     comments: [{ id: 1, author: "한XX", content: "한라산 코스 난이도 어땠나요?" }],
   },
   // (나머지 데이터 생략 - 기존 코드 유지)
@@ -411,16 +361,26 @@ export default function TravelReviewPage() {
                     </div>
 
                     <div className="flex items-center gap-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={`w-5 h-5 ${
-                            i < review.rating
-                              ? "fill-yellow-400 text-yellow-400"
-                              : "fill-gray-200 text-gray-200"
-                          }`}
-                        />
-                      ))}
+                      {[...Array(5)].map((_, i) => {
+                        // 점수 계산 (예: 2.5점일 때 3번째 별은 50%)
+                        const fillPercentage = Math.max(0, Math.min(100, (review.rating - i) * 100));
+                        
+                        return (
+                          <div key={i} className="relative w-5 h-5">
+                            {/* 1. 회색 배경 별 (고정) */}
+                            <Star className="absolute top-0 left-0 w-5 h-5 text-gray-200 fill-gray-200" />
+                            
+                            {/* 2. 노란색 채워지는 별 (width로 마스킹) */}
+                            <div 
+                              className="absolute top-0 left-0 h-full overflow-hidden" 
+                              style={{ width: `${fillPercentage}%` }}
+                            >
+                              {/* [핵심] 여기서 w-full이 아니라 w-5 h-5로 고정해야 찌그러지지 않고 잘립니다! */}
+                              <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
 
