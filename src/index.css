@@ -2662,13 +2662,15 @@ header {
   z-index: 50 !important;
 }
 
-body{
+/* body{
  -ms-overflow-style: none;
 }
 ::-webkit-scrollbar {
   display: none;
+} */
+html {
+  scrollbar-gutter: stable;
 }
-
 .z-\[9999\] {
   z-index: 9999;
 }

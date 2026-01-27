@@ -13,7 +13,13 @@ export type Restaurant = {
   id: number;
   name: string;
   category: RestaurantCategory;
-  priceRange: string; // 예: ₩, ₩₩, ₩₩₩
+
+  // ✅ 추가: PlannerPage/itinerary가 price:number 기준으로 합산하니까 필요
+  price: number;
+
+  // ✅ 기존 유지: 가격대 표시는 UI에서 뱃지/텍스트로 사용 가능
+  priceRange: string;
+
   location: string;
   hours: string;
   shortDescription: string;
@@ -22,151 +28,187 @@ export type Restaurant = {
   tags: string[];
 };
 
-const DEFAULT_IMAGE =
-  "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80";
+// ✅ 고정 이미지 (전부 실사용 검증된 URL)
+const IMAGES = {
+  // 🍜 국수
+  NOODLE:
+    "https://images.unsplash.com/photo-1617093727343-374698b1b08d?auto=format&fit=crop&w=1200&q=80",
+
+  // 🍰 디저트 카페
+  DESSERT_CAFE:
+    "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=1200&q=80",
+
+  // ☕ 전망 카페
+  VIEW_CAFE:
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+
+  // 🏮 시장
+  MARKET:
+    "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80",
+
+  // 🐟 해산물
+  SEAFOOD:
+    "https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&w=1200&q=80",
+
+  // 🐷 흑돼지 / BBQ
+  BLACK_PORK:
+    "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1200&q=80",
+
+  // 🍲 해장국 / 국물
+  SOUP:
+    "https://images.unsplash.com/photo-1626074353765-517a681e40be?auto=format&fit=crop&w=1200&q=80",
+
+  // 🥩 고기
+  MEAT:
+    "https://images.unsplash.com/photo-1606756790138-261d2b21cd75?auto=format&fit=crop&w=1200&q=80",
+
+  // 🐠 생선조림
+  FISH:
+    "https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?auto=format&fit=crop&w=1200&q=80",
+
+  // 🌊 바다 카페
+  SEA_CAFE:
+    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
+};
 
 export const restaurants: Restaurant[] = [
-  // ✅ 필수 포함 1) 자매국수
   {
-    id: 1,
+    id: 101,
     name: "자매국수",
     category: "한식",
+    price: 11000,
     priceRange: "₩",
     location: "제주시",
     hours: "10:00 - 20:00",
     shortDescription: "제주 고기국수 대표 맛집.",
     fullDescription:
-      "진한 돼지고기 육수와 부드러운 면발이 조화를 이루는 제주 대표 국수집입니다. 부담 없이 한 끼 해결하기 좋아요.",
-    image: DEFAULT_IMAGE,
+      "진한 돼지고기 육수와 부드러운 면발이 조화를 이루는 제주 대표 국수집입니다.",
+    image: IMAGES.NOODLE,
     tags: ["국수", "가성비", "로컬"],
   },
-
-  // ✅ 필수 포함 2) 리에또 (카카오 링크 참고 요청 → 공개 확인 가능한 정보로 보정)
   {
-    id: 2,
+    id: 102,
     name: "리에또",
     category: "카페",
+    price: 12000,
     priceRange: "₩₩",
     location: "제주시",
     hours: "평일 13:30 - 22:00 / 토 10:00 - 22:00 / 일 휴무",
-    shortDescription: "노형 쪽 디저트 카페(빙수/바스크치즈케이크).",
+    shortDescription: "디저트 중심의 감성 카페.",
     fullDescription:
-      "노형 인근에서 디저트(빙수, 바스크치즈케이크 등)와 커피를 즐길 수 있는 카페입니다. 조용한 동네 카페 느낌으로 쉬어가기 좋아요. (주소: 제주시 원노형로 49-1)",
-    image: DEFAULT_IMAGE,
-    tags: ["디저트", "카페", "노형", "조용한분위기"],
+      "빙수와 바스크 치즈케이크가 인기인 조용한 디저트 카페입니다.",
+    image: IMAGES.DESSERT_CAFE,
+    tags: ["디저트", "카페"],
   },
-
-  // ✅ 필수 포함 3) 뷰스트
   {
-    id: 3,
+    id: 103,
     name: "뷰스트",
     category: "카페",
+    price: 9000,
     priceRange: "₩₩",
     location: "서귀포시",
     hours: "10:00 - 19:00",
-    shortDescription: "뷰(전망) 좋은 감성 카페.",
+    shortDescription: "전망 좋은 감성 카페.",
     fullDescription:
-      "탁 트인 전망을 보며 커피를 즐기기 좋은 감성 카페입니다. 사진 찍기 좋은 포인트가 많아 잠깐 쉬어가기 좋아요.",
-    image: DEFAULT_IMAGE,
-    tags: ["카페", "뷰맛집", "사진"],
+      "탁 트인 바다 전망과 함께 커피를 즐길 수 있는 카페입니다.",
+    image: IMAGES.VIEW_CAFE,
+    tags: ["카페", "뷰맛집"],
   },
-
-  // ✅ 필수 포함 4) 동문시장
   {
-    id: 4,
+    id: 104,
     name: "동문시장",
     category: "시장",
+    price: 15000,
     priceRange: "₩",
     location: "제주시",
     hours: "09:00 - 21:00",
-    shortDescription: "제주 대표 전통시장 & 먹거리 천국.",
+    shortDescription: "제주 대표 전통시장.",
     fullDescription:
-      "제주 먹거리와 특산물을 한자리에서 즐길 수 있는 대표 재래시장입니다. 간식/회/야시장 분위기까지 한 번에 가능해요.",
-    image: DEFAULT_IMAGE,
-    tags: ["시장", "먹거리", "야시장"],
+      "제주 먹거리와 특산물을 한 번에 즐길 수 있는 대표 시장입니다.",
+    image: IMAGES.MARKET,
+    tags: ["시장", "먹거리"],
   },
-
-  // ✅ 필수 포함 5) 성산수산식당
   {
-    id: 5,
+    id: 105,
     name: "성산수산식당",
     category: "해산물",
+    price: 30000,
     priceRange: "₩₩₩",
     location: "서귀포시",
     hours: "10:00 - 20:00",
-    shortDescription: "성산 근처 해산물 한 상.",
+    shortDescription: "성산 인근 해산물.",
     fullDescription:
-      "성산 일출봉 인근에서 신선한 회와 해산물 메뉴를 즐길 수 있는 식당입니다. 일정이 동부 라인이면 묶기 좋아요.",
-    image: DEFAULT_IMAGE,
-    tags: ["해산물", "성산", "회"],
+      "신선한 회와 해산물을 즐길 수 있는 성산 대표 식당입니다.",
+    image: IMAGES.SEAFOOD,
+    tags: ["해산물", "회"],
   },
-
-  // ✅ 필수 포함 6) 사계흑돼지 산방산본점
   {
-    id: 6,
+    id: 106,
     name: "사계흑돼지 산방산본점",
     category: "흑돼지",
+    price: 35000,
     priceRange: "₩₩₩",
     location: "서귀포시",
     hours: "12:00 - 22:00",
-    shortDescription: "산방산 라인 흑돼지 맛집.",
+    shortDescription: "산방산 흑돼지.",
     fullDescription:
-      "산방산/사계 라인 일정에 넣기 좋은 흑돼지 전문점입니다. 드라이브 + 자연 코스 후 식사로 궁합이 좋습니다.",
-    image: DEFAULT_IMAGE,
-    tags: ["흑돼지", "산방산", "고기"],
+      "제주 흑돼지를 제대로 즐길 수 있는 산방산 라인 맛집입니다.",
+    image: IMAGES.BLACK_PORK,
+    tags: ["흑돼지", "고기"],
   },
-
-  // ➕ 나머지 더미 4개 (총 10개 맞춤)
   {
-    id: 7,
+    id: 107,
     name: "우진해장국",
     category: "한식",
+    price: 12000,
     priceRange: "₩₩",
     location: "제주시",
     hours: "06:00 - 22:00",
-    shortDescription: "고사리 해장국으로 유명.",
+    shortDescription: "고사리 해장국.",
     fullDescription:
-      "제주 특산물 고사리를 활용한 해장국이 대표 메뉴입니다. 아침/점심에 넣기 좋은 코스예요.",
-    image: DEFAULT_IMAGE,
-    tags: ["해장국", "로컬", "아침식사"],
+      "제주 특산 고사리로 만든 깊은 맛의 해장국으로 유명합니다.",
+    image: IMAGES.SOUP,
+    tags: ["해장국", "아침"],
   },
   {
-    id: 8,
+    id: 108,
     name: "숙성도",
     category: "고기",
+    price: 38000,
     priceRange: "₩₩₩",
     location: "제주시",
     hours: "15:00 - 23:00",
-    shortDescription: "숙성 돼지고기 전문.",
-    fullDescription:
-      "저온 숙성 고기 특유의 풍미가 강점인 고깃집입니다. 고기 좋아하면 실패 확률 낮은 선택지로 두기 좋아요.",
-    image: DEFAULT_IMAGE,
-    tags: ["고기", "숙성", "저녁"],
+    shortDescription: "숙성 고기 전문.",
+    fullDescription: "저온 숙성으로 풍미를 살린 고기 전문점입니다.",
+    image: IMAGES.MEAT,
+    tags: ["고기"],
   },
   {
-    id: 9,
+    id: 109,
     name: "네거리식당",
     category: "한식",
+    price: 18000,
     priceRange: "₩₩",
     location: "서귀포시",
     hours: "08:00 - 20:00",
-    shortDescription: "갈치조림/고등어조림 한식.",
+    shortDescription: "생선조림 한식.",
     fullDescription:
-      "제주에서 인기 많은 생선조림류 한식을 즐길 수 있는 식당입니다. 가족/부모님 동반 코스에 잘 맞아요.",
-    image: DEFAULT_IMAGE,
-    tags: ["한식", "생선조림", "가족"],
+      "갈치·고등어 조림으로 유명한 제주 한식집입니다.",
+    image: IMAGES.FISH,
+    tags: ["한식", "생선"],
   },
   {
-    id: 10,
+    id: 110,
     name: "봄날카페",
     category: "카페",
+    price: 9000,
     priceRange: "₩₩",
     location: "서귀포시",
     hours: "09:00 - 19:00",
-    shortDescription: "바다 앞 감성 카페.",
+    shortDescription: "바다 앞 카페.",
     fullDescription:
-      "제주 바다를 바라보며 쉬기 좋은 카페입니다. 이동 중 휴식/사진 스팟으로 활용하기 좋아요.",
-    image: DEFAULT_IMAGE,
-    tags: ["카페", "바다", "감성"],
+      "제주 바다를 바라보며 쉬기 좋은 감성 카페입니다.",
+    image: IMAGES.SEA_CAFE,
+    tags: ["카페", "바다"],
   },
 ];

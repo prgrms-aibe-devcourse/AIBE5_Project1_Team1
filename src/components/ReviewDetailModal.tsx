@@ -1,40 +1,44 @@
-import { X, ThumbsUp, MessageCircle, Star, MapPin, Calendar, Users, ExternalLink, Edit3 } from "lucide-react";
+import { X, ThumbsUp, MessageCircle, Star, MapPin, Calendar, Users, Edit3 } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
+
+export interface Review {
+  id: number;
+  author: string;
+  date: string;
+  tripType: string;
+  duration: string;
+  rating: number;
+  title: string;
+  content: string;
+  image?: string;
+  images?: string[];
+  likes: number;
+  isLiked?: boolean; // [추가] 좋아요 상태 확인용
+  comments: { id: number; author: string; content: string }[];
+  planName?: string;
+  travelType?: string;
+  itinerary?: { day: string; schedule: string }[];
+}
 
 interface ReviewDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
   onEdit?: () => void;
-  review: {
-    id: number;
-    author: string;
-    date: string;
-    tripType: string;
-    duration: string;
-    rating: number;
-    title: string;
-    content: string;
-    image?: string;
-    images?: string[];
-    likes: number;
-    comments: number;
-    planName?: string;
-    travelType?: string;
-    itinerary?: Array<{ day: string; schedule: string }>;
-  };
+  review: Review;
+  onAddComment: (reviewId: number, content: string) => void;
+  onLike: (reviewId: number) => void;
 }
 
-export default function ReviewDetailModal({ isOpen, onClose, onEdit, review }: ReviewDetailModalProps) {
+export default function ReviewDetailModal({ isOpen, onClose, onEdit, review, onAddComment, onLike }: ReviewDetailModalProps) {
   const [comment, setComment] = useState("");
   const [showComments] = useState(true);
   const navigate = useNavigate();
-  const { userName } = useAuth();
+  const { userName, isLoggedIn } = useAuth(); // isLoggedIn은 실제 사용 시 필요할 수 있음
 
-  if (!isOpen) return null;
+  if (!isOpen || !review) return null;
 
-  // 현재 로그인한 사용자가 작성한 리뷰인지 확인
   const isMyReview = userName === review.author;
 
   const handleBackdropClick = (e: React.MouseEvent) => {
@@ -44,7 +48,6 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review }: R
   };
 
   const handleFollowPlan = () => {
-    // 후기의 여행 플랜을 플래너 페이지로 전달
     navigate("/planner", {
       state: {
         fromReview: true,
@@ -64,11 +67,11 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review }: R
     onClose();
   };
 
-  const mockComments = [
-    { id: 1, author: "이XX", content: "저도 다음주에 제주 가는데 참고할게요!" },
-    { id: 2, author: "최XX", content: "사진 너무 예쁘네요 ㅎㅎ" },
-    { id: 3, author: "박XX", content: "일정 공유 감사합니다!" }
-  ];
+  const handleSubmitComment = () => {
+    if (!comment.trim()) return;
+    onAddComment(review.id, comment);
+    setComment("");
+  };
 
   return (
     <div 
@@ -83,7 +86,7 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review }: R
               {review.author[0]}
             </div>
             <div>
-              <p className="font-semibold text-gray-900">{review.author}의 여행 플랜</p>
+              <p className="font-semibold text-gray-900">{review.author || "익명"}의 여행 플랜</p>
               <p className="text-sm text-gray-500">{review.planName || "제주도 힐링 여행"}</p>
             </div>
           </div>
@@ -116,24 +119,21 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review }: R
           </div>
 
           {/* 이미지 갤러리 */}
-          {(review.image || review.images) && (
-            <div className="space-y-4">
-              {review.image && (
-                <div className="rounded-2xl overflow-hidden">
-                  <img src={review.image} alt="여행 사진" className="w-full h-auto" />
-                </div>
-              )}
-              {review.images && (
-                <div className="grid grid-cols-2 gap-4">
-                  {review.images.map((img, idx) => (
-                    <div key={idx} className="rounded-xl overflow-hidden aspect-video">
-                      <img src={img} alt={`여행 사진 ${idx + 1}`} className="w-full h-full object-cover" />
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+          <section>
+            {review.images && review.images.length > 0 ? (
+              <div className="grid grid-cols-2 gap-4">
+                {review.images.map((img, idx) => (
+                  <div key={idx} className="rounded-xl overflow-hidden aspect-video">
+                    <img src={img} alt={`여행 사진 ${idx + 1}`} className="w-full h-full object-cover" />
+                  </div>
+                ))}
+              </div>
+            ) : review.image ? (
+              <div className="rounded-2xl overflow-hidden">
+                <img src={review.image} alt="여행 사진" className="w-full h-auto" />
+              </div>
+            ) : null}
+          </section>
 
           {/* 본문 */}
           <div className="prose prose-lg max-w-none">
@@ -185,7 +185,7 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review }: R
             <p className="text-4xl font-bold text-gray-900">{review.rating}.0</p>
           </div>
 
-          {/* 추천 버튼 */}
+          {/* [수정] 좋아요 버튼 섹션 */}
           <div className="text-center py-4">
             {isMyReview ? (
               <button 
@@ -196,9 +196,16 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review }: R
                 <span>후기 수정하기</span>
               </button>
             ) : (
-              <button className="inline-flex items-center gap-3 px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all">
-                <ThumbsUp className="w-5 h-5" />
-                <span>이 후기가 도움이 되었어요</span>
+              <button 
+                onClick={() => onLike(review.id)}
+                className={`inline-flex items-center gap-3 px-8 py-4 font-bold rounded-full shadow-md hover:shadow-lg transition-all border-2 ${
+                  review.isLiked 
+                    ? "bg-orange-400 border-orange-400 text-white" // 좋아요 On 스타일
+                    : "bg-white border-orange-500 text-orange-500 hover:bg-orange-50" // 좋아요 Off 스타일
+                }`}
+              >
+                <ThumbsUp className={`w-5 h-5 transition-colors ${review.isLiked ? "fill-white" : "fill-transparent"}`} />
+                <span>좋아요 {review.likes}</span>
               </button>
             )}
           </div>
@@ -206,10 +213,9 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review }: R
           {/* 댓글 섹션 */}
           <div className="border-t border-gray-200 pt-8">
             <h3 className="text-xl font-bold text-gray-900 mb-6">
-              댓글 {mockComments.length}개
+              댓글 {review.comments?.length || 0}개
             </h3>
 
-            {/* 댓글 작성 */}
             <div className="bg-gray-50 rounded-xl p-4 mb-6">
               <textarea
                 value={comment}
@@ -219,22 +225,23 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review }: R
                 rows={3}
               />
               <div className="flex justify-end mt-3">
-                <button className="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                <button 
+                  onClick={handleSubmitComment}
+                  className="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
                   댓글 작성
                 </button>
               </div>
             </div>
 
-            {/* 댓글 리스트 */}
             {showComments && (
               <div className="space-y-4">
-                {mockComments.map((c) => (
+                {review.comments?.map((c) => (
                   <div key={c.id} className="flex gap-4 p-4 bg-gray-50 rounded-lg">
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-400 to-gray-500 flex items-center justify-center text-white font-bold flex-shrink-0">
                       {c.author[0]}
                     </div>
                     <div className="flex-1">
-                      <p className="font-semibold text-gray-900 mb-1">{c.author}</p>
+                      <p className="font-semibold text-gray-900 mb-1">{c.author || "익명"}</p>
                       <p className="text-gray-700">{c.content}</p>
                     </div>
                   </div>
