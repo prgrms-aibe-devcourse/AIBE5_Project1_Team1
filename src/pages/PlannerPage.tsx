@@ -12,6 +12,8 @@ import KakaoMap from "../components/KakaoMap";
 
 // 관광지 카테고리, 장소
 import { destinations } from "../data/destinations";
+import { restaurants } from "../data/restaurants";
+import { accommodations } from "../data/accommodations";
 
 // 식당, 호텔 장소 
 import DraggableItineraryItem from "../components/DraggableItineraryItem";
