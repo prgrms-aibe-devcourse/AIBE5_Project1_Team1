@@ -26,6 +26,8 @@ export type Restaurant = {
   fullDescription: string;
   image: string;
   tags: string[];
+    lat?: number;
+  lng?: number;
 };
 
 // ✅ 고정 이미지 (전부 실사용 검증된 URL)
@@ -85,6 +87,9 @@ export const restaurants: Restaurant[] = [
       "진한 돼지고기 육수와 부드러운 면발이 조화를 이루는 제주 대표 국수집입니다.",
     image: IMAGES.NOODLE,
     tags: ["국수", "가성비", "로컬"],
+    lat: 33.498621 ,
+    lng: 126.4587659,
+
   },
   {
     id: 102,
@@ -99,6 +104,8 @@ export const restaurants: Restaurant[] = [
       "빙수와 바스크 치즈케이크가 인기인 조용한 디저트 카페입니다.",
     image: IMAGES.DESSERT_CAFE,
     tags: ["디저트", "카페"],
+    lat: 33.484166274040284,
+    lng: 126.48498466666912,
   },
   {
     id: 103,
@@ -113,6 +120,8 @@ export const restaurants: Restaurant[] = [
       "탁 트인 바다 전망과 함께 커피를 즐길 수 있는 카페입니다.",
     image: IMAGES.VIEW_CAFE,
     tags: ["카페", "뷰맛집"],
+    lat: 33.2278135,
+    lng: 126.303557,
   },
   {
     id: 104,
@@ -127,6 +136,8 @@ export const restaurants: Restaurant[] = [
       "제주 먹거리와 특산물을 한 번에 즐길 수 있는 대표 시장입니다.",
     image: IMAGES.MARKET,
     tags: ["시장", "먹거리"],
+    lat: 33.51282933037489,
+    lng: 126.52837848272551 ,  
   },
   {
     id: 105,
@@ -141,6 +152,8 @@ export const restaurants: Restaurant[] = [
       "신선한 회와 해산물을 즐길 수 있는 성산 대표 식당입니다.",
     image: IMAGES.SEAFOOD,
     tags: ["해산물", "회"],
+    lat: 33.46256965940773,
+    lng: 126.93261800885692,
   },
   {
     id: 106,
@@ -155,6 +168,8 @@ export const restaurants: Restaurant[] = [
       "제주 흑돼지를 제대로 즐길 수 있는 산방산 라인 맛집입니다.",
     image: IMAGES.BLACK_PORK,
     tags: ["흑돼지", "고기"],
+    lat: 33.24814566114882,
+    lng: 126.30243758799476,
   },
   {
     id: 107,
@@ -169,6 +184,8 @@ export const restaurants: Restaurant[] = [
       "제주 특산 고사리로 만든 깊은 맛의 해장국으로 유명합니다.",
     image: IMAGES.SOUP,
     tags: ["해장국", "아침"],
+    lat: 33.511505 ,
+    lng: 126.5200319,
   },
   {
     id: 108,
@@ -182,6 +199,8 @@ export const restaurants: Restaurant[] = [
     fullDescription: "저온 숙성으로 풍미를 살린 고기 전문점입니다.",
     image: IMAGES.MEAT,
     tags: ["고기"],
+    lat: 33.5423994 ,
+    lng: 126.6712053,
   },
   {
     id: 109,
@@ -196,6 +215,8 @@ export const restaurants: Restaurant[] = [
       "갈치·고등어 조림으로 유명한 제주 한식집입니다.",
     image: IMAGES.FISH,
     tags: ["한식", "생선"],
+    lat: 33.2485302 ,
+    lng: 126.5593236,
   },
   {
     id: 110,
@@ -210,5 +231,7 @@ export const restaurants: Restaurant[] = [
       "제주 바다를 바라보며 쉬기 좋은 감성 카페입니다.",
     image: IMAGES.SEA_CAFE,
     tags: ["카페", "바다"],
+    lat: 33.4624568,
+    lng: 126.3096148,
   },
 ];
