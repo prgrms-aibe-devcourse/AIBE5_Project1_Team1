@@ -157,25 +157,25 @@ export default function MainPage() {
                 <div
                   key={destination.id}
                   onClick={() => setSelectedDestination(destination)}
-                  className={`flex flex-col md:flex-row items-center gap-12 ${
+                  className={`flex flex-col md:flex-row items-center gap-12 py-16 ${
                     isReverse ? 
                     "md:flex-row-reverse" : 
                     ""
                   }`}
                 >
-                {isReverse ? (
-                  <>
-                    {destinationImage(destination, index)}
-                    {destinationtext(destination)}
-                  </>
-                ) : (
-                  <>
-                    {destinationtext(destination)}
-                    {destinationImage(destination, index)}
-                  </>
-                )}
-            </div>
-            );
+                  {isReverse ? (
+                    <>
+                      {destinationtext(destination)}
+                      {destinationImage(destination, index)}
+                    </>
+                  ) : (
+                    <>
+                      {destinationImage(destination, index)}
+                      {destinationtext(destination)}
+                    </>
+                  )}
+                </div>
+              );
             })}
           </div>
         </div>

@@ -36,7 +36,7 @@ const reviews = [
     likes: 127,
     planName: "제주 힐링 2박 3일",
     travelType: "힐링",
-    itinerary: makeReviewItinerary(allDestinations, findItineraryByKey('survey')),
+    itineraryKey: "survey",
     comments: [ 
       { id: 1, author: "이XX", content: "성산일출봉 정보 감사합니다!" },
       { id: 2, author: "최XX", content: "사진이 너무 예술이네요." }
@@ -58,7 +58,7 @@ const reviews = [
     likes: 98,
     planName: "제주 등산 여행",
     travelType: "액티비티",
-    itinerary: makeReviewItinerary(allDestinations, findItineraryByKey('02')),
+    itineraryKey: "02",
     comments: [{ id: 1, author: "한XX", content: "한라산 코스 난이도 어땠나요?" }],
   },
   // (나머지 데이터 생략 - 기존 코드 유지)

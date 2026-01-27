@@ -2,6 +2,11 @@ import { X, ThumbsUp, MessageCircle, Star, MapPin, Calendar, Users, Edit3 } from
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
+import { PlanState } from "../data/commonType";
+import { findItineraryByKey, makeReviewItinerary } from "../data/commonFunction";
+import { destinations } from "../data/destinations";
+import { restaurants } from "../data/restaurants";
+import { accommodations } from "../data/accommodations";
 
 export interface Review {
   id: number;
@@ -19,7 +24,7 @@ export interface Review {
   comments: { id: number; author: string; content: string }[];
   planName?: string;
   travelType?: string;
-  itinerary?: { day: string; schedule: string }[];
+  itineraryKey?: string | null;
 }
 
 interface ReviewDetailModalProps {
@@ -27,9 +32,15 @@ interface ReviewDetailModalProps {
   onClose: () => void;
   onEdit?: () => void;
   review: Review;
-  onAddComment: (reviewId: number, content: string) => void;
-  onLike: (reviewId: number) => void;
+  onAddComment?: (reviewId: number, content: string) => void;
+  onLike?: (reviewId: number) => void;
 }
+
+const allDestinations = [
+  ...destinations,
+  ...restaurants,
+  ...accommodations
+];
 
 export default function ReviewDetailModal({ isOpen, onClose, onEdit, review, onAddComment, onLike }: ReviewDetailModalProps) {
   const [comment, setComment] = useState("");
@@ -50,26 +61,24 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review, onA
   const handleFollowPlan = () => {
     navigate("/planner", {
       state: {
-        fromReview: true,
-        surveyData: {
-          packageName: review.planName || "제주도 힐링 여행",
-          purpose: review.travelType ? 
-            (review.travelType.includes("힐링") ? "느긋하게 쉬기(힐링)" :
-             review.travelType.includes("맛집") ? "맛있는거 먹기(맛집)" :
-             review.travelType.includes("감성") ? "예쁜 사진 남기기(감성)" :
-             review.travelType.includes("액티비티") ? "신나게 놀기(액티비티)" :
-             "느긋하게 쉬기(힐링)") :
-            "느긋하게 쉬기(힐링)"
-        },
-        itinerary: review.itinerary
-      }
+        sourcePage: "review",
+        isReadOnly: false,
+        travelType: review.travelType || null,
+        myPlan: findItineraryByKey(review.itineraryKey || "survey"),
+        planInfo: {
+          title: review.planName || "제주도 힐링 여행",
+          date: review.date.replaceAll(".", "-").slice(0, 10),
+          description: null,
+          isPrivate: false
+        }
+      } satisfies PlanState
     });
     onClose();
   };
 
   const handleSubmitComment = () => {
     if (!comment.trim()) return;
-    onAddComment(review.id, comment);
+    onAddComment && onAddComment(review.id, comment);
     setComment("");
   };
 
@@ -141,7 +150,7 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review, onA
           </div>
 
           {/* 여행 일정 */}
-          {review.itinerary && (
+          {review.itineraryKey && (
             <div className="bg-gray-50 rounded-xl p-6 space-y-4">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-bold text-gray-900">여행 플랜</h3>
@@ -153,7 +162,7 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review, onA
                 </button>
               </div>
               <div className="space-y-3">
-                {review.itinerary.map((item, idx) => (
+                {makeReviewItinerary(allDestinations, findItineraryByKey(review.itineraryKey)).map((item, idx) => (
                   <div key={idx} className="bg-orange-50 rounded-lg p-4 flex gap-4">
                     <div className="flex-shrink-0">
                       <span className="inline-block px-3 py-1 bg-orange-200 text-orange-800 rounded-full text-sm font-medium">
@@ -206,7 +215,7 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review, onA
               </button>
             ) : (
               <button 
-                onClick={() => onLike(review.id)}
+                onClick={() => onLike && onLike(review.id)}
                 className={`inline-flex items-center gap-3 px-8 py-4 font-bold rounded-full shadow-md hover:shadow-lg transition-all border-2 ${
                   review.isLiked 
                     ? "bg-orange-400 border-orange-400 text-white" // 좋아요 On 스타일

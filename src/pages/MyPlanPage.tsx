@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router";
 import { Calendar, MapPin, Share2, FileText, Eye } from "lucide-react";
 import { useState } from "react";
 import ReviewWriteModal from "../components/ReviewWriteModal";
-import ReviewDetailModal from "../components/ReviewDetailModal";
+import ReviewDetailModal, { Review } from "../components/ReviewDetailModal";
 import SharePlanModal from "../components/SharePlanModal";
 import { findItineraryByKey, makeReviewItinerary } from "../data/commonFunction";
 
@@ -25,7 +25,7 @@ export default function MyPlanPage() {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [selectedPlanForShare, setSelectedPlanForShare] = useState<typeof plans[0] | null>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [selectedReview, setSelectedReview] = useState<any>(null);
+  const [selectedReview, setSelectedReview] = useState<Review | null>(null);
 
   const rawPlans = [
     {
@@ -34,6 +34,7 @@ export default function MyPlanPage() {
       travelType: "힐링",
       itinerary: findItineraryByKey("my01"),
       name: "제주 동부 힐링 여행",
+      description: "자연과 함께하는 힐링 여행",
       date: "2024.03.15 ~ 2024.03.17",
       hasReview: true, // 리뷰 작성 완료
       images: [
@@ -62,6 +63,7 @@ export default function MyPlanPage() {
       key: "my02",
       name: "여름 제주 해변 여행",
       travelType: "감성",
+      description: "푸른 바다와 함께하는 여름 여행",
       itinerary: findItineraryByKey("my02"),
       date: "2024.07.10 ~ 2024.07.13",
       hasReview: false,
@@ -117,11 +119,15 @@ export default function MyPlanPage() {
       image: plan.images[0],
       images: plan.images,
       likes: 127,
-      comments: 23,
+      comments: [
+        {id: 35, author:"이XX", content: "리뷰 잘 봤어요! 다음에 참고할게요."},
+        {id: 36, author:"박XX", content: "사진이 정말 멋지네요!"},
+        {id: 37, author:"최XX", content: "여행 계획에 큰 도움이 되었습니다."}
+      ],
       planName: plan.name,
       travelType: plan.travelType,
-      itinerary: makeReviewItinerary(allDestinations, findItineraryByKey("my01")),
-    };
+      itineraryKey: "my01",
+    } satisfies Review;
   };
 
   const handleLoadPlan = (planId: number) => {
@@ -136,8 +142,8 @@ export default function MyPlanPage() {
         myPlan: findItineraryByKey(plan?.key || "my01"),
         planInfo: {
           title: plan?.name || "내 여행", 
-          date: plan?.date.slice(0, 10).replace(".", "-") || "",
-          description: null,
+          date: plan?.date.slice(0, 10).replaceAll(".", "-") || "",
+          description: plan?.description || null,
           isPrivate: false
         }
       } satisfies PlanState

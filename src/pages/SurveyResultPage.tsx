@@ -17,7 +17,7 @@ export default function SurveyResultPage() {
         myPlan: itineraryArray[0].value,
         planInfo: {
           title: itinerary.packageName,
-          date: Date().toString().slice(0, 10),
+          date: new Date().toISOString().slice(0, 10),
           description: "여행 계획 / 주말여행 / 바다",
           isPrivate: false
         }
