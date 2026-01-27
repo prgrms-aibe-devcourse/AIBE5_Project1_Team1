@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { ArrowRight, Check, Compass, MapPin, Calendar } from "lucide-react";
 import TravelModal from "../components/TravelModal";
-import { destinations } from "../data/destinations";
+import { Destination, destinations } from "../data/destinations";
 import { useNavigate } from 'react-router';
+import mainImage from "../assets/mainimage2.png";
 
 
 
@@ -12,7 +13,56 @@ export default function MainPage() {
   const handleSurvey = () => {
     navigate("/survey");
   };
+  const destinationImage = (destination: Destination, index: number) =>{
+    return(
+       <div className="relative w-full md:w-1/2">
+              <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
+                <img
+                  src={destination.image}
+                  alt={destination.name}
+                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                />
+              </div>
+              <div className="absolute -top-4 -left-4 w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                {index + 1}
+              </div>
+            </div>
+    )
+  }
 
+   const destinationtext = (destination: Destination) =>{
+    return(
+      <div className="w-full md:w-1/2 space-y-4">
+              <span className="inline-block px-3 py-1 bg-orange-100 text-orange-600 text-sm font-bold rounded-full">
+                {destination.category}
+              </span>
+
+              <h3 className="text-3xl font-bold text-gray-900 hover:text-orange-500 transition-colors">
+                {destination.name}
+              </h3>
+
+              <p className="text-gray-600 leading-relaxed">
+                {destination.shortDescription}
+              </p>
+
+              <div className="flex flex-wrap gap-2">
+                {destination.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-lg"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-2 text-sm text-gray-500">
+                <MapPin className="w-4 h-4" />
+                <span>{destination.location}</span>
+              </div>
+            </div>
+    )
+   }
   return (
     <div className="w-full">
       {/* Hero Section */}
@@ -73,7 +123,7 @@ export default function MainPage() {
             <div className="relative">
               <div className="aspect-square rounded-3xl overflow-hidden shadow-2xl bg-orange-200">
                 <img
-                  src="plash.com/photo-1694087450396-f6b1031b37d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmF2ZWwlMjBwbGFubmluZyUyMHZhY2F0aW9ufGVufDF8fHx8MTc2OTIzNDYzMnww&ixlib=rb-4.1.0&q=80&w=1080"
+                  src={mainImage}
                   alt="여행 계획"
                   className="w-full h-full object-cover"
                 />
@@ -85,64 +135,43 @@ export default function MainPage() {
         </div>
       </section>
 
-      {/* 추천 여행지 섹션 */}
+     {/* 추천 여행지 섹션 */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">제주도 추천 여행지</h2>
-            <p className="text-lg text-gray-600">제주를 대표하는 아름다운 여행지를 만나보세요</p>
-          </div>
+         <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+         제주도 추천 여행지
+          </h2>
+         <p className="text-lg text-gray-600">
+        제주를 대표하는 아름다운 여행지를 만나보세요
+        </p>
+        </div>
 
-          <div className="grid md:grid-cols-1 gap-12 max-w-5xl mx-auto">
-            {destinations.slice(0, 6).map((destination, index) => (
-              <div
-                key={destination.id}
-                className="group cursor-pointer"
-                onClick={() => setSelectedDestination(destination)}
-              >
-                <div className="relative mb-6">
-                  <div className="aspect-[4/3] w-full h-25 rounded-2xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-shadow">
-                    <img
-                      src={destination.image}
-                      alt={destination.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  <div className="absolute -top-4 -left-4 w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center text-white text-2xl font-bold shadow-lg">
-                    {index + 1}
-                  </div>
-                </div>
+         <div className="space-y-24 max-w-6xl mx-auto">
+          {destinations.slice(0, 6).map((destination, index) => {
+           const isReverse = index % 2 === 1;
 
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <span className="px-3 py-1 bg-orange-100 text-orange-600 text-sm font-bold rounded-full">
-                      {destination.category}
-                    </span>
-                  </div>
-
-                  <h3 className="text-3xl font-bold text-gray-900 group-hover:text-orange-500 transition-colors">
-                    {destination.name}
-                  </h3>
-
-                  <p className="text-gray-600 leading-relaxed">
-                    {destination.shortDescription}
-                  </p>
-
-                  <div className="flex flex-wrap gap-2">
-                    {destination.tags.map((tag) => (
-                      <span key={tag} className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-lg">
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="flex items-center gap-2 text-sm text-gray-500">
-                    <MapPin className="w-4 h-4" />
-                    <span>{destination.location}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
+            return (
+          <div
+            key={destination.id}
+            onClick={() => setSelectedDestination(destination)}
+            className={`flex flex-col md:flex-row items-center gap-12 ${
+              isReverse ? "md:flex-row-reverse" : ""
+            }`}
+          >{isReverse ? (
+                    <>
+                      {destinationImage(destination, index)}
+                      {destinationtext(destination)}
+                    </>
+                  ) : (
+                    <>
+                      {destinationtext(destination)}
+                      {destinationImage(destination, index)}
+                    </>
+                  )}
+           </div>
+           );
+         })}
           </div>
         </div>
       </section>
