@@ -99,19 +99,20 @@ export default function KakaoMap({
     };
   }, []);
 
-  // ✅ items 바뀔 때 마커/선만 갱신
-  useEffect(() => {
-    const kakao = window.kakao;
-    const map = mapInstanceRef.current;
-    if (!kakao || !map) return;
+  // items 바뀔 때 마커/선만 갱신
+useEffect(() => {
+  const kakao = window.kakao;
+  const map = mapInstanceRef.current;
 
-    overlaysRef.current.forEach((o) => o.setMap(null));
-    overlaysRef.current = [];
+  if (!isReady || !kakao || !map) return;
 
-    polylinesRef.current.forEach((p) => p.setMap(null));
-    polylinesRef.current = [];
+  overlaysRef.current.forEach((o) => o.setMap(null));
+  overlaysRef.current = [];
 
-    if (!items?.length) return;
+  polylinesRef.current.forEach((p) => p.setMap(null));
+  polylinesRef.current = [];
+
+  if (!items?.length) return;
 
     const grouped = items.reduce((acc: Record<number, MapItem[]>, it) => {
       acc[it.day] = acc[it.day] || [];
@@ -176,8 +177,7 @@ export default function KakaoMap({
     if (fitBounds) {
       map.setBounds(bounds);
     }
-  }, [items, fitBounds]);   // ← 여기 세미콜론 꼭 있어야 함
+  }, [items, isReady, fitBounds]);
 
-  // ✅ 이 return 이 "컴포넌트 return" 이어야 함
   return <div ref={mapRef} className={className ?? "w-full h-full"} />;
 }

@@ -60,11 +60,6 @@ export default function PlannerPage() {
 
 
 
-  // 여행 일자별 표시 상태
-  const [visibleDays, setVisibleDays] = useState<Record<number, boolean>>({});
-
-
-
 
 
 
@@ -106,13 +101,15 @@ const mapItemsFromSurvey: MapItem[] = [
   const isReadOnly = location.state?.isReadOnly || false; 
   const canEdit = !isReadOnly;
   const isFromSurvey = Boolean(surveyData?.packageName); // 설문조사에서 왔는지 여부
-  useEffect(() => {
-  if (!isFromSurvey) return;
-  setVisibleDays({ 1: true, 2: true, 3: true });
-}, [isFromSurvey]);
 
-
-
+    // 여행 일자별 표시 상태
+  const [visibleDays, setVisibleDays] = useState<Record<number, boolean>>(() => {
+  // 설문 진입이면 처음부터 true로
+  if (location.state?.surveyData?.packageName) {
+    return { 1: true, 2: true, 3: true };
+  }
+  return {};
+});
 
   const handleSurvey = () => {
     navigate("/survey");
@@ -257,15 +254,9 @@ const mapItemsFromItinerary = itinerary
   : mapItemsFromItinerary;  // ✅ 일반 진입: itinerary 기반 마커
 
   const filteredMapItems = activeMapItems.filter((it) => {
-  if (isFromSurvey) {
-    // 설문 진입: 기존 방식 유지(원하면 항상 true로 해도 됨)
-    return true; 
-    // 또는 기존 1/2/3 체크박스 유지할 거면 visibleDays 사용
-  }
-
-  // 일반 진입: visibleDays에 의해 필터
   return visibleDays[it.day] ?? true;
 });
+
 
 
   
