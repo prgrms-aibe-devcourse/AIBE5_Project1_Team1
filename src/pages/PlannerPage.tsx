@@ -16,8 +16,8 @@ import { destinationCategories, destinations } from "../data/destinations";
 
 import DraggableItineraryItem from "../components/DraggableItineraryItem";
 import type { ItineraryItem }  from "../components/DraggableItineraryItem";
-
-import KakaoMap from "../components/KakaoMap";
+import { restaurants } from "../data/restaurants";
+import { accommodations } from "../data/accommodations";
 
 // 모든 여행지 데이터
 const allDestinations = [
