@@ -4,7 +4,6 @@ import ReviewWriteModal from "../components/ReviewWriteModal";
 import ReviewEditModal from "../components/ReviewEditModal";
 import ReviewDetailModal, { Review } from "../components/ReviewDetailModal";
 import { useAuth } from "../contexts/AuthContext";
-import { itineraryArray } from "../data/itineraryArray";
 
 
 import { travelTypeCategories } from "../data/commonType";
@@ -171,18 +170,28 @@ export default function TravelReviewPage() {
 
   const { isLoggedIn, userName, logout } = useAuth();
 
+  // 수정 모달 open
   const handleEditReview = () => {
-    setSelectedReview(null);
     setIsEditModalOpen(true);
   };
 
+  // 수정 모달 close
   const handleCloseEdit = () => {
     setIsEditModalOpen(false);
-    if (selectedReview) {
-      setTimeout(() => {
-        // 필요 시 로직
-      }, 100);
-    }
+  };
+  
+  // 실제 리뷰 수정 로직
+  const handleUpdateReview = (updatedData: any) => {
+    // 1. 전체 리스트 업데이트
+    setAllReviews(prev => prev.map(review => 
+      review.id === updatedData.id ? { ...review, ...updatedData } : review
+    ));
+
+    // 2. 현재 보고 있는 상세 데이터도 업데이트 (상세창으로 돌아갔을 때 반영됨)
+    setSelectedReview(prev => prev ? { ...prev, ...updatedData } : null);
+
+    // 3. 수정창 닫기
+    setIsEditModalOpen(false);
   };
 
   const filteredReviews = allReviews.filter((review) => {
@@ -366,16 +375,26 @@ export default function TravelReviewPage() {
                     </div>
 
                     <div className="flex items-center gap-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={`w-5 h-5 ${
-                            i < review.rating
-                              ? "fill-yellow-400 text-yellow-400"
-                              : "fill-gray-200 text-gray-200"
-                          }`}
-                        />
-                      ))}
+                      {[...Array(5)].map((_, i) => {
+                        // 점수 계산 (예: 2.5점일 때 3번째 별은 50%)
+                        const fillPercentage = Math.max(0, Math.min(100, (review.rating - i) * 100));
+                        
+                        return (
+                          <div key={i} className="relative w-5 h-5">
+                            {/* 1. 회색 배경 별 (고정) */}
+                            <Star className="absolute top-0 left-0 w-5 h-5 text-gray-200 fill-gray-200" />
+                            
+                            {/* 2. 노란색 채워지는 별 (width로 마스킹) */}
+                            <div 
+                              className="absolute top-0 left-0 h-full overflow-hidden" 
+                              style={{ width: `${fillPercentage}%` }}
+                            >
+                              {/* [핵심] 여기서 w-full이 아니라 w-5 h-5로 고정해야 찌그러지지 않고 잘립니다! */}
+                              <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
 
@@ -444,14 +463,15 @@ export default function TravelReviewPage() {
       </section>
 
       {/* 모달들 */}
-      {selectedReview && (
+      {/*상세 모달: 수정 중(isEditModalOpen)이 아닐 때만 보여줌 */}
+      {selectedReview && !isEditModalOpen && (
         <ReviewDetailModal
           isOpen={!!selectedReview}
           onClose={() => setSelectedReview(null)}
           review={selectedReview}
           onEdit={handleEditReview}
           onAddComment={handleAddComment}
-          onLike={handleLikeReview} // 함수 전달
+          onLike={handleLikeReview}
         />
       )}
 
@@ -461,11 +481,13 @@ export default function TravelReviewPage() {
         onSubmit={handleAddReview}
       />
 
+      {/* [수정] 수정 모달: onSubmit 연결 */}
       {isEditModalOpen && selectedReview && (
         <ReviewEditModal
           isOpen={isEditModalOpen}
           onClose={handleCloseEdit}
           review={selectedReview}
+          onSubmit={handleUpdateReview}
         />
       )}
     </div>

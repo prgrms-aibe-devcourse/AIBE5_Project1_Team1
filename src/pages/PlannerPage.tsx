@@ -16,8 +16,7 @@ import { destinations } from "../data/destinations";
 // 식당, 호텔 장소 
 import DraggableItineraryItem from "../components/DraggableItineraryItem";
 import type { ItineraryItem }  from "../components/DraggableItineraryItem";
-import { restaurants } from "../data/restaurants";
-import { accommodations } from "../data/accommodations";
+
 import { itineraryArray } from "../data/itineraryArray";
 
 import { destinationCategories, accommodationCategories, restaurantCategories } from "../data/commonType";
