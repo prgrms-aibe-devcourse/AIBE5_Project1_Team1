@@ -101,7 +101,7 @@ const mapItemsFromSurvey: MapItem[] = [
     return { 1: true, 2: true, 3: true };
   }
   return {};
-});
+  });
 
   const handleSurvey = () => {
     navigate("/survey");
