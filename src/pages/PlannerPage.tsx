@@ -61,11 +61,14 @@ export default function PlannerPage() {
 
 
   // 여행 일자별 표시 상태
-  const [visibleDays, setVisibleDays] = useState<{ 1: boolean; 2: boolean; 3: boolean }>({
-  1: true,
-  2: true,
-  3: true,
-});
+  const [visibleDays, setVisibleDays] = useState<Record<number, boolean>>({});
+
+
+
+
+
+
+
 // KakaoMap에 넘길 여행지 데이터
 type MapItem = {
   id: string;
@@ -76,7 +79,7 @@ type MapItem = {
   lng: number;
 };
 
-const mapItems: MapItem[] = [
+const mapItemsFromSurvey: MapItem[] = [
   { id: "1-1", day: 1, seq: 1, title: "자매국수", lat: 33.49860561714938, lng: 126.45914739166322 },
   { id: "1-2", day: 1, seq: 2, title: "함덕 해수욕장", lat: 33.54301337455566, lng: 126.66925526795818 },
   { id: "1-3", day: 1, seq: 3, title: "오조포구", lat: 33.46315108350201, lng: 126.92097300674901 },
@@ -92,9 +95,9 @@ const mapItems: MapItem[] = [
   { id: "3-3", day: 3, seq: 3, title: "동문시장", lat: 33.51282933037489, lng: 126.52837848272551 },
   { id: "3-4", day: 3, seq: 4, title: "제주공항", lat: 33.506955052495, lng: 126.4928945703136 },
 ];
-const filteredMapItems = mapItems.filter(
-  (it) => visibleDays[it.day as 1 | 2 | 3]
-);
+
+
+
   const navigate = useNavigate();
   const location = useLocation();
   const surveyData = location.state?.surveyData || {};
@@ -102,7 +105,15 @@ const filteredMapItems = mapItems.filter(
   const fromMyPlan = location.state?.fromMyPlan || false; // 내 플랜에서 왔는지 확인
   const isReadOnly = location.state?.isReadOnly || false; 
   const canEdit = !isReadOnly;
-  
+  const isFromSurvey = Boolean(surveyData?.packageName); // 설문조사에서 왔는지 여부
+  useEffect(() => {
+  if (!isFromSurvey) return;
+  setVisibleDays({ 1: true, 2: true, 3: true });
+}, [isFromSurvey]);
+
+
+
+
   const handleSurvey = () => {
     navigate("/survey");
   };
@@ -127,6 +138,28 @@ const filteredMapItems = mapItems.filter(
       };
     }) : []
   );
+
+    // ✅ itinerary에 존재하는 day 목록 (예: [1,2,4])
+  const availableDays = Array.from(new Set(itinerary.map(i => i.day)))
+    .filter((d) => Number.isFinite(d))
+    .sort((a, b) => a - b);
+
+
+ useEffect(() => {
+  if (isFromSurvey) return;
+
+  setVisibleDays((prev) => {
+    const next: Record<number, boolean> = {};
+    for (const d of availableDays) {
+      next[d] = prev[d] ?? true;
+    }
+    return next;
+  });
+}, [availableDays.join(","), isFromSurvey]);
+
+
+
+
   // itinerary 전체를 순회하여 카테고리별 가격 계산
   const calculateTotalPrice = (items: ItineraryItem[]) => {
     let attractionPrice = 0;
@@ -160,7 +193,7 @@ const filteredMapItems = mapItems.filter(
   const getTravelType = () => travelType;
   const moveItem = (fromIndex: number, toIndex: number) => {
     const updatedItinerary = [...itinerary];
-    const [movedItem] = updatedItinerary.splice(fromIndex, 1);
+    const [movedItem] = updatedItinerary.splice(fromIndex, 1);  
     updatedItinerary.splice(toIndex, 0, movedItem);
     setItinerary(updatedItinerary);
   };
@@ -190,10 +223,52 @@ const filteredMapItems = mapItems.filter(
       price: destination.price,
       hours: destination.hours || "09:00 - 18:00",
       category: destination.category,
-      image: destination.image
+      image: destination.image,
+      lat: destination.lat,
+      lng: destination.lng,
+
     };
     setItinerary([...itinerary, newItem]);
   };
+  
+  // 지도에 표시할 여행지 데이터 생성(그냥 여행계획 페이지에 들어갔을때)
+const mapItemsFromItinerary = itinerary
+  .filter((i: any) => i.lat != null && i.lng != null)
+  .slice()
+  .sort((a, b) => (a.day - b.day) || a.time.localeCompare(b.time))
+  .reduce((acc: any[], cur) => {
+    const countInDay = acc.filter((x) => x.day === cur.day).length;
+    const seq = countInDay + 1;
+
+    acc.push({
+      id: String(cur.id),
+      title: cur.title,
+      day: cur.day,
+      seq,
+      lat: cur.lat,
+      lng: cur.lng,
+    });
+
+    return acc;
+  }, []);
+
+  const activeMapItems = isFromSurvey
+  ? mapItemsFromSurvey       // ✅ 설문 진입: 하드코딩 마커
+  : mapItemsFromItinerary;  // ✅ 일반 진입: itinerary 기반 마커
+
+  const filteredMapItems = activeMapItems.filter((it) => {
+  if (isFromSurvey) {
+    // 설문 진입: 기존 방식 유지(원하면 항상 true로 해도 됨)
+    return true; 
+    // 또는 기존 1/2/3 체크박스 유지할 거면 visibleDays 사용
+  }
+
+  // 일반 진입: visibleDays에 의해 필터
+  return visibleDays[it.day] ?? true;
+});
+
+
+  
 
   const handleGoBack = () => {
     navigate("/my-plan");
@@ -391,13 +466,14 @@ const filteredMapItems = mapItems.filter(
     <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-200">
   <h2 className="text-lg font-bold text-gray-900 mb-2">동선 지도</h2>
 
-  {/* ✅ 일차 필터 체크박스 */}
-  <div className="flex gap-3 mb-3">
+  {/* ✅ 설문 진입: 1,2,3 고정 체크박스 */}
+{isFromSurvey && (
+  <div className="flex flex-wrap gap-3 mb-3">
     {[1, 2, 3].map((d) => (
       <label key={d} className="flex items-center gap-2 text-sm text-gray-700">
         <input
           type="checkbox"
-          checked={visibleDays[d as 1 | 2 | 3]}
+          checked={visibleDays[d] ?? true}
           onChange={(e) =>
             setVisibleDays((prev) => ({ ...prev, [d]: e.target.checked }))
           }
@@ -406,9 +482,31 @@ const filteredMapItems = mapItems.filter(
       </label>
     ))}
   </div>
+)}
+
+
+{/* ✅ 일반 진입: itinerary 기반 체크박스 */}
+{!isFromSurvey && availableDays.length > 0 && (
+  <div className="flex flex-wrap gap-3 mb-3">
+    {availableDays.map((d) => (
+      <label key={d} className="flex items-center gap-2 text-sm text-gray-700">
+        <input
+          type="checkbox"
+          checked={visibleDays[d] ?? true}
+          onChange={(e) =>
+            setVisibleDays((prev) => ({ ...prev, [d]: e.target.checked }))
+          }
+        />
+        {d}일차
+      </label>
+    ))}
+  </div>
+)}
+
+
 
   <div className="aspect-square rounded-lg overflow-hidden">
-    <KakaoMap items={filteredMapItems} className="w-full h-full" />
+    <KakaoMap items={filteredMapItems} className="w-full h-full" fitBounds={false} />
   </div>
 </div>
 

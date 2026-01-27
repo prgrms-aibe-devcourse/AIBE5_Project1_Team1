@@ -11,6 +11,8 @@ export type ItineraryItem = {
   hours: string;
   category: string;
   image: string;
+  lat?: number;
+  lng?: number;
 };
 
 const DraggableItineraryItem = ({

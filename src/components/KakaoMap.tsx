@@ -43,9 +43,11 @@ const DAY_STYLE: Record<number, { markerBg: string; line: string }> = {
 export default function KakaoMap({
   items,
   className,
+  fitBounds = false, //  기본은 포커스 유지
 }: {
   items: MapItem[];
   className?: string;
+  fitBounds?: boolean;
 }) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const mapInstanceRef = useRef<any>(null);
@@ -97,55 +99,33 @@ export default function KakaoMap({
     };
   }, []);
 
-  // 2) items/isReady 변경 시 다시 그림
+  // ✅ items 바뀔 때 마커/선만 갱신
   useEffect(() => {
     const kakao = window.kakao;
     const map = mapInstanceRef.current;
+    if (!kakao || !map) return;
 
-    console.log(
-      "[KakaoMap] items:",
-      items?.length,
-      "ready:",
-      isReady,
-      "map:",
-      !!map,
-      "kakao:",
-      !!kakao
-    );
-
-    if (!isReady || !kakao || !map) return;
-
-    // clear overlays
     overlaysRef.current.forEach((o) => o.setMap(null));
     overlaysRef.current = [];
 
-    // clear polylines
     polylinesRef.current.forEach((p) => p.setMap(null));
     polylinesRef.current = [];
 
-    // ✅ items 없으면 제주 전체만 보여주기
-    if (!items || items.length === 0) {
+    if (!items?.length) return;
 
-      return;
-    }
-
-    // day별 그룹
     const grouped = items.reduce((acc: Record<number, MapItem[]>, it) => {
       acc[it.day] = acc[it.day] || [];
       acc[it.day].push(it);
       return acc;
     }, {});
 
-    // 전체 bounds
     const bounds = new kakao.maps.LatLngBounds();
 
     Object.entries(grouped).forEach(([dayStr, dayItems]) => {
       const day = Number(dayStr);
       const style = DAY_STYLE[day] ?? { markerBg: "#111827", line: "#111827" };
-
       const sorted = dayItems.slice().sort((a, b) => a.seq - b.seq);
 
-      // 1) 폴리라인(일차별)
       const path = sorted.map((p) => {
         const latlng = new kakao.maps.LatLng(p.lat, p.lng);
         bounds.extend(latlng);
@@ -158,20 +138,14 @@ export default function KakaoMap({
           strokeWeight: 5,
           strokeColor: style.line,
           strokeOpacity: 0.9,
-          strokeStyle: "dashed",
+          strokeStyle: "shortdash",
         });
         polyline.setMap(map);
         polylinesRef.current.push(polyline);
       }
 
-      // 2) 마커(커스텀 오버레이)
       sorted.forEach((p) => {
         const position = new kakao.maps.LatLng(p.lat, p.lng);
-
-        const content = document.createElement("div");
-        content.style.display = "flex";
-        content.style.alignItems = "center";
-        content.style.gap = "8px";
 
         const badge = document.createElement("div");
         badge.innerText = String(p.seq);
@@ -188,24 +162,9 @@ export default function KakaoMap({
         badge.style.border = "2px solid white";
         badge.style.boxShadow = "0 6px 16px rgba(0,0,0,0.18)";
 
-        const label = document.createElement("div");
-        label.innerText = p.title;
-        label.style.background = "rgba(255,255,255,0.95)";
-        label.style.border = "1px solid rgba(0,0,0,0.08)";
-        label.style.borderRadius = "10px";
-        label.style.padding = "6px 8px";
-        label.style.fontSize = "12px";
-        label.style.fontWeight = "600";
-        label.style.color = "#111827";
-        label.style.whiteSpace = "nowrap";
-        label.style.boxShadow = "0 6px 16px rgba(0,0,0,0.10)";
-
-        content.appendChild(badge);
-//        content.appendChild(label); 마커에 이름 지우기
-
         const overlay = new kakao.maps.CustomOverlay({
           position,
-          content,
+          content: badge,
           yAnchor: 1,
         });
 
@@ -214,9 +173,11 @@ export default function KakaoMap({
       });
     });
 
-    // ✅ 마커들 보이게 bounds 맞추기
-    map.setBounds(bounds);
-  }, [items, isReady]);
+    if (fitBounds) {
+      map.setBounds(bounds);
+    }
+  }, [items, fitBounds]);   // ← 여기 세미콜론 꼭 있어야 함
 
+  // ✅ 이 return 이 "컴포넌트 return" 이어야 함
   return <div ref={mapRef} className={className ?? "w-full h-full"} />;
 }
