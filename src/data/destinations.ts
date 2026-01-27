@@ -206,6 +206,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1498654896293-37aacf113fd9?auto=format&fit=crop&w=1200&q=80",
     tags: ["정원", "힐링"],
+    lat: 33.2898049, lng: 126.3682983
   },
   {
     id: 12,
@@ -220,6 +221,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80",
     tags: ["숲", "산책"],
+    lat: 33.484272, lng: 126.8064793
   },
   {
     id: 13,
@@ -234,6 +236,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=80",
     tags: ["기차", "가족"],
+    lat: 33.4465682, lng: 126.6670507
   },
   {
     id: 14,
@@ -503,6 +506,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1490077476659-095159692ab5?auto=format&fit=crop&w=1200&q=80",
     tags: ["드라이브", "해변", "자연"],
+    lat: 33.5116113, lng: 126.4908822
   },
   {
     id: 31,

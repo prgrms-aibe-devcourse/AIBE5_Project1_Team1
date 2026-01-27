@@ -21,8 +21,9 @@ import { restaurants } from "../data/restaurants"
 
 import DraggableItineraryItem from "../components/DraggableItineraryItem";
 import type { ItineraryItem }  from "../components/DraggableItineraryItem";
-
-import { findDataById } from "../components/findId"
+import { restaurants } from "../data/restaurants";
+import { accommodations } from "../data/accommodations";
+import { itineraryArray } from "../data/itineraryArray";
 
 // 모든 여행지 데이터
 const allDestinations = [
@@ -54,7 +55,10 @@ export default function PlannerPage() {
     hotelPrice: 0, 
     foodPrice: 0
   });
-
+const findItineraryByKey = (planName: string) => { 
+    const plan = itineraryArray.find(item => item.key === planName);
+    return plan ? plan.value : itineraryArray[0].value;
+  }
   const updateTotalPrice = ({
     attractionPrice = 0, 
     hotelPrice = 0, 
@@ -66,33 +70,6 @@ export default function PlannerPage() {
       foodPrice: prev.foodPrice + (foodPrice || 0)
     }));
   };
-
-// KakaoMap에 넘길 여행지 데이터
-type MapItem = {
-  id: string;
-  title: string;
-  day: number;
-  seq: number;
-  lat: number;
-  lng: number;
-};
-
-const mapItemsFromSurvey: MapItem[] = [
-  { id: "1-1", day: 1, seq: 1, title: "자매국수", lat: 33.49860561714938, lng: 126.45914739166322 },
-  { id: "1-2", day: 1, seq: 2, title: "함덕 해수욕장", lat: 33.54301337455566, lng: 126.66925526795818 },
-  { id: "1-3", day: 1, seq: 3, title: "오조포구", lat: 33.46315108350201, lng: 126.92097300674901 },
-  { id: "1-4", day: 1, seq: 4, title: "위드시티호텔", lat: 33.4857206402737, lng: 126.4836896813416 },
-
-  { id: "2-1", day: 2, seq: 1, title: "리에또", lat: 33.484166274040284, lng: 126.48498466666912 },
-  { id: "2-2", day: 2, seq: 2, title: "성산일출봉", lat: 33.45880518948728, lng: 126.94097338703314 },
-  { id: "2-3", day: 2, seq: 3, title: "섭지코지", lat: 33.423925527706956, lng: 126.93076085774399 },
-  { id: "2-4", day: 2, seq: 4, title: "성산 수산 식당", lat: 33.46256965940773, lng: 126.93261800885692 },
-
-  { id: "3-1", day: 3, seq: 1, title: "뷰스트", lat: 33.22771220274194, lng: 126.30353852782778 },
-  { id: "3-2", day: 3, seq: 2, title: "사계흑돼지 산방산본점", lat: 33.24814566114882, lng: 126.30243758799476 },
-  { id: "3-3", day: 3, seq: 3, title: "동문시장", lat: 33.51282933037489, lng: 126.52837848272551 },
-  { id: "3-4", day: 3, seq: 4, title: "제주공항", lat: 33.506955052495, lng: 126.4928945703136 },
-];
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -122,7 +99,7 @@ const mapItemsFromSurvey: MapItem[] = [
   const [description, setDescription] = useState("여행 계획 / 주말여행 / 바다");
   const [isPrivate, setIsPrivate] = useState(true);
   const [itinerary, setItinerary] = useState<ItineraryItem[]>(
-    surveyData.packageName ? sampleItinerary.map((item: any, idx: number) => {
+    surveyData.packageName ? findItineraryByKey("survey").map((item: any, idx: number) => {
       const matchedData = allDestinations.find((d: any) => d.id === item.id);
       return {
         id: idx + 1,
@@ -132,7 +109,9 @@ const mapItemsFromSurvey: MapItem[] = [
         price: matchedData?.price || 0,
         hours: item.hours || "09:00 - 18:00",
         category: matchedData?.category || item.category || "명소",
-        image: matchedData?.image || item.image || "https://images.unsplash.com/photo-1616798249081-30877e213b16?w=400"
+        image: matchedData?.image || item.image || "https://images.unsplash.com/photo-1616798249081-30877e213b16?w=400",
+        lat: matchedData?.lat ?? item.lat,
+          lng: matchedData?.lng ?? item.lng,
       };
     }) : []
   );
@@ -143,17 +122,26 @@ const mapItemsFromSurvey: MapItem[] = [
     .sort((a, b) => a - b);
 
 
- useEffect(() => {
-  if (isFromSurvey) return;
-
+useEffect(() => {
   setVisibleDays((prev) => {
-    const next: Record<number, boolean> = {};
+    const next: Record<number, boolean> = { ...prev };
+
+    // 새로 등장한 day는 기본 true
     for (const d of availableDays) {
-      next[d] = prev[d] ?? true;
+      if (next[d] === undefined) next[d] = true;
     }
+
+    // 더 이상 존재하지 않는 day는 제거
+    Object.keys(next).forEach((key) => {
+      const day = Number(key);
+      if (!availableDays.includes(day)) {
+        delete next[day];
+      }
+    });
+
     return next;
   });
-}, [availableDays.join(","), isFromSurvey]);
+}, [availableDays.join(",")]);
 
 
 
@@ -229,7 +217,8 @@ const mapItemsFromSurvey: MapItem[] = [
     setItinerary([...itinerary, newItem]);
   };
   
-  // 지도에 표시할 여행지 데이터 생성(그냥 여행계획 페이지에 들어갔을때)
+
+
 const mapItemsFromItinerary = itinerary
   .filter((i: any) => i.lat != null && i.lng != null)
   .slice()
@@ -250,11 +239,8 @@ const mapItemsFromItinerary = itinerary
     return acc;
   }, []);
 
-  const activeMapItems = isFromSurvey
-  ? mapItemsFromSurvey       // ✅ 설문 진입: 하드코딩 마커
-  : mapItemsFromItinerary;  // ✅ 일반 진입: itinerary 기반 마커
-
-  const filteredMapItems = activeMapItems.filter((it) => {
+// ✅ 이제 activeMapItems 필요 없음. 그냥 itinerary 기반 사용
+const filteredMapItems = mapItemsFromItinerary.filter((it) => {
   return visibleDays[it.day] ?? true;
 });
 
@@ -454,27 +440,7 @@ const mapItemsFromItinerary = itinerary
     <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-200">
   <h2 className="text-lg font-bold text-gray-900 mb-2">동선 지도</h2>
 
-  {/* ✅ 설문 진입: 1,2,3 고정 체크박스 */}
-{isFromSurvey && (
-  <div className="flex flex-wrap gap-3 mb-3">
-    {[1, 2, 3].map((d) => (
-      <label key={d} className="flex items-center gap-2 text-sm text-gray-700">
-        <input
-          type="checkbox"
-          checked={visibleDays[d] ?? true}
-          onChange={(e) =>
-            setVisibleDays((prev) => ({ ...prev, [d]: e.target.checked }))
-          }
-        />
-        {d}일차
-      </label>
-    ))}
-  </div>
-)}
-
-
-{/* ✅ 일반 진입: itinerary 기반 체크박스 */}
-{!isFromSurvey && availableDays.length > 0 && (
+{availableDays.length > 0 && (
   <div className="flex flex-wrap gap-3 mb-3">
     {availableDays.map((d) => (
       <label key={d} className="flex items-center gap-2 text-sm text-gray-700">
@@ -490,6 +456,7 @@ const mapItemsFromItinerary = itinerary
     ))}
   </div>
 )}
+
 
 
 
@@ -592,6 +559,7 @@ const mapItemsFromItinerary = itinerary
           isOpen={isDetailModalOpen}
           onClose={() => setIsDetailModalOpen(false)}
           destination={selectedDestination}
+
         />
       )}
     </div>
