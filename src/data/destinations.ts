@@ -609,17 +609,4 @@ export const destinations: Destination[] = [
     image: "https://mblogthumb-phinf.pstatic.net/MjAyNDExMDZfMTQ5/MDAxNzMwODIyMjgxMzY5.d9Ar1DGwsVnLb5NwXUqcd4q9O8ZRajmh_EB78-gn2Gwg.KY9g3vOZPyIvl_YHqkXfzA4OXFFXhgEu3jTUL9lfMXkg.JPEG/DSC09033.jpg?type=w800",
     tags: ["드라이브"],
   },
-  {
-    id: 39,
-    name: "제주공항",
-    category: "자연",
-    duration: "2~3시간",
-    price: 0,
-    location: "제주 제주시 공항로 2 제주국제공항",
-    hours: DEFAULT_HOURS,
-    shortDescription: "제주공항1",
-    fullDescription: "제주공항2",
-    image: "https://cdn.jejudomin.co.kr/news/photo/202310/220114_218866_5818.jpg",
-    tags: ["드라이브"],
-  },
 ];

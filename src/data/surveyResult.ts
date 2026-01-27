@@ -173,9 +173,4 @@ export const sampleItinerary = [
         "day": 3,
         "time": "10:00"
     },
-    {
-        "id": 39,
-        "day": 3,
-        "time": "10:00"
-    },
 ];

@@ -5,8 +5,6 @@ import { useDrag, useDrop } from "react-dnd";
 import AddDestinationModal from "../components/AddDestinationModal";
 import TravelModal from "../components/TravelModal";
 
-import data from "../data/myPlanPageTempData.json"
-import data2 from "../data/myPlanPageTempPackageData.json"
 import { useAuth } from "../contexts/AuthContext";
 import { sampleItinerary } from "../data/surveyResult"
 import { itinerary } from "../data/surveyResult"

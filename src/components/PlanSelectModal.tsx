@@ -82,7 +82,7 @@ export default function PlanSelectModal({ isOpen, onClose, onSelect }: any) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center backdrop-blur-sm p-4" onClick={onClose}>
       <div className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[80vh] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()} // 모달 내부 클릭 시 닫힘 방지
       >
