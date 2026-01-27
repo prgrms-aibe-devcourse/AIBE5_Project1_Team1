@@ -206,6 +206,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1498654896293-37aacf113fd9?auto=format&fit=crop&w=1200&q=80",
     tags: ["정원", "힐링"],
+    lat: 33.2898049, lng: 126.3682983
   },
   {
     id: 12,
@@ -220,6 +221,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80",
     tags: ["숲", "산책"],
+    lat: 33.484272, lng: 126.8064793
   },
   {
     id: 13,
@@ -234,6 +236,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=80",
     tags: ["기차", "가족"],
+    lat: 33.4465682, lng: 126.6670507
   },
   {
     id: 14,
@@ -503,6 +506,7 @@ export const destinations: Destination[] = [
     image:
       "https://images.unsplash.com/photo-1490077476659-095159692ab5?auto=format&fit=crop&w=1200&q=80",
     tags: ["드라이브", "해변", "자연"],
+    lat: 33.5116113, lng: 126.4908822
   },
   {
     id: 31,
@@ -512,9 +516,9 @@ export const destinations: Destination[] = [
     price: 0,
     location: "제주 서귀포시 성산읍 오조리",
     hours: DEFAULT_HOURS,
-    shortDescription: "고기국수 or 멸치국수 맛집!",
-    fullDescription: "맛있는 고기국수 or 멸치국수를 먹을 수 있어요",
+    shortDescription: "성산일출봉을 마주한 조용한 어촌 포구로, 제주 바다 감성을 느낄 수 있는 사진 명소.",
+    fullDescription: "오조포구는 성산일출봉 바로 앞에 위치한 작은 어촌 포구로, 관광지의 번잡함에서 벗어나 제주의 소박한 바다 풍경을 즐길 수 있는 곳입니다. 돌담과 방파제를 따라 펼쳐진 바다와 어선들이 어우러져 감성적인 풍경을 만들어내며, 일출이나 해 질 녘에는 특히 아름다운 사진을 남길 수 있습니다. 근처에는 카페와 산책로가 있어 잠시 쉬어가기 좋고, 조용히 제주 바다를 바라보며 여유를 느끼고 싶은 여행자에게 추천되는 장소입니다.",
     image: "https://oopy.lazyrockets.com/api/v2/notion/image?src=https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F6bd8ce15-96fe-4b1d-9034-c55541ff4411%2Fafe20c97-129d-40c7-bbae-fefe983c0800%2F20210415_125422_1.jpg&blockId=3074ba28-9e9b-4ebe-bd3f-2c6e0fd76e0e",
-    tags: ["드라이브", "해변", "자연"],
+    tags: ["해변", "자연"],
   },
 ];

@@ -25,6 +25,8 @@ export type Accommodation = {
   fullDescription: string;
   image: string;
   tags: string[];
+    lat?: number;
+  lng?: number;
 };
 
 // ✅ 숙소별 고정 이미지(각각 다른 URL)
@@ -67,6 +69,8 @@ export const accommodations: Accommodation[] = [
       "이동 동선이 짧아 도착/출발 일정에 유리한 실속형 호텔입니다. 가성비 중심 코스에 잘 맞습니다.",
     image: IMAGES.HOTEL_AIRPORT,
     tags: ["공항근처", "가성비", "편리"],
+    lat:33.4858483,
+    lng: 126.4838622,
   },
 
   {
@@ -82,6 +86,8 @@ export const accommodations: Accommodation[] = [
       "자연 속에서 프라이빗하게 쉬기 좋은 감성 펜션입니다. 커플/힐링 여행 콘셉트에 잘 맞아요.",
     image: IMAGES.PENSION_COZY,
     tags: ["감성", "힐링", "조용함"],
+    lat: 33.2509451,
+    lng: 126.4156784,
   },
 
   {
@@ -97,6 +103,8 @@ export const accommodations: Accommodation[] = [
       "오션뷰 객실이 강점인 호텔입니다. 해변/드라이브 코스와 묶어 추천하기 좋습니다.",
     image: IMAGES.HOTEL_OCEAN,
     tags: ["오션뷰", "서귀포", "커플"],
+    lat: 33.2430966,
+    lng: 126.424143, 
   },
 
   {
@@ -112,6 +120,8 @@ export const accommodations: Accommodation[] = [
       "사진 찍기 좋은 인테리어와 조용한 분위기의 감성 스테이입니다. 카페 투어 성향과 궁합이 좋아요.",
     image: IMAGES.STAY_AEWOL,
     tags: ["감성", "애월", "사진"],
+    lat: 33.4110784,
+    lng: 126.3939276,
   },
 
   {
@@ -127,6 +137,8 @@ export const accommodations: Accommodation[] = [
       "시설 편의성과 휴식에 집중한 리조트 타입 숙소입니다. 가족/부모님 동반에 무난합니다.",
     image: IMAGES.RESORT_HEALING,
     tags: ["리조트", "가족", "휴식"],
+    lat: 33.2467691,
+    lng: 126.4194223,
   },
 
   {
@@ -142,6 +154,8 @@ export const accommodations: Accommodation[] = [
       "공항 접근성이 좋아 짧은 일정(당일/1박)이나 이른 비행 스케줄에 적합합니다.",
     image: IMAGES.HOTEL_BUSINESS,
     tags: ["공항근처", "비즈니스", "편리"],
+    lat: 33.5070772,
+    lng: 126.4934311, 
   },
 
   {
@@ -157,6 +171,8 @@ export const accommodations: Accommodation[] = [
       "성산/우도 코스를 묶기 좋은 동부 라인 숙소입니다. 새벽 일출 일정에 유리해요.",
     image: IMAGES.PENSION_SEONGSAN,
     tags: ["성산", "동부", "오션뷰"],
+    lat: 33.4359478,
+    lng: 126.9131075,
   },
 
   {
@@ -172,6 +188,8 @@ export const accommodations: Accommodation[] = [
       "혼자 여행하는 사람에게 부담 없는 가격대의 게스트하우스입니다. 교류형 여행에 잘 맞아요.",
     image: IMAGES.GUESTHOUSE_BUDGET,
     tags: ["혼행", "가성비", "게하"],
+    lat: 33.3942591,
+    lng: 126.2636781,
   },
 
   {
@@ -187,6 +205,8 @@ export const accommodations: Accommodation[] = [
       "제주 돌담/마당 분위기를 살린 감성 숙소입니다. 조용히 쉬고 싶은 사람에게 추천하기 좋아요.",
     image: IMAGES.STAY_STONEWALL,
     tags: ["제주감성", "조용함", "힐링"],
+    lat: 33.4692631,
+    lng: 126.5656789,
   },
 
   {
@@ -202,5 +222,7 @@ export const accommodations: Accommodation[] = [
       "서귀포 시내 중심 동선이 좋아 식당/카페 이동이 편합니다. 일정 베이스캠프로 쓰기 좋아요.",
     image: IMAGES.HOTEL_CITY,
     tags: ["시내", "동선좋음", "가성비"],
+    lat: 33.2532177,
+    lng: 126.5609945,
   },
 ];
