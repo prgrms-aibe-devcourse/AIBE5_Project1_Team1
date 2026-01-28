@@ -119,7 +119,8 @@ export type PlanState = {
 
 export type ItineraryData = {
   key: string;
-  travelType: TravelTypeCategory | null;
+  travelType: TravelTypeCategory;
+  planName: string;
   value: ItinerarySchedule[];
 }
 

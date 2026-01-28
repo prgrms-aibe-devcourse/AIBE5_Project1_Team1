@@ -3,30 +3,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
 import { PlanState } from "../data/commonType";
-import { findItineraryByKey, makeReviewItinerary } from "../data/commonFunction";
 import { destinations } from "../data/destinations";
 import { restaurants } from "../data/restaurants";
 import { accommodations } from "../data/accommodations";
 import ReviewTextPlan from "./ReviewTextPlan";
-
-export interface Review {
-  id: number;
-  author: string;
-  date: string;
-  tripType: string;
-  duration: string;
-  rating: number;
-  title: string;
-  content: string;
-  image?: string;
-  images?: string[];
-  likes: number;
-  isLiked?: boolean; // [추가] 좋아요 상태 확인용
-  comments: { id: number; author: string; content: string }[];
-  planName?: string;
-  travelType?: string;
-  itineraryKey?: string | null;
-}
+import type { Review } from "../data/reviews";
 
 interface ReviewDetailModalProps {
   isOpen: boolean;
@@ -64,10 +45,10 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review, onA
       state: {
         sourcePage: "review",
         isReadOnly: false,
-        travelType: review.travelType || null,
-        myPlan: findItineraryByKey(review.itineraryKey || "survey"),
+        travelType: review.itinerary.travelType || null,
+        myPlan: review.itinerary.value,
         planInfo: {
-          title: review.planName || "제주도 힐링 여행",
+          title: review.itinerary.planName,
           date: review.date.replaceAll(".", "-").slice(0, 10),
           description: null,
           isPrivate: false
@@ -97,7 +78,7 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review, onA
             </div>
             <div>
               <p className="font-semibold text-gray-900">{review.author || "익명"}의 여행 플랜</p>
-              <p className="text-sm text-gray-500">{review.planName || "제주도 힐링 여행"}</p>
+              <p className="text-sm text-gray-500">{review.itinerary.planName}</p>
             </div>
           </div>
           <button
@@ -130,7 +111,7 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review, onA
 
           {/* 이미지 갤러리 */}
           <section>
-            {review.images && review.images.length > 0 ? (
+            {review.images.length > 1 ? (
               <div className="grid grid-cols-2 gap-4">
                 {review.images.map((img, idx) => (
                   <div key={idx} className="rounded-xl overflow-hidden aspect-video">
@@ -138,9 +119,9 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review, onA
                   </div>
                 ))}
               </div>
-            ) : review.image ? (
+            ) : review.images.length > 0 ? (
               <div className="rounded-2xl overflow-hidden">
-                <img src={review.image} alt="여행 사진" className="w-full h-auto" />
+                <img src={review.images[0]} alt="여행 사진" className="w-full h-auto" />
               </div>
             ) : null}
           </section>
@@ -151,7 +132,7 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review, onA
           </div>
 
           {/* 여행 일정 */}
-          {review.itineraryKey && (
+          {review.itinerary.key && (
             <div className="bg-gray-50 rounded-xl p-6 space-y-4">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-bold text-gray-900">여행 플랜</h3>
@@ -162,7 +143,7 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review, onA
                   따라가기 →
                 </button>
               </div>
-              <ReviewTextPlan itineraryKey={review.itineraryKey} />
+              <ReviewTextPlan itineraryKey={review.itinerary.key} />
             </div>
           )}
 

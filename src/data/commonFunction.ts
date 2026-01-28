@@ -1,4 +1,4 @@
-import { ItinerarySchedule, StringSchedule, TravelDestination } from "../data/commonType"
+import { ItineraryData, ItinerarySchedule, StringSchedule, TravelDestination } from "../data/commonType"
 import { itineraryArray } from "./itineraryArray";
 
 export const makeReviewItinerary = (
@@ -34,9 +34,41 @@ export const makeReviewItinerary = (
   return result;
 }
 
-export const findItineraryByKey = (
+export const findItineraryValueByKey = (
   key: string
 ): ItinerarySchedule[] => { 
 	const plan = itineraryArray.find(item => item.key === key);
-	return plan ? plan.value : itineraryArray[0].value;
+	return plan ? plan.value : [];
+}
+
+export const findItineraryByKey = (
+  key: string
+): ItineraryData => { 
+	const plan = itineraryArray.find(item => item.key === key);
+	return plan ? plan : {} as ItineraryData;
+}
+
+export const makeDuration = (
+  startDate: string, 
+  itineraryData: ItineraryData
+) : string => {
+  const [year, month, day] = startDate.split("-").map(Number);
+  const date = new Date(year, month - 1, day); // JS Date: month 0~11
+
+  // n일 더하기
+  let travalDay = 0;
+  for (const itinerarySchedule of itineraryData.value as ItinerarySchedule[]) {
+    if (itinerarySchedule.day > travalDay) {
+      travalDay = itinerarySchedule.day;
+    }
+  }
+
+  date.setDate(date.getDate() + travalDay-1);
+
+  // yyyy-mm-dd 형식으로 다시 변환
+  const yyyy = date.getFullYear();
+  const mm = String(date.getMonth() + 1).padStart(2, "0"); // month 0~11
+  const dd = String(date.getDate()).padStart(2, "0");
+
+  return `${yyyy}-${mm}-${dd}`;
 }

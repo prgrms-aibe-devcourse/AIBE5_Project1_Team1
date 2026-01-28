@@ -11,7 +11,7 @@ export default function SurveyFullPage() {
   const [season, setSeason] = useState<string>("");
 
   // Section 2: 여행 스타일
-  const [interests, setInterests] = useState<string[]>([]);
+  const [interests, setInterests] = useState<string>("");
   const [style, setStyle] = useState<string>("");
 
   // Section 3: 숙소 및 음식
@@ -23,14 +23,6 @@ export default function SurveyFullPage() {
   const section1Ref = useRef<HTMLDivElement>(null);
   const section2Ref = useRef<HTMLDivElement>(null);
   const section3Ref = useRef<HTMLDivElement>(null);
-
-  const toggleInterest = (interest: string) => {
-    if (interests.includes(interest)) {
-      setInterests(interests.filter((i) => i !== interest));
-    } else {
-      setInterests([...interests, interest]);
-    }
-  };
 
   const isComplete = duration && companion && season && interests.length > 0 && style && accommodation && food && dining;
   const isSection1Complete = duration && companion && season;
@@ -78,7 +70,7 @@ export default function SurveyFullPage() {
             {/* Section 1: 기본 여행 정보 (필수) */}
             <div 
               ref={section1Ref}
-              className={`${focusedSection === "section1" && !isSection1Complete ? "box-shadow-orange-500 bg-orange-50" : ""} p-6 rounded-xl transition-all`}
+              className={`${focusedSection === "section1" && !isSection1Complete ? "border-2 border-orange-500 bg-orange-50 shadow-lg p-4" : ""}`}
             >
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
                 <span className="w-8 h-8 bg-orange-500 text-white rounded-lg flex items-center justify-center text-sm font-bold">
@@ -100,7 +92,7 @@ export default function SurveyFullPage() {
                         className={`px-6 py-3 rounded-xl font-medium transition-all ${
                           duration === option
                             ? "bg-orange-500 text-white shadow-md"
-                            : "bg-gray-50 text-gray-700 box-shadow-gray-200 hover:box-shadow-orange-500"
+                            : "bg-gray-50 text-gray-700 border border-gray-200 hover:border-orange-500"
                         }`}
                       >
                         {option}
@@ -122,7 +114,7 @@ export default function SurveyFullPage() {
                         className={`px-6 py-3 rounded-xl font-medium transition-all ${
                           companion === option
                             ? "bg-orange-500 text-white shadow-md"
-                            : "bg-gray-50 text-gray-700 box-shadow-gray-200 hover:box-shadow-orange-500"
+                            : "bg-gray-50 text-gray-700 border border-gray-200 hover:border-orange-500"
                         }`}
                       >
                         {option}
@@ -144,7 +136,7 @@ export default function SurveyFullPage() {
                         className={`px-6 py-3 rounded-xl font-medium transition-all ${
                           season === option
                             ? "bg-orange-500 text-white shadow-md"
-                            : "bg-gray-50 text-gray-700 box-shadow-gray-200 hover:box-shadow-orange-500"
+                            : "bg-gray-50 text-gray-700 border border-gray-200 hover:border-orange-500"
                         }`}
                       >
                         {option}
@@ -158,7 +150,7 @@ export default function SurveyFullPage() {
             {/* Section 2: 여행 스타일 (패키지 선정 결정) */}
             <div 
               ref={section2Ref}
-              className={`${focusedSection === "section2" && !isSection2Complete ? "box-shadow-orange-500 bg-orange-50" : ""} p-6 rounded-xl transition-all`}
+              className={`${focusedSection === "section2" && !isSection2Complete ? "border-2 border-orange-500 bg-orange-50 shadow-lg p-4" : ""}`}
             >
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
                 <span className="w-8 h-8 bg-orange-500 text-white rounded-lg flex items-center justify-center text-sm font-bold">
@@ -166,21 +158,21 @@ export default function SurveyFullPage() {
                 </span>
                 여행 스타일(패키지 선정 결정)
               </h2>
-              <div className="border-t border-gray-200 pt-6 space-y-6">
+              <div className="border-t border-gray-200 pt-6 space-y-6"> 
                 {/* 2-1. 여행 관심사 */}
                 <div>
                   <label className="block text-gray-700 font-medium mb-3">
                     2-1. 이번 여행의 목적은?
                   </label>
                   <div className="flex flex-wrap gap-3">
-                    {["자연/힐링", "맛집/카페", "액티비티", "관광지 정복", "감성 사진"].map((option) => (
+                    {["자연/힐링", "맛집/카페", "액티비티", "감성 사진"].map((option) => (
                       <button
                         key={option}
-                        onClick={() => toggleInterest(option)}
+                        onClick={() => setInterests(interests === option ? "" : option)}
                         className={`px-6 py-3 rounded-xl font-medium transition-all ${
                           interests.includes(option)
                             ? "bg-orange-500 text-white shadow-md"
-                            : "bg-gray-50 text-gray-700 box-shadow-gray-200 hover:box-shadow-orange-500"
+                            : "bg-gray-50 text-gray-700 border border-gray-200 hover:border-orange-500"
                         }`}
                       >
                         {option}
@@ -202,7 +194,7 @@ export default function SurveyFullPage() {
                         className={`px-6 py-3 rounded-xl font-medium transition-all ${
                           style === option
                             ? "bg-orange-500 text-white shadow-md"
-                            : "bg-gray-50 text-gray-700 box-shadow-gray-200 hover:box-shadow-orange-500"
+                            : "bg-gray-50 text-gray-700 border border-gray-200 hover:border-orange-500"
                         }`}
                       >
                         {option}
@@ -216,7 +208,7 @@ export default function SurveyFullPage() {
             {/* Section 3: 숙소 및 음식 (상세 취향) */}
             <div 
               ref={section3Ref}
-              className={`${focusedSection === "section3" && !isSection3Complete ? "box-shadow-orange-500 bg-orange-50" : ""} p-6 rounded-xl transition-all`}
+              className={`${focusedSection === "section3" && !isSection3Complete ? "border-2 border-orange-500 bg-orange-50 shadow-lg p-4" : ""}`}
             >
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
                 <span className="w-8 h-8 bg-orange-500 text-white rounded-lg flex items-center justify-center text-sm font-bold">
@@ -238,7 +230,7 @@ export default function SurveyFullPage() {
                         className={`px-6 py-3 rounded-xl font-medium transition-all ${
                           accommodation === option
                             ? "bg-orange-500 text-white shadow-md"
-                            : "bg-gray-50 text-gray-700 box-shadow-gray-200 hover:box-shadow-orange-500"
+                            : "bg-gray-50 text-gray-700 border border-gray-200 hover:border-orange-500"
                         }`}
                       >
                         {option}
@@ -260,7 +252,7 @@ export default function SurveyFullPage() {
                         className={`px-6 py-3 rounded-xl font-medium transition-all ${
                           food === option
                             ? "bg-orange-500 text-white shadow-md"
-                            : "bg-gray-50 text-gray-700 box-shadow-gray-200 hover:box-shadow-orange-500"
+                            : "bg-gray-50 text-gray-700 border border-gray-200 hover:border-orange-500"
                         }`}
                       >
                         {option}
@@ -282,7 +274,7 @@ export default function SurveyFullPage() {
                         className={`px-6 py-3 rounded-xl font-medium transition-all ${
                           dining === option
                             ? "bg-orange-500 text-white shadow-md"
-                            : "bg-gray-50 text-gray-700 box-shadow-gray-200 hover:box-shadow-orange-500"
+                            : "bg-gray-50 text-gray-700 border border-gray-200 hover:border-orange-500"
                         }`}
                       >
                         {option}

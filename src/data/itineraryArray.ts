@@ -7,6 +7,7 @@ export const itineraryArray: ItineraryData[] = [
   {
     key: "survey",
     travelType: "감성",
+    planName: "동쪽에 머무는 조용한 제주 2박 3일",
     value: [
       // DAY 1 (제주시/동부 진입)
       { id: 101, day: 1, time: "12:30" }, // 자매국수
@@ -32,6 +33,7 @@ export const itineraryArray: ItineraryData[] = [
   {
     key: "01",
     travelType: "힐링",
+    planName: "서귀포 시내 + 폭포 + 바다 카페 (2박3일)",
     value: [
       // DAY 1 (서귀포 시내 베이스)
       { id: 210, day: 1, time: "15:00" }, // 서귀포시티호텔 체크인
@@ -55,6 +57,7 @@ export const itineraryArray: ItineraryData[] = [
   {
     key: "02",
     travelType: "감성",
+    planName: "서쪽(협재/애월) 감성 + 산책로 + 고기 (2박3일)",
     value: [
       // DAY 1 (애월 감성)
       { id: 204, day: 1, time: "15:30" }, // 애월감성스테이 체크인
@@ -78,6 +81,7 @@ export const itineraryArray: ItineraryData[] = [
   {
     key: "03",
     travelType: "힐링",
+    planName: "숲 힐링 + 오름 + 티뮤지엄 (2박3일)",
     value: [
       // DAY 1 (숲/휴양)
       { id: 202, day: 1, time: "15:00" }, // 루시드엠 펜션 체크인
@@ -101,6 +105,7 @@ export const itineraryArray: ItineraryData[] = [
   {
     key: "04",
     travelType: "액티비티",
+    planName: "가족/아이 동반용: 에코랜드 + 돌문화 + 해변 (2박3일)",
     value: [
       // DAY 1
       { id: 205, day: 1, time: "15:00" }, // 중문힐링리조트 체크인(가족 무난)
@@ -124,6 +129,7 @@ export const itineraryArray: ItineraryData[] = [
   {
     key: "05",
     travelType: "맛집",
+    planName: "혼행/가성비: 게하 + 만장굴 + 비자림 + 함덕 (2박3일)",
     value: [
       // DAY 1 (가성비 베이스)
       { id: 208, day: 1, time: "15:00" }, // 한림가든게스트하우스 체크인
@@ -150,6 +156,7 @@ export const itineraryArray: ItineraryData[] = [
   {
     key: "review01",
     travelType: "감성",
+    planName: "일출을 보는 성산일출봉 2박3일",
     value: [
       // Day 1
       { id: 201, day: 1, time: "15:00" }, // 위드시티호텔
@@ -175,6 +182,7 @@ export const itineraryArray: ItineraryData[] = [
   {
     key: "review02",
     travelType: "맛집",
+    planName: "한라산 등반 + 흑돼지 2박3일",
     value: [
       // Day 1
       { id: 201, day: 1, time: "15:00" }, // 위드시티호텔
@@ -198,6 +206,7 @@ export const itineraryArray: ItineraryData[] = [
   {
     key: "review03",
     travelType: "힐링",
+    planName: "천지연 폭포 포함 3박4일",
     value: [
       // Day 1
       { id: 210, day: 1, time: "15:00" }, // 서귀포시티호텔
@@ -226,6 +235,7 @@ export const itineraryArray: ItineraryData[] = [
   {
     key: "review04",
     travelType: "맛집",
+    planName: "흑돼지 포함 맛집투어 2박3일",
     value: [
       // Day 1
       { id: 204, day: 1, time: "15:30" }, // 애월감성스테이
@@ -249,6 +259,7 @@ export const itineraryArray: ItineraryData[] = [
   {
     key: "my01",
     travelType: "힐링",
+    planName: "제주동부힐링여행 2박3일",
     value: [
       // Day 1
       { id: 207, day: 1, time: "15:00" }, // 성산바다펜션
@@ -272,6 +283,7 @@ export const itineraryArray: ItineraryData[] = [
   {
     key: "my02",
     travelType: "감성",
+    planName: "여름제주해변여행 3박4일",
     value: [
       // Day 1
       { id: 204, day: 1, time: "15:00" }, // 애월감성스테이
