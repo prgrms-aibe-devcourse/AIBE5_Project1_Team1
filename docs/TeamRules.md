@@ -166,12 +166,6 @@ git push origin [본인브랜치]
 2. :wq!        # 저장(w), 종료(q), 강제종료(!)
 
 ### ♠️ feature의 내용과 본인이 작업한 파일의 불일치 발생시
-1. 문제가 되는 파일이 어떤 것인지 살펴본다.
-2. git fetch origin                               // GitHub Repository에서 최신정보를 가져온다.
-3. git checkout origin/[본인브랜치] --[문제파일]       // 문제되는 파일을 최신버전으로 갱신해온다.
-4. 이후에 모든 파일을 저장하고 다시 push 작업을 수행한다.
-
-
 #### - 문제상황
 feature 브랜치의 최신 내용과 Local에서 작업 중인 파일 내용이 서로 달라서
 git pull, git merge 과정에서 충돌(conflict)이 발생
