@@ -55,7 +55,7 @@ export default function SharePlanModal({ isOpen, onClose, plan }: SharePlanModal
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
       onClick={handleBackdropClick}
     >
-      <div className="bg-white rounded-3xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in duration-300">
+      <div className="bg-white rounded-3xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto overscroll-none animate-in fade-in zoom-in duration-300">
         {/* Header */}
         <div className="relative bg-gradient-to-br from-orange-400 to-orange-500 text-white px-8 py-16 text-center rounded-t-3xl">
           <button

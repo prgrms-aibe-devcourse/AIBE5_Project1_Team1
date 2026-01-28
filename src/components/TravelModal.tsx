@@ -73,7 +73,7 @@ export default function TravelModal({
         </div>
 
         {/* ================= 오른쪽: 콘텐츠 ================= */}
-        <div className="md:w-1/2 p-8 overflow-y-auto relative flex flex-col min-h-[500px]">
+        <div className="md:w-1/2 p-8 overflow-y-auto overscroll-none relative flex flex-col min-h-[500px]">
           {/* 닫기 버튼 */}
           <button
             onClick={onClose}

@@ -1,7 +1,10 @@
 import { ItinerarySchedule, StringSchedule, TravelDestination } from "../data/commonType"
 import { itineraryArray } from "./itineraryArray";
 
-export const makeReviewItinerary = (targetDestinations: TravelDestination[], itinerary: ItinerarySchedule[]): StringSchedule[] => {
+export const makeReviewItinerary = (
+  targetDestinations: TravelDestination[], 
+  itinerary: ItinerarySchedule[]
+): StringSchedule[] => {
   if (!Array.isArray(itinerary) || itinerary.length === 0) {
     return [];
   }
@@ -31,7 +34,9 @@ export const makeReviewItinerary = (targetDestinations: TravelDestination[], iti
   return result;
 }
 
-export const findItineraryByKey = (key: string) => { 
+export const findItineraryByKey = (
+  key: string
+): ItinerarySchedule[] => { 
 	const plan = itineraryArray.find(item => item.key === key);
 	return plan ? plan.value : itineraryArray[0].value;
 }
