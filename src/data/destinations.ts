@@ -21,8 +21,8 @@ export type Destination = {
   fullDescription: string;
   image: string;
   tags: string[];
-  lat?: number;
-  lng?: number;
+  lat: number;
+  lng: number;
 };
 
 const DEFAULT_HOURS = "09:00 - 18:00 (연중무휴)";

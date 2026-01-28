@@ -47,7 +47,7 @@ export default function PlanSelectModal({ isOpen, onClose, onSelect }: any) {
         </div>
 
         <div className="flex-1 overflow-y-auto overscroll-none p-6 space-y-4">
-          {rawPlans.filter(p => !p.hasReview).map((plan) => (
+          {rawPlans.filter(p => !p.hasReview && p.key !== "survey").map((plan) => (
             <div key={plan.id} className="border border-gray-200 rounded-2xl p-6 hover:shadow-lg transition-all bg-gradient-to-r from-white to-gray-50">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
