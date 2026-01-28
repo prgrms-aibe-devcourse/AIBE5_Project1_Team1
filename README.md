@@ -20,7 +20,8 @@
 - **Figma:** https://www.figma.com/design/ItGE3eBC6f0n1sWUBLneVi/PLAN-Jeju?node-id=0-1&p=f&t=bjSm6fVjgN8G1XoF-0
 - **Notion:** https://www.notion.so/PLAN-Jeju-2ed0e26c31448057b95dd224cac91720?source=copy_link
 - **화면구성도:** https://app.diagrams.net/#G1ngPSvWQAmJ6c5TL2ofx-mh1Pcmn1DNSO#%7B%22pageId%22%3A%228zpW1dn6GrMUhxwFQlXW%22%7D
-- **WBS**: https://docs.google.com/spreadsheets/d/1DAWnheXgYjddfo_2WlPGdv8DJ8eu6dW3W88CvRqXrjM/edit?gid=205972354#gid=205972354
+- **WBS:** https://docs.google.com/spreadsheets/d/1DAWnheXgYjddfo_2WlPGdv8DJ8eu6dW3W88CvRqXrjM/edit?gid=205972354#gid=205972354
+- **진행 DashBoard:** https://www.notion.so/Team1_-I-dle-2f13550b7b558048b54fef4dbb286cd0?source=copy_link
 ---
 
 ## 🛠 기술 스택
@@ -30,7 +31,6 @@
 - TypeScript
 - Vite
 - HTML5
-- jQuery
 - CSS5
 
 ---
@@ -40,12 +40,11 @@
 |  이름  |  역할  |  담당 기능  |
 |-------|-------|-----------|
 | 윤규식  |  팀장  | 기획안 작성, 발표자료 작성, 발표 |
-| 최준열  |  팀원  |           |
+| 최준열  |  팀원  | WBS 제작, 와이어 프레임 |
 | 김민호  |  팀원  | UI 제작 , 바이브 코딩 |
-| 윤석규  |  팀원  |           |
+| 윤석규  |  팀원  | UI/WBS 제작 보조, 제주도 여행지/플래너 코딩 |
 | 김민국  |  팀원  | 카카오맵 API 연동, 구글 로그인 API 연동 |
-| 김민채  |  팀원  | UI제작 보조, 바이브 코딩 준비 |
-| 고완석  |  팀원  | Github 세팅+문서 작성, 요구사항 명세서 작성,|
+| 고완석  |  팀원  | Github 세팅+문서 작성, 요구사항 명세서 작성|
 
 ---
 
@@ -71,7 +70,6 @@
 #### 📌 로그인 연계
 - 로그인한 사용자는 추천된 여행계획을 **저장**할 수 있다.
 - 저장된 추천 여행계획은 **여행 플랜 작성 기능과 연계**하여 수정 및 확장이 가능하다.
-
 <br>
 
 ### 2️⃣ 제주도 여행계획 작성 및 관리 (Travel Plan)
@@ -80,38 +78,31 @@
 여행 기간, 인원, 테마 설정부터 일차별 일정·이동수단·비용 관리까지 하나의 계획 안에서 정리할 수 있습니다.
 
 #### 📌 기본 기능
-- 여행계획 표지에 **제목, 여행 위치, 대표 이미지**를 작성할 수 있다.
-- 여행 **시작일과 종료일**을 설정할 수 있다.
-- 여행 **인원 수**를 설정할 수 있다.
-- **‘새 여행 만들기’ 버튼**을 통해 새로운 여행 계획표를 작성할 수 있다.
-- 여행의 **테마(힐링, 맛집, 액티비티)** 를 설정할 수 있다.
-- 기존 여행계획을 **수정 및 삭제**할 수 있다.
-- 여행계획을 **저장**하고 **공유**할 수 있다.
-
-#### 📌 비용 및 이동 정보
-- 항목별 **예상 비용**을 입력할 수 있다.
-- 항공권의 **최저가 / 최고가 정보**를 확인할 수 있다.
-- **출발지와 도착지**를 설정할 수 있다.
-- 날짜별 **이동수단(렌터카, 대중교통)** 을 추가할 수 있다.
+- 플랜 이름을 설정할 수 있다.
+- 출발일 (연도-월-일)을 설정할 수 있다.
+- 여행 계획에 대한 설명을 추가할 수 있다.
+- ‘일정추가' 버튼으로 새로운 여행지를 추가할 수 있다.
+- 여행의 유형(힐링, 맛집, 액티비티)를 설정할 수 있다.
+- 여행계획을 수정하고 삭제할 수 있다.
+- 여행계획을 저장하고 공유할 수 있다.
+- 내 여행계획을 공개 또는 비공개로 설정할 수 있다.
 
 #### 📌 일정 및 메모
-- 여행별 **개인 메모**를 추가할 수 있다.
-- 여행 일차(Day 1, Day 2 …)가 **자동으로 생성**된다.
-- 각 여행 일차마다 **관광지 및 액티비티**를 추가할 수 있다.
-- 장소별 **예상 소요 시간**을 입력할 수 있다.
+- 여행 일차(Day1, Day2...)로 분류할 수 있다.
+- 여행계획마다 시간을 설정할 수 있다.
+- 여행 일차마다 관광지, 숙소, 식당을 추가할 수 있다.
+- 장소별 **예상 시작 시간**을 입력할 수 있다.
 
 #### 📌 장소 및 숙소 관리
 - **지도 기반 검색**을 통해 장소를 검색하고 일정에 추가할 수 있다.
-- 숙소의 **주소**를 입력할 수 있다.
-- 숙소의 **체크인 / 체크아웃 시간**을 설정할 수 있다.
-
+- **Kakao Map API**를 이용해서 선택한 장소를 지도로 볼 수 있다.
+- 여행 일차에 따라서 지도에 이동경로를 미리 볼 수 있다.
 <br>
 
-### 3️⃣ 여행 후기 작성 및 공유 (Community)
+### 3️⃣ 여행 리뷰 작성 및 공유 (Community)
 
 여행 후기를 기록하고 공유할 수 있는 커뮤니티 기능을 제공합니다.  
-본 커뮤니티는 댓글, 대댓글 등 일반적인 커뮤니티 기능보다는  
-**여행 후기 게시 및 열람에 초점을 둔 게시형 커뮤니티**입니다.
+본 커뮤니티는 댓글, 좋아요 등을 남길 수 있는 여행후기 커뮤니티 페이지입니다.
 
 #### 📌 여행 후기 작성
 - 여행 후기 **제목과 본문**을 작성할 수 있다.
@@ -122,15 +113,14 @@
 #### 📌 여행 후기 열람 및 필터링
 - 전체 여행 후기 게시글 목록을 확인할 수 있다.
 - 특정 **여행스타일 태그 기준으로 게시글을 필터링**할 수 있다.
-- 게시글 선택 시 여행 후기 **상세 내용을 확인**할 수 있다.
+- 게시글 선택 시 여행 후기 **상세 내용을 확인**할 수 있다.ㄴ
 
 #### 📌 여행계획 공개 및 공유
 - 본인의 여행계획을 **공개 / 비공개**로 설정할 수 있다.
-- 공개된 여행계획에 대해 **접근 가능한 공유 URL**이 생성된다.
 - 다른 사용자의 여행계획을 **읽기 전용(Read Only)** 으로 확인할 수 있다.
 
 #### 📌 사용자 반응 기능
-- 여행 후기 게시글에 **좋아요(Like)** 를 누를 수 있다.
+- 여행 후기 게시글에 **좋아요(Like)와 댓글** 을 남길 수 있다.
 - 좋아요 수를 통해 게시글의 **인기도를 확인**할 수 있다.
 
 ---
@@ -164,10 +154,6 @@ http://localhost:3000/
  ┃ ┃ ┣ 📂 ui
  ┃ ┃ ┃ ┗ 📜 *.tsx                   
  ┃ ┃ ┣ 📂 figma                     # Figma 디자인 기반 커스텀 컴포넌트
- ┃ ┃ ┣ 📜 Header.tsx                # 상단 네비게이션 헤더 컴포넌트
- ┃ ┃ ┣ 📜 TravelModal.tsx           # 여행 계획 관련 모달 컴포넌트
- ┃ ┃ ┣ 📜 SharePlanModal.tsx        # 여행 계획 공유 모달
- ┃ ┃ ┗ 📜 ReviewModal.tsx           # 여행 후기 작성/수정 모달 컴포넌트
  ┃ ┣ 📂 pages
  ┃ ┃ ┣ 📜 MainPage.tsx              # 서비스 메인 페이지
  ┃ ┃ ┣ 📜 LoginPage.tsx             # 사용자 로그인 페이지
@@ -182,27 +168,23 @@ http://localhost:3000/
  ┃ ┃ ┣ 📜 SurveyFullPage.tsx        # Full 설문 페이지 (상세 설문)
  ┃ ┃ ┣ 📜 SurveyLoadingPage.tsx     # 설문 결과 로딩 페이지
  ┃ ┃ ┗ 📜 SurveyResultPage.tsx      # 설문 결과 및 추천 여행 계획 페이지
- ┃ ┣ 📂 contexts                    # 사용자 인증 상태 및 로그인 정보 관리
- ┃ ┃ ┗ 📜 AuthContext.tsx   
  ┃ ┣ 📂 data                        # 정적 데이터 및 상수
+ ┃ ┃ ┗ 📜 accommodations.ts
+ ┃ ┃ ┗ 📜 commonFunction.ts   
+ ┃ ┃ ┗ 📜 comminType.ts   
  ┃ ┃ ┗ 📜 destinations.ts   
- ┃ ┣ 📂 styles                      # 전역 스타일 시트
- ┃ ┃ ┣ 📜 globals.css     
- ┃ ┃ ┗ 📜 index.css        
- ┃ ┣ 📂 imports          
- ┃ ┃ ┣ 📜 Main.tsx          
- ┃ ┃ ┣ 📜 Planner.tsx      
- ┃ ┃ ┣ 📜 TravelReview.tsx  
- ┃ ┃ ┗ 📜 설문조사.tsx      
- ┃ ┣ 📂 guidelines          
- ┃ ┃ ┗ 📜 Guidelines.md    
+ ┃ ┃ ┗ 📜 itineraryArray.ts
+ ┃ ┃ ┗ 📜 plans.ts
+ ┃ ┃ ┗ 📜 restaurants.ts 
+ ┃ ┃ ┗ 📜 surveyResult.ts        
  ┃ ┣ 📜 App.tsx            
  ┃ ┣ 📜 main.tsx            
  ┃ ┗ 📜 Attributions.md     
  ┣ 📂 docs                 
  ┃ ┣ 📜 ObjectRules.md     
  ┃ ┗ 📜 TeamRules.md        
- ┣ 📜 index.html           
+ ┣ 📜 index.html
+ ┣ 📜 index.css         
  ┣ 📜 package.json          
  ┣ 📜 vite.config.ts       
  ┗ 📜 README.md            
@@ -311,6 +293,7 @@ Pull Request 기반 협업 방식을 사용합니다.
 # 1. Merge하면서 작업파일이 사라짐
 
 - 상황: 팀원들의 내용을 feature 브랜치에 Merge하고 하루를 마무리하려고 했는데 팀원이 작업한 .css의 .grid가 사라지는 문제 발생
-- 문제해결: .css파일이 사라지기 이전의 Commit을 찾아내기 위해서 Repository에 남아있는 Commit 내용을 모두 뒤져보면서 해당 Commit을 찾아냈습니다 그리고 그 Commit의 해시코드로 'git checkout [커밋해시] --index.css' 명령어를 사용해서 특정 파일만 되돌려서 해결했습니다.
+- 문제해결: .css파일이 사라지기 이전의 Commit을 찾아내기 위해서 Repository에 남아있는 Commit 내용을 모두 뒤져보면서 해당 Commit을 찾아냈습니다 
+그리고 그 Commit의 해시코드로 'git checkout [커밋해시] --index.css' 명령어를 사용해서 특정 파일만 되돌려서 해결했습니다.
 ```
 
