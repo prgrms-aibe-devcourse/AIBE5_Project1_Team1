@@ -49,7 +49,7 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review, onA
         myPlan: review.itinerary.value,
         planInfo: {
           title: review.itinerary.planName,
-          date: review.date.replaceAll(".", "-").slice(0, 10),
+          date: new Date().toISOString().slice(0, 10),
           description: null,
           isPrivate: false
         }

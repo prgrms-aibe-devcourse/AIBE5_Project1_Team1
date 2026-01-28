@@ -72,3 +72,16 @@ export const makeDuration = (
 
   return `${yyyy}-${mm}-${dd}`;
 }
+
+export function getDateForPlan(dateStr: string, n: number): string {
+  const [y, m, d] = dateStr.split(".").map(Number);
+
+  const date = new Date(y, m - 1, d); // 로컬 기준
+  date.setDate(date.getDate() + n-1);
+
+  const yyyy = date.getFullYear();
+  const mm = String(date.getMonth() + 1).padStart(2, "0"); // month 0~11
+  const dd = String(date.getDate()).padStart(2, "0");
+  console.log(n);
+  return `${dateStr} ~ ${yyyy}.${mm}.${dd}`;
+}

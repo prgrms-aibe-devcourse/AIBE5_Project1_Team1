@@ -1,5 +1,5 @@
-import { findItineraryValueByKey } from "./commonFunction";
-import { ItinerarySchedule } from "./commonType";
+import { findItineraryValueByKey, findItineraryByKey } from "./commonFunction";
+import { ItineraryData, ItinerarySchedule } from "./commonType";
 import { itineraryArray } from "./itineraryArray";
 import { destinations } from "../data/destinations";
 import { restaurants } from "../data/restaurants";
@@ -53,13 +53,69 @@ function getTopScheduleImagesByKey(key: string, limit = 3): string[] {
       return null;
     })
     .filter((img): img is string => Boolean(img));
-}
+};
+export function getTopScheduleImages(itineraryDataValue: ItinerarySchedule[], limit = 3): string[] {
+  if (!itineraryDataValue) return [];
 
+  // 1) day → time 순으로 정렬 후 앞에서 limit개
+  const topItems = itineraryDataValue
+    .slice()
+    .sort((a, b) =>
+      a.day !== b.day ? a.day - b.day : a.time.localeCompare(b.time)
+    )
+    .slice(0, limit);
+
+  // 2) id로 어느 데이터인지 찾아서 image 매핑
+  return topItems
+    .map((item) => {
+      const id = item.id;
+
+      // 여행지
+      const d = destinations.find((x) => x.id === id);
+      if (d?.image) return d.image;
+
+      // 식당
+      const r = restaurants.find((x) => x.id === id);
+      if (r?.image) return r.image;
+
+      // 숙소
+      const a = accommodations.find((x) => x.id === id);
+      if (a?.image) return a.image;
+
+      // 못 찾으면 null
+      return null;
+    })
+    .filter((img): img is string => Boolean(img));
+};
 export const rawPlans:RawPlan[] = [
   {
     id: 1,
+    key: "survey",
+    name: "동쪽에 머무는 조용한 제주 2박 3일",
+    travelType: findItineraryByKey("survey").travelType,
+    description: "동부 제주에서 여유롭고 조용하게 머무는 감성 여행",
+    itinerary: findItineraryValueByKey("survey"),
+    date: "2026.01.29 ~ 2026.01.31",
+    hasReview: false,
+    images: getTopScheduleImagesByKey("survey"),
+    totalPlaces: 11
+  },
+  {
+    id: 2,
+    key: "my02",
+    name: "여름 제주 해변 여행",
+    travelType: findItineraryByKey("my02").travelType,
+    description: "푸른 바다와 함께하는 여름 여행",
+    itinerary: findItineraryValueByKey("my02"),
+    date: "2025.07.10 ~ 2025.07.13",
+    hasReview: false,
+    images: getTopScheduleImagesByKey("my02"),
+    totalPlaces: 7
+  },
+  {
+    id: 3,
     key: "my01",
-    travelType: "힐링",
+    travelType: findItineraryByKey("my01").travelType,
     itinerary: findItineraryValueByKey("my01"),
     name: "제주 동부 힐링 여행",
     description: "자연과 함께하는 힐링 여행",
@@ -68,30 +124,6 @@ export const rawPlans:RawPlan[] = [
     images: getTopScheduleImagesByKey("my01"),
     totalPlaces: 11
   }, 
-  {
-    id: 2,
-    key: "my02",
-    name: "여름 제주 해변 여행",
-    travelType: "감성",
-    description: "푸른 바다와 함께하는 여름 여행",
-    itinerary: findItineraryValueByKey("my02"),
-    date: "2024.07.10 ~ 2024.07.13",
-    hasReview: false,
-    images: getTopScheduleImagesByKey("my02"),
-    totalPlaces: 7
-  },
-  {
-  id: 3,
-  key: "survey",
-  name: "동쪽에 머무는 조용한 제주 2박 3일",
-  travelType: "감성",
-  description: "동부 제주에서 여유롭고 조용하게 머무는 감성 여행",
-  itinerary: findItineraryValueByKey("survey"),
-  date: "2024.10.15 ~ 2024.10.17",
-  hasReview: false,
-  images: getTopScheduleImagesByKey("survey"),
-  totalPlaces: 11
-}
 ];
 export function getPlanById(id:number):RawPlan {
   const plan = rawPlans.find(item => item.id === id);
