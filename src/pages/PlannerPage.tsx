@@ -1,130 +1,80 @@
-import { useState, useRef, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router";
-import { Calendar, Plus, Save, X, Trash2, GripVertical, Search, ChevronDown } from "lucide-react";
-import { useDrag, useDrop } from "react-dnd";
-import AddDestinationModal from "../components/AddDestinationModal";
-import TravelModal from "../components/TravelModal";
+  import { useState, useRef, useEffect } from "react";
+  import { useNavigate, useLocation } from "react-router";
+  import { Calendar, Plus, Save, X, Trash2, GripVertical, Search, ChevronDown } from "lucide-react";
+  import { useDrag, useDrop } from "react-dnd";
+  import AddDestinationModal from "../components/AddDestinationModal";
+  import TravelModal from "../components/TravelModal";
 
-import { useAuth } from "../contexts/AuthContext";
-import { sampleItinerary } from "../data/surveyResult"
-import { itinerary } from "../data/surveyResult"
-import KakaoMap from "../components/KakaoMap";
+  import { useAuth } from "../contexts/AuthContext";
+  import { sampleItinerary } from "../data/surveyResult"
+  import { itinerary } from "../data/surveyResult"
+  import KakaoMap from "../components/KakaoMap";
 
-// 관광지 카테고리, 장소
-import { destinations } from "../data/destinations";
-import { restaurants } from "../data/restaurants";
-import { accommodations } from "../data/accommodations";
+  // 관광지 카테고리, 장소
+  import { destinations } from "../data/destinations";
+  import { restaurants } from "../data/restaurants";
+  import { accommodations } from "../data/accommodations";
 
-// 식당, 호텔 장소 
-import DraggableItineraryItem from "../components/DraggableItineraryItem";
-import type { ItineraryItem }  from "../components/DraggableItineraryItem";
+  // 식당, 호텔 장소 
+  import DraggableItineraryItem from "../components/DraggableItineraryItem";
+  import type { ItineraryItem }  from "../components/DraggableItineraryItem";
 
-import { itineraryArray } from "../data/itineraryArray";
+  import { itineraryArray } from "../data/itineraryArray";
 
-import { destinationCategories, accommodationCategories, restaurantCategories } from "../data/commonType";
-import { travelTypeCategories } from "../data/commonType";
-import type { TotalPrice } from "../data/commonType";
-import type { PlanState } from "../data/commonType";
+  import { destinationCategories, accommodationCategories, restaurantCategories } from "../data/commonType";
+  import { travelTypeCategories } from "../data/commonType";
+  import type { TotalPrice } from "../data/commonType";
+  import type { PlanState } from "../data/commonType";
 
-import { createPortal } from "react-dom";
+  import { createPortal } from "react-dom";
 
-// 모든 여행지 데이터
-const allDestinations = [
-  ...destinations,
-  ...restaurants,
-  ...accommodations,
-];
+  // 모든 여행지 데이터
+  const allDestinations = [
+    ...destinations,
+    ...restaurants,
+    ...accommodations,
+  ];
 
-const categories = ["전체", 
-  ...destinationCategories, 
-  ...accommodationCategories, 
-  ...restaurantCategories
-];
+  const categories = ["전체", 
+    ...destinationCategories, 
+    ...accommodationCategories, 
+    ...restaurantCategories
+  ];
 
-const thisTravelTypeCategories = ["미분류", ...travelTypeCategories];
+  const thisTravelTypeCategories = ["미분류", ...travelTypeCategories];
 
-export default function PlannerPage() {
-  // ✅ 경고를 특정 UI(앵커) 위에 띄우기 위한 ref
-const travelTypeSelectRef = useRef<HTMLSelectElement | null>(null);
-const addScheduleBtnRef = useRef<HTMLButtonElement | null>(null);
-const planNameInputRef = useRef<HTMLInputElement | null>(null);
-const startDateInputRef = useRef<HTMLInputElement | null>(null);
+  export default function PlannerPage() {
+    // ✅ 경고를 특정 UI(앵커) 위에 띄우기 위한 ref
+  const travelTypeSelectRef = useRef<HTMLSelectElement | null>(null);
+  const addScheduleBtnRef = useRef<HTMLButtonElement | null>(null);
+  const planNameInputRef = useRef<HTMLInputElement | null>(null);
+  const startDateInputRef = useRef<HTMLInputElement | null>(null);
 
-// ✅ 앵커 경고(말풍선) 상태
-type AnchorWarning = { msg: string; top: number; left: number; direction: "up" | "down" };
-const [anchorWarning, setAnchorWarning] = useState<AnchorWarning | null>(null);
+  // ✅ 앵커 경고(말풍선) 상태
+  type AnchorWarning = { msg: string; top: number; left: number; direction: "up" | "down" };
+  const [anchorWarning, setAnchorWarning] = useState<AnchorWarning | null>(null);
 
-// ✅ 앵커 기준으로 말풍선 띄우기
-const showAnchorWarning = (
-  el: HTMLElement | null,
-  msg: string,
-  shouldScroll: boolean = true
-) => {
-  if (!el) return;
+  // ✅ 앵커 기준으로 말풍선 띄우기
+  const showAnchorWarning = (
+    el: HTMLElement | null,
+    msg: string,
+    shouldScroll: boolean = true
+  ) => {
+    if (!el) return;
 
-  const calcAndShow = () => {
-    const rect = el.getBoundingClientRect();
+    const calcAndShow = () => {
+      const rect = el.getBoundingClientRect();
 
-    const isNearTop = rect.top < 120;
-    const direction: "up" | "down" = isNearTop ? "down" : "up";
+      const isNearTop = rect.top < 120;
+      const direction: "up" | "down" = isNearTop ? "down" : "up";
 
-    const top = direction === "down" ? rect.bottom + 12 : rect.top - 12;
-    const left = rect.left + rect.width / 2;
+      const top = direction === "down" ? rect.bottom + 12 : rect.top - 12;
+      const left = rect.left + rect.width / 2;
 
-    setAnchorWarning({ msg, top, left, direction });
+      setAnchorWarning({ msg, top, left, direction });
 
-    window.setTimeout(() => setAnchorWarning(null), 2000);
-  };
-
-export default function PlannerPage() {
-  // 예상 비용 계산용
-  const [totalPrice, setTotalPrice] = useState<TotalPrice>({
-    attractionPrice: 0, 
-    hotelPrice: 0, 
-    foodPrice: 0
-  });
-  
-  const findItineraryByKey = (planName: string) => { 
-    const plan = itineraryArray.find(item => item.key === planName);
-    return plan ? plan.value : itineraryArray[0].value;
-  }
-  const updateTotalPrice = ({
-    attractionPrice = 0, 
-    hotelPrice = 0, 
-    foodPrice = 0
-  }: Partial<TotalPrice>) => {
-    setTotalPrice(prev => ({
-      attractionPrice: prev.attractionPrice + (attractionPrice || 0),
-      hotelPrice: prev.hotelPrice + (hotelPrice || 0),
-      foodPrice: prev.foodPrice + (foodPrice || 0)
-    }));
-  };
-
-  const { isLoggedIn, userName, logout } = useAuth();
-
-  const navigate = useNavigate();
-  const location = useLocation();
-  const planState = {
-    sourcePage: location.state?.sourcePage || null,
-    isReadOnly: location.state?.isReadOnly || false,
-    travelType: location.state?.travelType || null,
-    myPlan: location.state?.myPlan || [],
-    planInfo: location.state?.planInfo || {
-      title: "새 여행 계획",
-      date: new Date().toISOString().slice(0, 10),
-      description: null,
-      isPrivate: false
-    }
-  } as PlanState;
-
-  // 여행 일자별 표시 상태
-  const [visibleDays, setVisibleDays] = useState<Record<number, boolean>>(()=> {
-    // 설문 진입이면 처음부터 true로
-    if (planState.sourcePage) {
-      return { 1: true, 2: true, 3: true };
-    }
-    return {} as Record<number, boolean>;
-  });
+      window.setTimeout(() => setAnchorWarning(null), 2000);
+    };
 
     // ✅ 스크롤 필요한 케이스: 스크롤 "후"에만 띄우기 (중간 표시 없음)
     if (shouldScroll) {
