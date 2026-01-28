@@ -1,8 +1,8 @@
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { Calendar, MapPin, Share2, FileText, Eye } from "lucide-react";
 import { useState } from "react";
 import ReviewWriteModal from "../components/ReviewWriteModal";
-import ReviewDetailModal, { Review } from "../components/ReviewDetailModal";
+import ReviewDetailModal from "../components/ReviewDetailModal";
 import SharePlanModal from "../components/SharePlanModal";
 import { findItineraryValueByKey, makeReviewItinerary } from "../data/commonFunction";
 
@@ -11,7 +11,8 @@ import { accommodations } from "../data/accommodations";
 import { restaurants } from "../data/restaurants";
 
 import type { PlanState } from "../data/commonType";
-import { rawPlans } from "../data/plans";
+import { getPlanById, RawPlan, rawPlans } from "../data/plans";
+import { reviews, Review } from "../data/reviews";
 
 const allDestinations = [
   ...destinations,
@@ -44,42 +45,27 @@ export default function MyPlanPage() {
     return endDate < today;
   };
 
+  const location = useLocation();
+  const additionalPlans: RawPlan[] = (location.state?.additionalPlans as RawPlan[]) ?? [];
+  const [myPlans, setMyPlans] = useState<RawPlan[]>(() => [
+    ...additionalPlans,
+    getPlanById(2),
+    getPlanById(3),
+  ]);
 
   
   // 여행 완료 여부를 포함한 플랜 데이터 생성
-  const plans = rawPlans.map((plan) => ({
+  const plans = (myPlans).map((plan) => ({
     ...plan,
     isCompleted: isPlanCompleted(plan.date),
   }));
 
-
   // 플랜 ID로 리뷰 데이터를 찾는 mock 함수
   const getReviewByPlanId = (planId: number) => {
-    const plan = plans.find(p => p.id === planId);
-    if (!plan || !plan.hasReview) return null;
+    const itineraryKey = plans.find(item => item.id === planId)?.key;
+    const review = reviews.find(item => item.itinerary.key === itineraryKey);
 
-    // Mock review data - 실제로는 서버에서 가져와야 함
-    return {
-      id: planId,
-      author: "김XX",
-      date: plan.date,
-      tripType: "커플",
-      duration: "2박 3일",
-      rating: 5,
-      title: `${plan.name} 후기`,
-      content: "정말 좋은 여행이었습니다. 계획대로 잘 다녀왔어요!",
-      image: plan.images[0],
-      images: plan.images,
-      likes: 127,
-      comments: [
-        {id: 35, author:"이XX", content: "리뷰 잘 봤어요! 다음에 참고할게요."},
-        {id: 36, author:"박XX", content: "사진이 정말 멋지네요!"},
-        {id: 37, author:"최XX", content: "여행 계획에 큰 도움이 되었습니다."}
-      ],
-      planName: plan.name,
-      travelType: plan.travelType,
-      itineraryKey: "my01",
-    } satisfies Review;
+    return review as Review;
   };
 
   const handleLoadPlan = (planId: number) => {

@@ -146,7 +146,7 @@ export default function TravelReviewPage() {
         <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             <div className="bg-gradient-to-br from-orange-50 to-white p-6 rounded-2xl border border-orange-100 text-center">
-              <p className="text-4xl font-bold text-orange-500 mb-2">1,248</p>
+              <p className="text-4xl font-bold text-orange-500 mb-2">{(1248+allReviews.length).toLocaleString()}</p>
               <p className="text-gray-600">총 후기</p>
             </div>
 
@@ -228,11 +228,11 @@ export default function TravelReviewPage() {
                           )}
                         </div>
                         <div className="flex items-center gap-2 text-sm text-gray-600">
-                          <Users className="w-4 h-4" />
-                          <span>{review.tripType}</span>
-                          <span>•</span>
                           <Calendar className="w-4 h-4" />
                           <span>{review.duration}</span>
+                          <span>•</span>
+                          <Users className="w-4 h-4" />
+                          <span>{review.tripType}</span>
                         </div>
                       </div>
                     </div>
@@ -262,7 +262,7 @@ export default function TravelReviewPage() {
                   </div>
 
                   <h3 className="text-xl font-bold text-gray-900 mb-3">{review.title}</h3>
-                  <p className="text-gray-700 leading-relaxed mb-4">{review.content}</p>
+                  <p className="text-gray-700 whitespace-pre-line leading-relaxed mb-4">{(review.content.length > 120) ? review.content.slice(0,120)+"..." : review.content}</p>
 
                   {/* 이미지 섹션 */}
                   {review.images.length > 1 ? (
