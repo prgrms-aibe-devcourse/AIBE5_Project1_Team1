@@ -106,36 +106,45 @@ export const reviews: Review[] = [
     author: "강XX",
     date: "2026.01.24",
     tripType: "솔로",
-    duration: "1박 2일",
+    duration: "2박 3일",
     rating: 4,
-    title: "혼자 떠난 제주, 감성 카페에서 힐링하고 왔어요.",
-    content: "짧은 일정이었지만 오로지 나만을 위한 시간을 보냈습니다. 구좌읍 쪽 조용한 카페들을 추천받았는데, 통창 너머로 보이는 에메랄드빛 바다를 보며 책 읽던 시간이 이번 여행 최고의 순간이었어요. 혼자 가기 좋은 숙소 추천도 정말 만족스러웠습니다.",
+    title: "초록색만 봐도 힐링되는 2박 3일 제주 완벽 동선! (사려니부터 용머리해안까지)",
+    content: `이번 제주 여행은 정말 '쉼' 그 자체였어요. 2박 3일이라는 짧은 시간이었지만, 이 플랜대로 움직이니 동선이 꼬이지 않아서 너무 좋았습니다.\n\n`+
+              `첫날 도착해서 바로 달려간 사려니숲길은 입구에 들어서자마자 뿜어져 나오는 삼나무 향 덕분에 머리가 맑아지는 기분이었어요. 비가 살짝 온 뒤라 안개가 끼어 있었는데, 그 덕분에 더 몽환적이고 감성적인 사진을 건질 수 있었습니다. 저녁으로 먹은 사계흑돼지는 정말... 인생 맛집 등극입니다! 멜젓에 콕 찍어 먹는 그 맛은 서울에서는 절대 못 느낄 맛이에요.\n\n`+
+              `둘째 날 오설록 티뮤지엄에서는 푸른 녹차밭을 보며 시원한 녹차 아이스크림 한 입 하니까 이게 바로 행복이지 싶더라고요. 바로 이어진 카멜리아힐 산책로도 너무 예쁘게 관리되어 있어서 친구랑 사진 찍느라 시간 가는 줄 몰랐네요. 뷰스트 카페의 널찍한 통창 너머로 보이는 바다 뷰는 이번 여행의 하이라이트 중 하나였습니다.\n\n`+
+              `마지막 날 용머리해안은 파도가 높으면 관람이 제한된다고 해서 조마조마했는데, 다행히 날씨가 좋아 입장할 수 있었어요! 자연이 억겁의 세월 동안 깎아 만든 그 웅장한 지층 앞에 서니 사람이 참 작게 느껴지더라고요. 공항 가기 전 자매국수에서 든든하게 고기국수로 마무리하니 완벽한 여행이었습니다. 여유로운 힐링을 원하시는 분들이라면 이 플랜 무조건 저장하세요!\n\n`,
     images: [
-      "../src/images/img3.jpg", 
-      "../src/images/img4.jpg", 
-      "../src/images/img_food7.jpg", 
-      "../src/images/img8.jpg",
-      "../src/images/img7.jpg"
+      "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&q=80&w=1080", // 숲 (사려니숲길)
+      "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=1080", // 고기/BBQ (사계흑돼지)
+      "https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?auto=format&fit=crop&q=80&w=1080", // 녹차/다도 (오설록)
+      "https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&q=80&w=1080", // 해안 (용머리해안)
+      "https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&q=80&w=1080"  // 면/국수 (자매국수)
     ],
     likes: 85,
-    itinerary: findItineraryByKey("review01"),
+    itinerary: findItineraryByKey("03"),
     comments: [],
   },
   {
     id: 6,
     author: "한XX",
     date: "2026.01.25",
-    tripType: "커플",
+    tripType: "솔로",
     duration: "2박 3일",
     rating: 5,
-    title: "우도에서 전기차 타고 달린 추억 잊지 못할 거예요.",
-    content: "우도 일정 넣을까 말까 고민했는데 안 갔으면 후회할 뻔했습니다! 추천해주신 대로 아침 일찍 배 타고 들어갔더니 사람도 적고 여유로웠어요. 검멀레 해변에서 먹은 땅콩 아이스크림은 진짜 역대급이었습니다. 날씨까지 도와줘서 사진이 다 화보처럼 나왔네요.",
+    title: "뚜벅이 혼행족 주목! 가성비와 힐링을 다 잡은 완벽한 2박 3일",
+    content: `혼자 떠나는 첫 제주 여행이라 걱정이 많았는데, 이 플랜 덕분에 정말 알차고 든든하게 보내고 왔습니다.\n\n`+
+              `첫날 숙소였던 한림가든게스트하우스는 사장님도 친절하시고 혼자 머물기에 딱 아늑했어요. 짐 풀고 바로 앞 곽지과물해변에서 노을을 보는데 '아, 이게 진짜 여행이지' 싶더라고요. 저녁으로 먹은 우진해장국은 명성대로 웨이팅이 좀 있었지만, 한 입 먹자마자 기다림의 피로가 싹 가시는 고소한 맛이었습니다.\n\n`+
+              `둘째 날은 제주 동쪽의 자연을 온전히 느낀 하루였어요. 만장굴의 서늘하고 신비로운 기운에 압도당했다가, 비자림으로 넘어가서 숲 내음을 맡으며 걷는데 일상의 스트레스가 다 씻겨 내려가는 기분이었습니다. 특히 함덕해수욕장의 에메랄드빛 바다는 그냥 멍하니 보고만 있어도 행복해지는 풍경이었어요.\n\n`+
+              `마지막 날 동문시장에서 가족들 줄 기념품도 사고, 시장 특유의 활기찬 분위기를 즐긴 뒤 자매국수로 깔끔하게 마무리했습니다. 가성비를 챙기면서도 제주의 핵심 명소는 다 가볼 수 있는 최고의 동선이었어요. 저처럼 혼자 여행 계획하시는 분들께 이 루트 강력 추천합니다!`,
     images: [
-       "../src/images/img4.jpg",  
-       "../src/images/img5.jpg",   // 제주 해안 도로
+      "https://images.unsplash.com/photo-1543731068-7e0f5beff43a?auto=format&fit=crop&q=80&w=1080", // 곽지해변 (바다/노을)
+      "https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&q=80&w=1080", // 우진해장국 (따뜻한 국물 요리 느낌)
+      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=1080", // 비자림 (숲/피톤치드)
+      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=1080", // 함덕 (투명한 바다)
+      "https://images.unsplash.com/photo-1533900298318-6b8da08a523e?auto=format&fit=crop&q=80&w=1080"  // 동문시장 (북적이는 시장 느낌)
     ],
     likes: 189,
-    itinerary: findItineraryByKey("04"),
+    itinerary: findItineraryByKey("05"),
     comments: [],
   }
 ];
