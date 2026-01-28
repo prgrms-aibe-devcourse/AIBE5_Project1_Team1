@@ -2,6 +2,7 @@ import { X, Upload, Star, Plus, Trash2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import PlanSelectModal from "./PlanSelectModal";
+import ReviewTextPlan from "./ReviewTextPlan";
 
 interface ReviewWriteModalProps {
   isOpen: boolean;
@@ -47,13 +48,6 @@ export default function ReviewWriteModal({ isOpen, onClose, onSubmit }: ReviewWr
     onClose();
   };
 
-
-  // 목데이터
-  const mockItinerary = [
-    { day: "1일차", schedule: "카페거리 → 애월 → 한라산 → 돼지고기 → 머시기숙소" },
-    { day: "2일차", schedule: "카페거리 → 애월 → 한라산 → 돼지고기 → 저시기숙소" },
-    { day: "3일차", schedule: "공항" }
-  ];
 
   // [기능 추가] 이미지 업로드 핸들러
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,10 +107,10 @@ export default function ReviewWriteModal({ isOpen, onClose, onSubmit }: ReviewWr
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm overflow-y-auto overscroll-none"
       onClick={handleBackdropClick}
     >
-      <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[95vh] overflow-y-auto">
+      <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[95vh] overflow-y-auto overscroll-none">
         {/* 헤더 */}
         <div className="sticky top-0 bg-white border-b border-gray-200 px-8 py-6 flex items-center justify-between z-[5]">
           <div>
@@ -214,15 +208,7 @@ export default function ReviewWriteModal({ isOpen, onClose, onSubmit }: ReviewWr
             />
           </div>
 
-          {/* 여행 플랜 정보 */}
-          <div className="bg-orange-50 rounded-xl p-6 border border-orange-200">
-            <p className="text-gray-700 font-medium">
-              <span className="text-orange-600 font-bold">{userName}</span>의 여행플랜: 
-              <span className="text-gray-900 ml-2">
-                {selectedPlan ? selectedPlan.title : "[불러오기 버튼을 눌러주세요]"}
-              </span>
-            </p>
-          </div>
+
 
           {/* 여행 플랜 상세 섹션 */}
           <div>
@@ -235,6 +221,15 @@ export default function ReviewWriteModal({ isOpen, onClose, onSubmit }: ReviewWr
                 불러오기
               </button>
             </div>
+            {/* 여행 플랜 정보 */}
+            <div className="bg-orange-50 rounded-xl px-6 py-3 mb-4 border border-orange-200">
+              <p className="text-gray-700 font-medium">
+                <span className="text-orange-600 font-bold">{userName}</span>의 여행플랜: 
+                <span className="text-gray-900 ml-2">
+                  {selectedPlan ? selectedPlan.name : "[불러오기 버튼을 눌러주세요]"}
+                </span>
+              </p>
+            </div>
             {isPlanModalOpen && (
               <PlanSelectModal 
                 isOpen={isPlanModalOpen} 
@@ -245,19 +240,7 @@ export default function ReviewWriteModal({ isOpen, onClose, onSubmit }: ReviewWr
 
             <div className="bg-gray-50 rounded-xl p-6 space-y-3">
               {selectedPlan ? (
-                <>
-                  <div className="inline-block px-4 py-2 bg-orange-200 text-orange-800 rounded-full text-sm font-medium">
-                    # {selectedPlan.type}
-                  </div>
-                  {selectedPlan.itinerary.map((item: any, idx: number) => (
-                    <div key={idx} className="bg-orange-50 rounded-lg p-4 flex gap-4">
-                      <span className="inline-block px-3 py-1 bg-orange-200 text-orange-800 rounded-full text-sm font-medium h-fit">
-                        {item.day}
-                      </span>
-                      <p className="text-gray-700 flex-1">{item.schedule}</p>
-                    </div>
-                  ))}
-                </>
+                <ReviewTextPlan itineraryKey={selectedPlan.itineraryKey} />
               ) : (
                 <div className="text-center py-10 text-gray-400 text-sm">
                   불러온 여행 일정이 없습니다.

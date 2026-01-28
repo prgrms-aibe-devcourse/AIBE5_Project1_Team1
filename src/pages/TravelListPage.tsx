@@ -3,23 +3,17 @@ import { useMemo, useState } from "react";
 import { Search, Clock, MapPin, Filter, Calendar } from "lucide-react";
 import TravelModal from "../components/TravelModal";
 import { destinations } from "../data/destinations";
+import { destinationCategories } from "../data/commonType";
 
-const categories = ["전체", "자연", "해변", "섬", "드라이브", "테마파크"] as const;
+const categories = [
+  "전체", 
+  ...destinationCategories
+] as const;
 
 export default function TravelListPage() {
   const [selectedCategory, setSelectedCategory] = useState<(typeof categories)[number]>("전체");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDestination, setSelectedDestination] = useState<(typeof destinations)[number] | null>(null);
-
-  // ✅ 검색 링크 생성 (모달 버튼용)
-  const getSearchLinks = (name: string) => {
-    const encodedName = encodeURIComponent("제주 " + name);
-    return {
-      naver: `https://search.naver.com/search.naver?query=${encodedName}`,
-      kakao: `https://map.kakao.com/?q=${encodedName}`,
-      google: `https://www.google.com/search?q=${encodedName}`,
-    };
-  };
 
   // ✅ destinations.ts 기반으로 기본값 보정 (누락 필드 대비)
   const normalizedDestinations = useMemo(() => {
@@ -148,7 +142,7 @@ export default function TravelListPage() {
                   </div>
 
                   <div className="pt-4 border-t border-gray-50 flex justify-between items-center">
-                    <div className="flex items-center gap-1.5 font-bold text-orange-600">
+                    <div className="flex items-center gap-2 font-bold text-orange-600">
                       <span className="text-xs border border-orange-600 rounded-full w-4 h-4 flex items-center justify-center">
                         ₩
                       </span>

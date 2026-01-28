@@ -2,6 +2,12 @@ import { X, ThumbsUp, MessageCircle, Star, MapPin, Calendar, Users, Edit3 } from
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
+import { PlanState } from "../data/commonType";
+import { findItineraryByKey, makeReviewItinerary } from "../data/commonFunction";
+import { destinations } from "../data/destinations";
+import { restaurants } from "../data/restaurants";
+import { accommodations } from "../data/accommodations";
+import ReviewTextPlan from "./ReviewTextPlan";
 
 export interface Review {
   id: number;
@@ -19,7 +25,7 @@ export interface Review {
   comments: { id: number; author: string; content: string }[];
   planName?: string;
   travelType?: string;
-  itinerary?: { day: string; schedule: string }[];
+  itineraryKey?: string | null;
 }
 
 interface ReviewDetailModalProps {
@@ -27,9 +33,15 @@ interface ReviewDetailModalProps {
   onClose: () => void;
   onEdit?: () => void;
   review: Review;
-  onAddComment: (reviewId: number, content: string) => void;
-  onLike: (reviewId: number) => void;
+  onAddComment?: (reviewId: number, content: string) => void;
+  onLike?: (reviewId: number) => void;
 }
+
+const allDestinations = [
+  ...destinations,
+  ...restaurants,
+  ...accommodations
+];
 
 export default function ReviewDetailModal({ isOpen, onClose, onEdit, review, onAddComment, onLike }: ReviewDetailModalProps) {
   const [comment, setComment] = useState("");
@@ -50,35 +62,33 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review, onA
   const handleFollowPlan = () => {
     navigate("/planner", {
       state: {
-        fromReview: true,
-        surveyData: {
-          packageName: review.planName || "제주도 힐링 여행",
-          purpose: review.travelType ? 
-            (review.travelType.includes("힐링") ? "느긋하게 쉬기(힐링)" :
-             review.travelType.includes("맛집") ? "맛있는거 먹기(맛집)" :
-             review.travelType.includes("감성") ? "예쁜 사진 남기기(감성)" :
-             review.travelType.includes("액티비티") ? "신나게 놀기(액티비티)" :
-             "느긋하게 쉬기(힐링)") :
-            "느긋하게 쉬기(힐링)"
-        },
-        itinerary: review.itinerary
-      }
+        sourcePage: "review",
+        isReadOnly: false,
+        travelType: review.travelType || null,
+        myPlan: findItineraryByKey(review.itineraryKey || "survey"),
+        planInfo: {
+          title: review.planName || "제주도 힐링 여행",
+          date: review.date.replaceAll(".", "-").slice(0, 10),
+          description: null,
+          isPrivate: false
+        }
+      } satisfies PlanState
     });
     onClose();
   };
 
   const handleSubmitComment = () => {
     if (!comment.trim()) return;
-    onAddComment(review.id, comment);
+    onAddComment && onAddComment(review.id, comment);
     setComment("");
   };
 
   return (
     <div 
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 overflow-y-auto"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
       onClick={handleBackdropClick}
     >
-      <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[95vh] overflow-y-auto">
+      <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[95vh] overflow-y-auto overscroll-none my-8">
         {/* 헤더 */}
         <div className="sticky top-0 bg-white border-b border-gray-200 px-8 py-6 flex items-center justify-between z-10">
           <div className="flex items-center gap-4">
@@ -141,7 +151,7 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review, onA
           </div>
 
           {/* 여행 일정 */}
-          {review.itinerary && (
+          {review.itineraryKey && (
             <div className="bg-gray-50 rounded-xl p-6 space-y-4">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-bold text-gray-900">여행 플랜</h3>
@@ -152,18 +162,7 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review, onA
                   따라가기 →
                 </button>
               </div>
-              <div className="space-y-3">
-                {review.itinerary.map((item, idx) => (
-                  <div key={idx} className="bg-orange-50 rounded-lg p-4 flex gap-4">
-                    <div className="flex-shrink-0">
-                      <span className="inline-block px-3 py-1 bg-orange-200 text-orange-800 rounded-full text-sm font-medium">
-                        {item.day}
-                      </span>
-                    </div>
-                    <p className="text-gray-700 flex-1">{item.schedule}</p>
-                  </div>
-                ))}
-              </div>
+              <ReviewTextPlan itineraryKey={review.itineraryKey} />
             </div>
           )}
 
@@ -171,18 +170,27 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review, onA
           <div className="bg-gray-50 rounded-xl p-6 text-center">
             <h3 className="text-lg font-bold text-gray-900 mb-4">여행 만족도</h3>
             <div className="flex items-center justify-center gap-2 mb-2">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  className={`w-12 h-12 ${
-                    i < review.rating
-                      ? "fill-yellow-400 text-yellow-400"
-                      : "fill-gray-200 text-gray-200"
-                  }`}
-                />
-              ))}
+              {[...Array(5)].map((_, i) => {
+                const fillPercentage = Math.max(0, Math.min(100, (review.rating - i) * 100));
+                
+                return (
+                  <div key={i} className="relative w-12 h-12">
+                    {/* 1. 회색 배경 별 */}
+                    <Star className="absolute top-0 left-0 w-12 h-12 text-gray-200 fill-gray-200" />
+                    
+                    {/* 2. 노란색 채워지는 별 */}
+                    <div 
+                      className="absolute top-0 left-0 h-full overflow-hidden" 
+                      style={{ width: `${fillPercentage}%` }}
+                    >
+                      {/* [핵심] 부모 너비가 줄어도 별 크기는 w-12 h-12로 유지되어야 잘려 보임 */}
+                      <Star className="w-12 h-12 text-yellow-400 fill-yellow-400" />
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-            <p className="text-4xl font-bold text-gray-900">{review.rating}.0</p>
+            <p className="text-4xl font-bold text-gray-900">{review.rating.toFixed(1)}</p>
           </div>
 
           {/* [수정] 좋아요 버튼 섹션 */}
@@ -197,7 +205,7 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review, onA
               </button>
             ) : (
               <button 
-                onClick={() => onLike(review.id)}
+                onClick={() => onLike && onLike(review.id)}
                 className={`inline-flex items-center gap-3 px-8 py-4 font-bold rounded-full shadow-md hover:shadow-lg transition-all border-2 ${
                   review.isLiked 
                     ? "bg-orange-400 border-orange-400 text-white" // 좋아요 On 스타일

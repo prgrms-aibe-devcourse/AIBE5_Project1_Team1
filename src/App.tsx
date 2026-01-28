@@ -16,12 +16,14 @@ import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import MyProfilePage from "./pages/MyProfilePage";
 import MyPlanPage from "./pages/MyPlanPage";
+import ScrollToTop from "./components/ScrollTop";
 
 export default function App() {
   return (
     <AuthProvider>
       <DndProvider backend={HTML5Backend}>
         <BrowserRouter>
+          <ScrollToTop />
           <div className="min-h-screen bg-white w-full">
             <Header />
             <Routes>

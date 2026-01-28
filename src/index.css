@@ -493,12 +493,19 @@
     inset: calc(var(--spacing) * 0);
   }
 
+  .-top-3 {
+    top: calc(var(--spacing) * -3);
+  }
+
   .-top-4 {
     top: calc(var(--spacing) * -4);
   }
 
   .-top-6 {
     top: calc(var(--spacing) * -6);
+  }
+  .-top-8 {
+    top: calc(var(--spacing) * -8);
   }
 
   .top-0 {
@@ -545,8 +552,34 @@
     left: calc(var(--spacing) * -6);
   }
 
+  .left-1\/2 {
+    left: calc(var(--spacing) * 0.5);
+  }
+
   .left-4 {
     left: calc(var(--spacing) * 4);
+  }
+
+  .left-6 {
+    left: calc(var(--spacing) * 6);
+  }
+  .left-8 {
+    left: calc(var(--spacing) * 8);
+  }
+  .left-12 {
+    left: calc(var(--spacing) * 12);
+  }
+  .left-24 {
+    left: calc(var(--spacing) * 24);
+  }
+  .left-24\.5 {
+    left: calc(var(--spacing) * 24.5);
+  }
+  .left-25 {
+    left: calc(var(--spacing) * 25);
+  }
+  .whitespace-nowrap {
+    white-space: nowrap;
   }
 
   .z-10 {
@@ -653,6 +686,10 @@
     margin-left: calc(var(--spacing) * 2);
   }
 
+  .ml-auto {
+    margin-left: auto;
+  }
+
   .line-clamp-2 {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -744,8 +781,16 @@
     height: calc(var(--spacing) * 16);
   }
 
+  .h-18 {
+    height: calc(var(--spacing) * 18);
+  }
+
   .h-20 {
     height: calc(var(--spacing) * 20);
+  }
+
+  .h-21 {
+    height: calc(var(--spacing) * 21);
   }
 
   .h-24 {
@@ -852,6 +897,14 @@
     width: calc(var(--spacing) * 20);
   }
 
+  .w-24 {
+    width: calc(var(--spacing) * 24);
+  }
+
+  .w-28 {
+    width: calc(var(--spacing) * 28);
+  }
+
   .w-32 {
     width: calc(var(--spacing) * 32);
   }
@@ -921,6 +974,10 @@
     translate: var(--tw-translate-x) var(--tw-translate-y);
   }
 
+  .-translate-x-1\/2 {
+    transform: translateX(-50%);
+  }
+
   .transform {
     transform: var(--tw-rotate-x) var(--tw-rotate-y) var(--tw-rotate-z) var(--tw-skew-x) var(--tw-skew-y);
   }
@@ -972,6 +1029,10 @@
     grid-template-columns: repeat(14, minmax(0, 1fr));
   }
 
+  .grid-cols-[auto_1fr_auto] {
+    grid-template-columns: auto 1fr auto;
+  }
+
   .flex-col {
     flex-direction: column;
   }
@@ -1008,8 +1069,16 @@
     gap: calc(var(--spacing) * 1);
   }
 
+  .gap-1\.5 {
+    gap: calc(var(--spacing) * 2.5);
+  }
+
   .gap-2 {
     gap: calc(var(--spacing) * 2);
+  }
+
+  .gap-2\.5 {
+    gap: calc(var(--spacing) * 2.5);
   }
 
   .gap-3 {
@@ -1167,8 +1236,16 @@
     border-color: var(--color-gray-300);
   }
 
+  .box-shadow-gray-200 {
+    box-shadow: inset 0 0 0 1px var(--color-gray-200);
+  }
+
   .box-shadow-gray-300 {
-    box-shadow: inset 0 0 0 1px oklch(.872 .01 258.338);
+    box-shadow: inset 0 0 0 1px var(--color-gray-300);
+  }
+
+  .box-shadow-orange-500 {
+    box-shadow: inset 0 0 0 1px var(--color-orange-500);
   }
 
   .border-gray-800 {
@@ -1301,6 +1378,10 @@
     background-color: var(--color-red-500);
   }
 
+  .bg-red-600 {
+    background-color: var(--color-red-600);
+  }
+
   .bg-white {
     background-color: var(--color-white);
   }
@@ -1364,8 +1445,18 @@
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
 
+  .from-orange-100 {
+    --tw-gradient-from: var(--color-orange-100);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+
   .from-orange-200 {
     --tw-gradient-from: var(--color-orange-200);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+
+  .from-orange-300 {
+    --tw-gradient-from: var(--color-orange-300);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
 
@@ -1421,6 +1512,11 @@
 
   .to-orange-100 {
     --tw-gradient-to: var(--color-orange-100);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+
+  .to-orange-200 {
+    --tw-gradient-to: var(--color-orange-200);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
 
@@ -1598,8 +1694,24 @@
     padding-bottom: calc(var(--spacing) * 8);
   }
 
+  .pb-12 {
+    padding-bottom: calc(var(--spacing) * 12);
+  }
+
   .pb-20 {
     padding-bottom: calc(var(--spacing) * 20);
+  }
+
+  .pb-28 {
+    padding-bottom: calc(var(--spacing) * 28);
+  }
+
+  .pb-32 {
+    padding-bottom: calc(var(--spacing) * 32);
+  }
+
+  .pb-40 {
+    padding-bottom: calc(var(--spacing) * 40);
   }
 
   .pl-12 {
@@ -1657,6 +1769,11 @@
   .text-xs {
     font-size: var(--text-xs);
     line-height: var(--tw-leading, var(--text-xs--line-height));
+  }
+
+  .text-\[13px\] {
+    font-size: 13px;
+    line-height: var(--tw-leading, 19px);
   }
 
   .leading-relaxed {
@@ -2150,6 +2267,13 @@
 
   .disabled\:opacity-50:disabled {
     opacity: .5;
+  }
+
+  .active:scale-95:active {
+    --tw-scale-x: 95%;
+    --tw-scale-y: 95%;
+    --tw-scale-z: 95%;
+    scale: var(--tw-scale-x) var(--tw-scale-y);
   }
 
   @media (width >= 40rem) {
@@ -2649,6 +2773,20 @@ html {
   }
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 6px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out;
+}
 /* 1. 모달의 입구인 modal-root를 강제로 최상단 레이어로 설정 */
 #modal-root {
   position: relative;
@@ -2676,4 +2814,93 @@ html {
 }
 .z-\[9999\] {
   z-index: 9999;
+}
+
+/* SocialLogin.css */
+.social-btn {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  height: 50px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px; /* 글자 크기를 살짝 조절하여 균형을 맞춤 */
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 그림자를 조금 더 선명하게 */
+  margin-bottom: 10px;
+  transition: all 0.2s ease;
+  padding: 1px;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+.social-btn:hover {
+  filter: brightness(1.05); /* 호버 시 약간 밝아지게 변경 */
+  transform: translateY(-1px); /* 살짝 떠오르는 효과 */
+}
+
+/* 아이콘 영역 (공통) */
+.btn-icon {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  flex-shrink: 0;
+  margin-left: 8px;
+  /* 아이콘 박스 자체에 입체감을 주는 그림자 */
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* 텍스트 영역 */
+.btn-text {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.social-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* --- 브랜드별 그라데이션 및 테두리 --- */
+
+/* 1. 구글: 상단 파란색 -> 하단 더 짙은 파란색 */
+.social-btn.google {
+  background: linear-gradient(to bottom, #4285F4, #357ae8);
+  color: #fff;
+}
+.social-btn.google .btn-icon {
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* 2. 카카오: 상단 노란색 -> 하단 약간 짙은 노란색 */
+.social-btn.kakao {
+  background: linear-gradient(to bottom, #FEE500, #fada00);
+  color: #191919;
+}
+.social-btn.kakao .btn-icon {
+  /* 아이콘 박스를 아예 밝게 띄워서 구분감 극대화 */
+  background-color: rgba(255, 255, 255, 0.25); 
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* 3. 네이버: 상단 초록색 -> 하단 더 짙은 초록색 */
+.social-btn.naver {
+  background: linear-gradient(to bottom, #03C75A, #02b350);
+  color: #fff;
+}
+.social-btn.naver .btn-icon {
+  /* 배경보다 살짝 어두운 톤의 그라데이션 박스 */
+  background-color: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.overscroll-none {
+  overscroll-behavior: none;
 }

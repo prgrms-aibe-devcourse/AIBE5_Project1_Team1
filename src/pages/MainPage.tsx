@@ -1,68 +1,70 @@
 import { useState } from "react";
 import { ArrowRight, Check, Compass, MapPin, Calendar } from "lucide-react";
 import TravelModal from "../components/TravelModal";
-import { Destination, destinations } from "../data/destinations";
+import { destinations } from "../data/destinations";
 import { useNavigate } from 'react-router';
-import mainImage from "../assets/mainimage2.png";
+import { TravelDestination } from "../data/commonType";
 
 
 
 export default function MainPage() {
-  const [selectedDestination, setSelectedDestination] = useState<typeof destinations[0] | null>(null);
+  const [selectedDestination, setSelectedDestination] = useState<TravelDestination | null>(null);
   const navigate = useNavigate();
   const handleSurvey = () => {
     navigate("/survey");
   };
-  const destinationImage = (destination: Destination, index: number) =>{
+
+  const destinationImage = (destination: TravelDestination, index: number) =>{
     return(
-       <div className="relative w-full md:w-1/2">
-              <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
-                <img
-                  src={destination.image}
-                  alt={destination.name}
-                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                />
-              </div>
-              <div className="absolute -top-4 -left-4 w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center text-white text-2xl font-bold shadow-lg">
-                {index + 1}
-              </div>
-            </div>
-    )
+      <div className="relative w-full md:w-1/2">
+        <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
+          <img
+            src={destination.image}
+            alt={destination.name}
+            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+          />
+        </div>
+        <div className="absolute -top-4 -left-4 w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+          {index + 1}
+        </div>
+      </div>
+    );
   }
 
-   const destinationtext = (destination: Destination) =>{
+  const destinationtext = (destination: TravelDestination) =>{
     return(
       <div className="w-full md:w-1/2 space-y-4">
-              <span className="inline-block px-3 py-1 bg-orange-100 text-orange-600 text-sm font-bold rounded-full">
-                {destination.category}
-              </span>
+        <span className="inline-block px-3 py-1 bg-orange-100 text-orange-600 text-sm font-bold rounded-full">
+          {destination.category}
+        </span>
 
-              <h3 className="text-3xl font-bold text-gray-900 hover:text-orange-500 transition-colors">
-                {destination.name}
-              </h3>
+        <h3 className="text-3xl font-bold text-gray-900 hover:text-orange-500 transition-colors">
+          {destination.name}
+        </h3>
 
-              <p className="text-gray-600 leading-relaxed">
-                {destination.shortDescription}
-              </p>
+        <p className="text-gray-600 leading-relaxed">
+          {destination.shortDescription}
+        </p>
 
-              <div className="flex flex-wrap gap-2">
-                {destination.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-lg"
-                  >
-                    #{tag}
-                  </span>
-                ))}
-              </div>
+        <div className="flex flex-wrap gap-2">
+          {destination.tags.map((tag) => (
+            <span
+              key={tag}
+              className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-lg"
+            >
+              #{tag}
+            </span>
+          ))}
+        </div>
 
-              <div className="flex items-center gap-2 text-sm text-gray-500">
-                <MapPin className="w-4 h-4" />
-                <span>{destination.location}</span>
-              </div>
-            </div>
-    )
-   }
+        <div className="flex items-center gap-2 text-sm text-gray-500">
+          <MapPin className="w-4 h-4" />
+          <span>{destination.location}</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full">
       {/* Hero Section */}
@@ -111,25 +113,25 @@ export default function MainPage() {
               </div>
 
               <button
-              onClick={ handleSurvey }
-              className="group inline-flex items-center gap-3 px-8 py-4 bg-orange-500 text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+                onClick={ handleSurvey }
+                className="group inline-flex items-center gap-3 px-8 py-4 bg-orange-500 text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all"
               >
-              <span>설문 시작하기</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <span>설문 시작하기</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
 
-            {/* 이미지 */}
+              {/* 이미지 */}
             <div className="relative">
               <div className="aspect-square rounded-3xl overflow-hidden shadow-2xl bg-orange-200">
                 <img
-                  src={mainImage}
+                  src="/src/assets/mainimage2.png"
                   alt="여행 계획"
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-orange-300 rounded-full blur-3xl opacity-50" />
-              <div className="absolute -top-6 -left-6 w-32 h-32 bg-orange-400 rounded-full blur-3xl opacity-50" />
+            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-orange-300 rounded-full blur-3xl opacity-50" />
+            <div className="absolute -top-6 -left-6 w-32 h-32 bg-orange-400 rounded-full blur-3xl opacity-50" />
             </div>
           </div>
         </div>
@@ -138,40 +140,43 @@ export default function MainPage() {
      {/* 추천 여행지 섹션 */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6">
-         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
-         제주도 추천 여행지
-          </h2>
-         <p className="text-lg text-gray-600">
-        제주를 대표하는 아름다운 여행지를 만나보세요
-        </p>
-        </div>
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              제주도 추천 여행지
+            </h2>
+            <p className="text-lg text-gray-600">
+              제주를 대표하는 아름다운 여행지를 만나보세요
+            </p>
+          </div>
 
-         <div className="space-y-24 max-w-6xl mx-auto">
-          {destinations.slice(0, 6).map((destination, index) => {
-           const isReverse = index % 2 === 1;
+          <div className="space-y-24 max-w-6xl mx-auto">
+            {destinations.slice(0, 6).map((destination, index) => {
+              const isReverse = index % 2 === 1;
 
-            return (
-          <div
-            key={destination.id}
-            onClick={() => setSelectedDestination(destination)}
-            className={`flex flex-col md:flex-row items-center gap-12 ${
-              isReverse ? "md:flex-row-reverse" : ""
-            }`}
-          >{isReverse ? (
+              return (
+                <div
+                  key={destination.id}
+                  onClick={() => setSelectedDestination(destination)}
+                  className={`flex flex-col md:flex-row items-center gap-12 py-16 ${
+                    isReverse ? 
+                    "md:flex-row-reverse" : 
+                    ""
+                  }`}
+                >
+                  {isReverse ? (
                     <>
-                      {destinationImage(destination, index)}
                       {destinationtext(destination)}
+                      {destinationImage(destination, index)}
                     </>
                   ) : (
                     <>
-                      {destinationtext(destination)}
                       {destinationImage(destination, index)}
+                      {destinationtext(destination)}
                     </>
                   )}
-           </div>
-           );
-         })}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -219,7 +224,7 @@ export default function MainPage() {
       </section>
 
       {/* CTA 섹션 */}
-      <section className="py-20 bg-gradient-to-r from-orange-500 to-orange-600">
+      <section className="py-20 bg-gradient-to-r from-orange-400 to-orange-500">
         <div className="max-w-4xl mx-auto px-6 text-center text-white">
           <p className="text-lg mb-4 opacity-90">단 5분이면 완벽한 제주도 여행 계획이 완성됩니다</p>
           <h2 className="text-4xl font-bold mb-8">지금 바로 시작하세요</h2>
@@ -237,12 +242,12 @@ export default function MainPage() {
 
       {/* 모달 */}
       {selectedDestination && (
-  <TravelModal
-    isOpen={!!selectedDestination}
-    onClose={() => setSelectedDestination(null)}
-    destination={selectedDestination}
-  />
-)}
+        <TravelModal
+          isOpen={!!selectedDestination}
+          onClose={() => setSelectedDestination(null)}
+          destination={selectedDestination}
+        />
+      )}
 
     </div>
   );

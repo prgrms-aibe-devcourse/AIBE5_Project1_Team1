@@ -2,8 +2,22 @@ import { Link, useNavigate } from "react-router";
 import { Calendar, MapPin, Share2, FileText, Eye } from "lucide-react";
 import { useState } from "react";
 import ReviewWriteModal from "../components/ReviewWriteModal";
-import ReviewDetailModal from "../components/ReviewDetailModal";
+import ReviewDetailModal, { Review } from "../components/ReviewDetailModal";
 import SharePlanModal from "../components/SharePlanModal";
+import { findItineraryByKey, makeReviewItinerary } from "../data/commonFunction";
+
+import { destinations } from "../data/destinations";
+import { accommodations } from "../data/accommodations";
+import { restaurants } from "../data/restaurants";
+
+import type { PlanState } from "../data/commonType";
+import { rawPlans } from "../data/plans";
+
+const allDestinations = [
+  ...destinations,
+  ...accommodations,
+  ...restaurants,
+];
 
 export default function MyPlanPage() {
   const navigate = useNavigate();
@@ -12,49 +26,7 @@ export default function MyPlanPage() {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [selectedPlanForShare, setSelectedPlanForShare] = useState<typeof plans[0] | null>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [selectedReview, setSelectedReview] = useState<any>(null);
-
-  const rawPlans = [
-    {
-      id: 1,
-      name: "제주 동부 힐링 여행",
-      date: "2024.03.15 ~ 2024.03.17",
-      hasReview: true, // 리뷰 작성 완료
-      travelType: "힐링형",
-      images: [
-        "https://images.unsplash.com/photo-1616798249081-30877e213b16?w=200",
-        "https://images.unsplash.com/photo-1674606042265-c9f03a77e286?w=200",
-        "https://images.unsplash.com/photo-1696335105620-c00aec47521f?w=200"
-      ],
-      totalPlaces: 11
-    },
-    {
-      id: 2,
-      name: "제주 서부 맛집 투어",
-      date: "2026.04.20 ~ 2026.04.22",
-      hasReview: false, // 리뷰 미작성
-      travelType: "맛집형",
-      images: [
-        "https://images.unsplash.com/photo-1740329289241-3adf04a8e3ed?w=200",
-        "https://images.unsplash.com/photo-1758327740342-4e705edea29b?w=200",
-        "https://images.unsplash.com/photo-1616798249081-30877e213b16?w=200"
-      ],
-      totalPlaces: 9
-    },
-    {
-      id: 3,
-      name: "여름 제주 해변 여행",
-      date: "2024.07.10 ~ 2024.07.13",
-      hasReview: false,
-      travelType: "감성형",
-      images: [
-        "https://images.unsplash.com/photo-1696335105620-c00aec47521f?w=200",
-        "https://images.unsplash.com/photo-1674606042265-c9f03a77e286?w=200",
-        "https://images.unsplash.com/photo-1740329289241-3adf04a8e3ed?w=200"
-      ],
-      totalPlaces: 7
-    },
-  ];
+  const [selectedReview, setSelectedReview] = useState<Review | null>(null);
 
    // 여행 완료 여부 판단 함수
   const isPlanCompleted = (dateRange: string) => {
@@ -76,9 +48,9 @@ export default function MyPlanPage() {
   
   // 여행 완료 여부를 포함한 플랜 데이터 생성
   const plans = rawPlans.map((plan) => ({
-  ...plan,
-  isCompleted: isPlanCompleted(plan.date),
-}));
+    ...plan,
+    isCompleted: isPlanCompleted(plan.date),
+  }));
 
 
   // 플랜 ID로 리뷰 데이터를 찾는 mock 함수
@@ -99,15 +71,15 @@ export default function MyPlanPage() {
       image: plan.images[0],
       images: plan.images,
       likes: 127,
-      comments: 23,
+      comments: [
+        {id: 35, author:"이XX", content: "리뷰 잘 봤어요! 다음에 참고할게요."},
+        {id: 36, author:"박XX", content: "사진이 정말 멋지네요!"},
+        {id: 37, author:"최XX", content: "여행 계획에 큰 도움이 되었습니다."}
+      ],
       planName: plan.name,
       travelType: plan.travelType,
-      itinerary: [
-        { day: "1일차", schedule: "카페거리 → 애월 → 한라산 → 돼지고기 → 머시기숙소" },
-        { day: "2일차", schedule: "성산일출봉 → 섭지코지 → 해산물 맛집 → 숙소" },
-        { day: "3일차", schedule: "공항" }
-      ]
-    };
+      itineraryKey: "my01",
+    } satisfies Review;
   };
 
   const handleLoadPlan = (planId: number) => {
@@ -116,13 +88,17 @@ export default function MyPlanPage() {
     // 자세히 보기 - 미리 채워진 데이터로 플래너 페이지 이동
     navigate("/planner", {
       state: {
-        fromMyPlan: true, // 내 플랜에서 왔다는 표시
-        isReadOnly: plan?.isCompleted ?? false, // 여행 계획 수정 여부를 위해 여행 완료 여부 전달
-        surveyData: {
-          packageName: plans.find(p => p.id === planId)?.name || "여행 계획",
-          purpose: "느긋하게 쉬기(힐링)"
+        sourcePage: "my-plan",
+        isReadOnly: plan?.isCompleted ?? false,
+        travelType: plan?.travelType || null,
+        myPlan: findItineraryByKey(plan?.key || "my01"),
+        planInfo: {
+          title: plan?.name || "내 여행", 
+          date: plan?.date.slice(0, 10).replaceAll(".", "-") || "",
+          description: plan?.description || null,
+          isPrivate: false
         }
-      }
+      } satisfies PlanState
     });
   };
 
@@ -322,7 +298,7 @@ export default function MyPlanPage() {
       )}
 
       {/* 계획 공유 모달 */}
-      {isShareModalOpen && (
+      {isShareModalOpen && selectedPlanForShare && (
         <SharePlanModal
           isOpen={isShareModalOpen}
           onClose={() => {

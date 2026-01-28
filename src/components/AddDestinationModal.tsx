@@ -207,7 +207,7 @@ export default function AddDestinationModal({
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto flex-1">
+        <div className="p-6 overflow-y-auto flex-1 overscroll-none">
           {filteredList.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {filteredList.map((item: any) => (

@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router";
+import { useNavigate, Link, useLocation } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
 import GoogleLoginButton from "../components/GoogleLoginButton";
+import { PlanState } from "../data/commonType";
 
 type GoogleUser = {
   name?: string;
@@ -25,10 +26,24 @@ export default function LoginPage() {
   localStorage.setItem("auth_provider", "local");
 
     login("김철수");
-    navigate("/");
+    if (planState && planState.sourcePage === "planner") {
+      navigate("/planner", {
+        state: { ...planState },
+      });
+    } else {
+      navigate("/");
+    }
   };
 
   const logo = "src/assets/logo2.png";
+  const location = useLocation();
+  const planState = location.state?.sourcePage === "planner" ? {
+    sourcePage: location.state.sourcePage,
+    isReadOnly: location.state.isReadOnly,
+    travelType: location.state.travelType,
+    myPlan: location.state.myPlan,
+    planInfo: location.state.planInfo
+  } as PlanState : null;
 
   return (
     <div className="h-[calc(100vh-73px)] bg-gradient-to-br from-orange-50 to-blue-50 flex items-center justify-center pb-20 px-4">
@@ -109,7 +124,13 @@ export default function LoginPage() {
     localStorage.setItem("google_profile", JSON.stringify(googleProfile));
 
     login(googleProfile.name);
-    navigate("/");
+    if (planState && planState.sourcePage === "planner") {
+      navigate("/planner", {
+        state: { ...planState },
+      });
+    } else {
+      navigate("/");
+    }
   }}
 />
 
