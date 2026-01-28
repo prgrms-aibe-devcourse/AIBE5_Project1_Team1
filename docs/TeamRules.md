@@ -40,7 +40,7 @@
   - 커밋 규칙에 맞춰서 보내기
 # 3. 작업한 내용을 개인 브랜치로 보내기
   - git push
-  - 반드시 본인 브랜치에 먼저 push하고 feat에는 나중에 merge하기
+  - 반드시 본인 브랜치에 먼저 push하고 feature에는 나중에 PR해서 Merge하기
 ```
 
 ---
@@ -159,18 +159,53 @@ git push origin [본인브랜치]
 ---
 
 ## PR 중 문제 발생 시
-```bash
-# 리눅스 기반 텍스트파일 등장시
-1. ESC를 눌러 관리자모드로 나온다.
-2. :wq!        # 강제로 저장 후 종료
 
-# feature의 내용과 본인이 작업한 파일의 불일치 발생시
+### Git이 자동으로 커밋 메시지를 입력받으려고 할 때
+- vim 편집기 텍스트파일 등장시
+1. ESC를 눌러 명령 모드로 나온다.
+2. :wq!        # 저장(w), 종료(q), 강제종료(!)
+
+### feature의 내용과 본인이 작업한 파일의 불일치 발생시
 1. 문제가 되는 파일이 어떤 것인지 살펴본다.
 2. git fetch origin                               // GitHub Repository에서 최신정보를 가져온다.
 3. git checkout origin/[본인브랜치] --[문제파일]       // 문제되는 파일을 최신버전으로 갱신해온다.
 4. 이후에 모든 파일을 저장하고 다시 push 작업을 수행한다.
 
-# 실제로 main으로 다이렉트로 올리거나 오류가 발생한 파일을 push해서 올렸을 때
+
+#### 문제상황
+feature 브랜치의 최신 내용과 Local에서 작업 중인 파일 내용이 서로 달라서
+git pull, git merge 과정에서 충돌(conflict)이 발생
+```t
+- 발생하는 상황
+1. 같은 파일을 여러 명이 작업
+2. feature에 이미 merge된 변경사항이 있음
+3. 최신 feature 내용을 pull하지 않고 작업을 계속한 경우
+
+  👉 Local 작업 내용 ≠ origin/feature 내용
+  👉 Git이 어떤 코드를 선택해야 할지 판단하지 못함
+```
+
+#### 해결방법
+1. 충돌이 발생한 파일 확인하기
+```bash
+git status
+```
+2. 충돌난 파일 열기
+```
+<<<< head
+내가 한 내용
+====
+브랜치 내용
+>>>> feature 
+```
+3. 둘 중 필요한 코드를 Accept하기
+4. 해결 완료 후 push & merge 작업
+```bash
+git add 충돌난파일
+git commit
+```
+
+### 실제로 main으로 다이렉트로 올리거나 오류가 발생한 파일을 push해서 올렸을 때
 1. 웹페이지에서 https://github.com/prgrms-aibe-devcourse/AIBE5_Project1_Team1/pulls로 이동
     - 프로젝트를 진행하는 Repository에서 'Pull Request'를 클릭하면 이동할 수 있음
 2. 문제되는 본인의 Commit을 클릭
@@ -178,8 +213,46 @@ git push origin [본인브랜치]
     - Revert: 이 Commit이 있기전으로 되돌아가기
 4. Revert되는 PR을 만들고 바로 그 PR 진행하기
 5. Commit한 내용이 Revert되면 브랜치를 잘 설정하거나 파일을 잘 수정한 뒤에 push 작업을 수행한다.
-  
-# 그외는 저 부르세요 (feat.작성자 고완석)
+
+### push작업 중 Github와 Local의 내용이 서로 맞지 않고, Local의 내용이 Github보다 과거일 때
+#### 문제상황
+```bash
+! [rejected] (non-fast-forward)
+error: failed to push some refs
 ```
+git push 작업 중에 위와 같은 에러가 발생하는 경우가 있다.
+이 문제는 Local 저장소의 Commit 이력이 GitHub(원격)보다 과거일 때 발생한다.
+즉,
+```t
+1. Github에는 더 최신 커밋이 존재
+2. Local에는 그 커밋이 없음
+3. 이 상태에서 push를 시도하면
+
+  👉 Github의 변경 사항이 덮어써질 위험 때문에 Git이 push를 차단함
+```
+
+#### 해결방법
+**1️⃣ 원격 변경사항을 반영하고 push (권장)**
+- 협업 중이고, 기존 Github 히스토리를 유지해야 할 때
+```bash
+git pull origin [가져올브랜치명]
+```
+1. 충돌 파일 수정
+2. git add .
+3. git commit
+4. 다시 push
+```bash
+git push origin [넣을브랜치명]
+```
+
+**2️⃣ Local 내용을 기준으로 Github를 강제로 덮어쓰기**
+- 기존 Github 커밋을 무시해도 될 때
+```bash
+git push -f origin [대상브랜치]
+```
+1. Github의 기존 커밋 히스토리를 삭제
+2. Local 상태를 기준으로 원격을 강제 동기화
+
+# 그외는 저 부르세요 (feat.작성자 고완석)
 
 ---
