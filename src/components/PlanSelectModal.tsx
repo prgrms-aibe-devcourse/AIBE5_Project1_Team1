@@ -12,7 +12,7 @@ interface Plan {
   itinerary: { day: string; schedule: string }[];
 }
 
-import { findItineraryByKey, makeReviewItinerary } from "../data/commonFunction";
+import { findItineraryValueByKey, makeReviewItinerary } from "../data/commonFunction";
 import { destinations } from "../data/destinations";
 import { restaurants } from "../data/restaurants";
 import { accommodations } from "../data/accommodations";

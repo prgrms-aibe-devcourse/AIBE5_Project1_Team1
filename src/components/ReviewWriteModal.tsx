@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import PlanSelectModal from "./PlanSelectModal";
 import ReviewTextPlan from "./ReviewTextPlan";
+import { RawPlan } from "../data/plans";
 
 interface ReviewWriteModalProps {
   isOpen: boolean;
@@ -16,7 +17,7 @@ export default function ReviewWriteModal({ isOpen, onClose, onSubmit }: ReviewWr
   const [rating, setRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
   const [isPlanModalOpen, setIsPlanModalOpen] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<any>(null);
+  const [selectedPlan, setSelectedPlan] = useState<RawPlan>({} as RawPlan);
   const [images, setImages] = useState<string[]>([]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -30,7 +31,7 @@ export default function ReviewWriteModal({ isOpen, onClose, onSubmit }: ReviewWr
       setContent("");
       setRating(0);
       setImages([]);
-      setSelectedPlan(null);
+      setSelectedPlan({} as RawPlan);
     }
   }, [isOpen]);
 
@@ -44,7 +45,15 @@ export default function ReviewWriteModal({ isOpen, onClose, onSubmit }: ReviewWr
 
   const handleSubmit = () => {
     // 부모 컴포넌트(TravelReviewPage)의 handleAddReview로 데이터 전달
-    onSubmit?.({ title, content, rating, images, selectedPlan });
+    onSubmit?.(
+      { 
+        name: title, 
+        content: content, 
+        rating: rating, 
+        images: images, 
+        planKey: selectedPlan.key
+      }
+    );
     onClose();
   };
 
@@ -80,7 +89,7 @@ export default function ReviewWriteModal({ isOpen, onClose, onSubmit }: ReviewWr
   };
 
   // 플랜 선택 시 실행될 함수
-  const handlePlanSelect = (plan: any) => {
+  const handlePlanSelect = (plan: RawPlan) => {
     setSelectedPlan(plan);
     setIsPlanModalOpen(false); // 선택 후 목록 닫기
   };
@@ -240,7 +249,7 @@ export default function ReviewWriteModal({ isOpen, onClose, onSubmit }: ReviewWr
 
             <div className="bg-gray-50 rounded-xl p-6 space-y-3">
               {selectedPlan ? (
-                <ReviewTextPlan itineraryKey={selectedPlan.itineraryKey} />
+                <ReviewTextPlan itineraryKey={selectedPlan.key} />
               ) : (
                 <div className="text-center py-10 text-gray-400 text-sm">
                   불러온 여행 일정이 없습니다.
@@ -317,7 +326,7 @@ export default function ReviewWriteModal({ isOpen, onClose, onSubmit }: ReviewWr
             </button>
             <button
               onClick={handleSubmit}
-              disabled={!title || !content || rating === 0}
+              disabled={!title || !content || !selectedPlan || rating === 0}
               className="px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
             >
               작성 완료

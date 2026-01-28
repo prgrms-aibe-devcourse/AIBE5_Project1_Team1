@@ -1,7 +1,7 @@
-import { findItineraryByKey } from "./commonFunction";
+import { findItineraryValueByKey } from "./commonFunction";
 import { ItinerarySchedule } from "./commonType";
 
-type RawPlan = {
+export type RawPlan = {
   id: number,
   key: string,
   travelType: string,
@@ -18,7 +18,7 @@ export const rawPlans:RawPlan[] = [
     id: 1,
     key: "my01",
     travelType: "힐링",
-    itinerary: findItineraryByKey("my01"),
+    itinerary: findItineraryValueByKey("my01"),
     name: "제주 동부 힐링 여행",
     description: "자연과 함께하는 힐링 여행",
     date: "2024.10.15 ~ 2024.10.17",
@@ -36,7 +36,7 @@ export const rawPlans:RawPlan[] = [
     name: "여름 제주 해변 여행",
     travelType: "감성",
     description: "푸른 바다와 함께하는 여름 여행",
-    itinerary: findItineraryByKey("my02"),
+    itinerary: findItineraryValueByKey("my02"),
     date: "2024.07.10 ~ 2024.07.13",
     hasReview: false,
     images: [
