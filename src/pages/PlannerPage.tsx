@@ -1,32 +1,33 @@
-  import { useState, useRef, useEffect } from "react";
-  import { useNavigate, useLocation } from "react-router";
-  import { Calendar, Plus, Save, X, Trash2, GripVertical, Search, ChevronDown } from "lucide-react";
-  import { useDrag, useDrop } from "react-dnd";
-  import AddDestinationModal from "../components/AddDestinationModal";
-  import TravelModal from "../components/TravelModal";
+import { useState, useRef, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router";
+import { Calendar, Plus, Save, X, Trash2, GripVertical, Search, ChevronDown } from "lucide-react";
+import { useDrag, useDrop } from "react-dnd";
+import AddDestinationModal from "../components/AddDestinationModal";
+import TravelModal from "../components/TravelModal";
 
-  import { useAuth } from "../contexts/AuthContext";
-  import { sampleItinerary } from "../data/surveyResult"
-  import { itinerary } from "../data/surveyResult"
-  import KakaoMap from "../components/KakaoMap";
+import { useAuth } from "../contexts/AuthContext";
+import { itinerary } from "../data/surveyResult"
+import KakaoMap from "../components/KakaoMap";
 
-  // 관광지 카테고리, 장소
-  import { destinations } from "../data/destinations";
-  import { restaurants } from "../data/restaurants";
-  import { accommodations } from "../data/accommodations";
+// 관광지 카테고리, 장소
+import { destinations } from "../data/destinations";
+import { restaurants } from "../data/restaurants";
+import { accommodations } from "../data/accommodations";
 
-  // 식당, 호텔 장소 
-  import DraggableItineraryItem from "../components/DraggableItineraryItem";
-  import type { ItineraryItem }  from "../components/DraggableItineraryItem";
+// 식당, 호텔 장소 
+import DraggableItineraryItem from "../components/DraggableItineraryItem";
+import type { ItineraryItem }  from "../components/DraggableItineraryItem";
 
-  import { itineraryArray } from "../data/itineraryArray";
+import { itineraryArray } from "../data/itineraryArray";
 
-  import { destinationCategories, accommodationCategories, restaurantCategories } from "../data/commonType";
-  import { travelTypeCategories } from "../data/commonType";
-  import type { TotalPrice } from "../data/commonType";
-  import type { PlanState } from "../data/commonType";
+import { destinationCategories, accommodationCategories, restaurantCategories } from "../data/commonType";
+import { travelTypeCategories } from "../data/commonType";
+import type { TotalPrice } from "../data/commonType";
+import type { PlanState } from "../data/commonType";
 
-  import { createPortal } from "react-dom";
+import { createPortal } from "react-dom";
+import { getPlanById, RawPlan, getTopScheduleImages } from "../data/plans";
+import { getDateForPlan } from "../data/commonFunction";
 
   // 모든 여행지 데이터
   const allDestinations = [
@@ -169,7 +170,7 @@
     const availableDays = Array.from(new Set(itinerary.map(i => i.day)))
       .filter((d) => Number.isFinite(d))
       .sort((a, b) => a - b);
-
+    
 
   useEffect(() => {
     setVisibleDays((prev) => {
@@ -608,7 +609,29 @@
                       return;
                     }
 
-                    isLoggedIn ? navigate("/my-plan") : navigate("/login", {
+                    isLoggedIn 
+                    ? navigate("/my-plan", {
+                      state: {
+                        additionalPlans: [
+                          getPlanById(1) satisfies RawPlan,
+                          ...(planState.sourcePage === "review") ? ([{
+                            id:0,
+                            key:"dummy",
+                            name:planName,
+                            description:description,
+                            travelType:travelType as string,
+                            itinerary:itinerary,
+                            date:getDateForPlan(startDate.replaceAll("-","."), itinerary.length > 0
+                              ? Math.max(...itinerary.map(item => item.day))
+                              : 1),
+                            hasReview: false,
+                            images: getTopScheduleImages(itinerary),
+                            totalPlaces: itinerary.length
+                          } satisfies RawPlan]):([])
+                        ]
+                      }
+                    }) 
+                    : navigate("/login", {
                       state: {
                         sourcePage: "planner",
                         isReadOnly: isReadOnly,

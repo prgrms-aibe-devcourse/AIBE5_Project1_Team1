@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { Calendar, MapPin, Share2, FileText, Eye } from "lucide-react";
 import { useState } from "react";
 import ReviewWriteModal from "../components/ReviewWriteModal";
@@ -11,7 +11,7 @@ import { accommodations } from "../data/accommodations";
 import { restaurants } from "../data/restaurants";
 
 import type { PlanState } from "../data/commonType";
-import { rawPlans } from "../data/plans";
+import { getPlanById, RawPlan, rawPlans } from "../data/plans";
 import { reviews, Review } from "../data/reviews";
 
 const allDestinations = [
@@ -45,19 +45,24 @@ export default function MyPlanPage() {
     return endDate < today;
   };
 
+  const location = useLocation();
+  const additionalPlans: RawPlan[] = (location.state?.additionalPlans as RawPlan[]) ?? [];
+  const [myPlans, setMyPlans] = useState<RawPlan[]>(() => [
+    ...additionalPlans,
+    getPlanById(2),
+    getPlanById(3),
+  ]);
 
   
   // 여행 완료 여부를 포함한 플랜 데이터 생성
-  const plans = rawPlans.map((plan) => ({
+  const plans = (myPlans).map((plan) => ({
     ...plan,
     isCompleted: isPlanCompleted(plan.date),
   }));
 
-
   // 플랜 ID로 리뷰 데이터를 찾는 mock 함수
   const getReviewByPlanId = (planId: number) => {
     const itineraryKey = plans.find(item => item.id === planId)?.key;
-    console.log(itineraryKey);
     const review = reviews.find(item => item.itinerary.key === itineraryKey);
 
     return review as Review;

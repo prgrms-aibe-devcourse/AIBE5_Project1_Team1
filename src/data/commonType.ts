@@ -115,6 +115,7 @@ export type PlanState = {
   travelType: string | null;
   myPlan: ItinerarySchedule[];
   planInfo: PlanInfo;
+  key? : string;
 };
 
 export type ItineraryData = {

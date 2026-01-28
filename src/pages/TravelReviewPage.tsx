@@ -262,7 +262,7 @@ export default function TravelReviewPage() {
                   </div>
 
                   <h3 className="text-xl font-bold text-gray-900 mb-3">{review.title}</h3>
-                  <p className="text-gray-700 whitespace-pre-line leading-relaxed mb-4">{review.content}</p>
+                  <p className="text-gray-700 whitespace-pre-line leading-relaxed mb-4">{(review.content.length > 120) ? review.content.slice(0,120)+"..." : review.content}</p>
 
                   {/* 이미지 섹션 */}
                   {review.images.length > 1 ? (
