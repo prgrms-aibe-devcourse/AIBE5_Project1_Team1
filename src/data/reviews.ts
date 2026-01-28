@@ -34,7 +34,7 @@ export const reviews: Review[] = [
     duration: "2박 3일",
     rating: 5,
     title: "성산일출봉 일출이 정말 환상적이었어요!",
-    content: "PLAN Jeju 덕분에 제주 여행을 너무 편하게 다녀왔습니다. 특히 성산일출봉 일정이 완벽했어요. 새벽 일찍 출발했는데, 일출 시간 계산까지 다 되어 있어서 최고의 일출을 볼 수 있었습니다. 추천 일정대로 움직였더니 시간도 절약되고 좋았어요.",
+    content: "PLAN Jeju 덕분에 제주 여행을 너무 편하게 다녀왔습니다.\n 특히 성산일출봉 일정이 완벽했어요. 새벽 일찍 출발했는데, 일출 시간 계산까지 다 되어 있어서 최고의 일출을 볼 수 있었습니다. 추천 일정대로 움직였더니 시간도 절약되고 좋았어요.",
     images: [
       "https://images.unsplash.com/photo-1758327740342-4e705edea29b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqZWp1JTIwaXNsYW5kJTIwYmVhY2glMjBjb2FzdGFsfGVufDF8fHx8MTc2OTIzNDYzMXww&ixlib=rb-4.1.0&q=80&w=1080",
     ],
@@ -98,7 +98,7 @@ export const reviews: Review[] = [
       "https://images.unsplash.com/photo-1590301157890-4810ed352733?auto=format&fit=crop&q=80&w=1080", // 제주 음식/고기 느낌
     ],
     likes: 210,
-    itinerary: findItineraryByKey("05"),
+    itinerary: findItineraryByKey("my01"),
     comments: [],
   },
   {
