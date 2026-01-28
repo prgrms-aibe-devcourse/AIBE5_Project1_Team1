@@ -17,8 +17,19 @@ import SignUpPage from "./pages/SignUpPage";
 import MyProfilePage from "./pages/MyProfilePage";
 import MyPlanPage from "./pages/MyPlanPage";
 import ScrollToTop from "./components/ScrollTop";
+import { useEffect } from "react";
 
 export default function App() {
+
+  useEffect(() => {
+    const cleared = sessionStorage.getItem("cleared");
+
+    if (!cleared) {
+      localStorage.clear();
+      sessionStorage.setItem("cleared", "true");
+    }
+  }, []);
+
   return (
     <AuthProvider>
       <DndProvider backend={HTML5Backend}>

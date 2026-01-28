@@ -224,7 +224,7 @@ import { getDateForPlan } from "../data/commonFunction";
     // itinerary 변경시마다 전체 가격 재계산
     useEffect(() => {
       calculateTotalPrice(itinerary);
-    }, [itinerary]);
+    }, [itinerary.length]);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isAddDestinationModalOpen, setIsAddDestinationModalOpen] = useState(false);

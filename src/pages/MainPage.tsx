@@ -114,7 +114,7 @@ export default function MainPage() {
 
               <button
                 onClick={ handleSurvey }
-                className="group inline-flex items-center gap-3 px-8 py-4 bg-orange-500 text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+                className="group inline-flex items-center clickable gap-3 px-8 py-4 bg-orange-500 text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all"
               >
                 <span>설문 시작하기</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -157,7 +157,7 @@ export default function MainPage() {
                 <div
                   key={destination.id}
                   onClick={() => setSelectedDestination(destination)}
-                  className={`flex flex-col md:flex-row items-center gap-12 py-16 ${
+                  className={`flex flex-col md:flex-row items-center gap-12 my-32 clickable ${
                     isReverse ? 
                     "md:flex-row-reverse" : 
                     ""
@@ -230,7 +230,7 @@ export default function MainPage() {
           <h2 className="text-4xl font-bold mb-8">지금 바로 시작하세요</h2>
           <button
             onClick={ handleSurvey }
-            className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-orange-500 font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+            className="group inline-flex items-center clickable gap-3 px-8 py-4 bg-white text-orange-500 font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all"
           >
           <span>설문 시작하기</span>
           <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
