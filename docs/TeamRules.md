@@ -160,19 +160,19 @@ git push origin [본인브랜치]
 
 ## PR 중 문제 발생 시
 
-### Git이 자동으로 커밋 메시지를 입력받으려고 할 때
+### ♠️ Git이 자동으로 커밋 메시지를 입력받으려고 할 때
 - vim 편집기 텍스트파일 등장시
 1. ESC를 눌러 명령 모드로 나온다.
 2. :wq!        # 저장(w), 종료(q), 강제종료(!)
 
-### feature의 내용과 본인이 작업한 파일의 불일치 발생시
+### ♠️ feature의 내용과 본인이 작업한 파일의 불일치 발생시
 1. 문제가 되는 파일이 어떤 것인지 살펴본다.
 2. git fetch origin                               // GitHub Repository에서 최신정보를 가져온다.
 3. git checkout origin/[본인브랜치] --[문제파일]       // 문제되는 파일을 최신버전으로 갱신해온다.
 4. 이후에 모든 파일을 저장하고 다시 push 작업을 수행한다.
 
 
-#### 문제상황
+#### - 문제상황
 feature 브랜치의 최신 내용과 Local에서 작업 중인 파일 내용이 서로 달라서
 git pull, git merge 과정에서 충돌(conflict)이 발생
 ```t
@@ -185,7 +185,7 @@ git pull, git merge 과정에서 충돌(conflict)이 발생
   👉 Git이 어떤 코드를 선택해야 할지 판단하지 못함
 ```
 
-#### 해결방법
+#### - 해결방법
 1. 충돌이 발생한 파일 확인하기
 ```bash
 git status
@@ -205,7 +205,7 @@ git add 충돌난파일
 git commit
 ```
 
-### 실제로 main으로 다이렉트로 올리거나 오류가 발생한 파일을 push해서 올렸을 때
+### ♠️ 실제로 main으로 다이렉트로 올리거나 오류가 발생한 파일을 push해서 올렸을 때
 1. 웹페이지에서 https://github.com/prgrms-aibe-devcourse/AIBE5_Project1_Team1/pulls로 이동
     - 프로젝트를 진행하는 Repository에서 'Pull Request'를 클릭하면 이동할 수 있음
 2. 문제되는 본인의 Commit을 클릭
@@ -214,8 +214,8 @@ git commit
 4. Revert되는 PR을 만들고 바로 그 PR 진행하기
 5. Commit한 내용이 Revert되면 브랜치를 잘 설정하거나 파일을 잘 수정한 뒤에 push 작업을 수행한다.
 
-### push작업 중 Github와 Local의 내용이 서로 맞지 않고, Local의 내용이 Github보다 과거일 때
-#### 문제상황
+### ♠️ push작업 중 Github와 Local의 내용이 서로 맞지 않고, Local의 내용이 Github보다 과거일 때
+#### - 문제상황
 ```bash
 ! [rejected] (non-fast-forward)
 error: failed to push some refs
@@ -231,7 +231,7 @@ git push 작업 중에 위와 같은 에러가 발생하는 경우가 있다.
   👉 Github의 변경 사항이 덮어써질 위험 때문에 Git이 push를 차단함
 ```
 
-#### 해결방법
+#### - 해결방법
 **1️⃣ 원격 변경사항을 반영하고 push (권장)**
 - 협업 중이고, 기존 Github 히스토리를 유지해야 할 때
 ```bash
