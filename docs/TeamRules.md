@@ -136,7 +136,7 @@ git commit -m "feat: Header.js, index.js - 헤더로 메인화면 돌아가는 �
 ---
 
 ## API 규칙
-- Github Repository에 올라가선 안되는 개인정보, 데이터, API KEY는 **.gitignore**에 올리고 Slack에 적용사항 애기해주기
+- Github Repository에 올라가선 안되는 개인정보, 데이터, API KEY는 **.env**에 올리고 **.gitignore**에 해당 파일을 올리고 Slack에 적용사항 애기해주기
 - API KEY는 반드시 비공개처리하여 타인에게 공유하시면 안됩니다. (잘못하면 다른사람이 API를 마음대로 써서 돈 청구됨)
 
 ---
