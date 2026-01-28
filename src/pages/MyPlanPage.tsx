@@ -4,7 +4,7 @@ import { useState } from "react";
 import ReviewWriteModal from "../components/ReviewWriteModal";
 import ReviewDetailModal, { Review } from "../components/ReviewDetailModal";
 import SharePlanModal from "../components/SharePlanModal";
-import { findItineraryByKey, makeReviewItinerary } from "../data/commonFunction";
+import { findItineraryValueByKey, makeReviewItinerary } from "../data/commonFunction";
 
 import { destinations } from "../data/destinations";
 import { accommodations } from "../data/accommodations";
@@ -91,7 +91,7 @@ export default function MyPlanPage() {
         sourcePage: "my-plan",
         isReadOnly: plan?.isCompleted ?? false,
         travelType: plan?.travelType || null,
-        myPlan: findItineraryByKey(plan?.key || "my01"),
+        myPlan: findItineraryValueByKey(plan?.key || "my01"),
         planInfo: {
           title: plan?.name || "내 여행", 
           date: plan?.date.slice(0, 10).replaceAll(".", "-") || "",

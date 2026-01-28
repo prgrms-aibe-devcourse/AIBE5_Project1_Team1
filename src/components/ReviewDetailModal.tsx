@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
 import { PlanState } from "../data/commonType";
-import { findItineraryByKey, makeReviewItinerary } from "../data/commonFunction";
+import { findItineraryValueByKey, makeReviewItinerary } from "../data/commonFunction";
 import { destinations } from "../data/destinations";
 import { restaurants } from "../data/restaurants";
 import { accommodations } from "../data/accommodations";
@@ -65,7 +65,7 @@ export default function ReviewDetailModal({ isOpen, onClose, onEdit, review, onA
         sourcePage: "review",
         isReadOnly: false,
         travelType: review.travelType || null,
-        myPlan: findItineraryByKey(review.itineraryKey || "survey"),
+        myPlan: findItineraryValueByKey(review.itineraryKey || "survey"),
         planInfo: {
           title: review.planName || "제주도 힐링 여행",
           date: review.date.replaceAll(".", "-").slice(0, 10),

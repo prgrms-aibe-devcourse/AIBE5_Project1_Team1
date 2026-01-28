@@ -7,7 +7,7 @@ import { useAuth } from "../contexts/AuthContext";
 
 
 import { travelTypeCategories } from "../data/commonType";
-import { findItineraryByKey, makeReviewItinerary } from "../data/commonFunction";
+import { findItineraryValueByKey, makeReviewItinerary } from "../data/commonFunction";
 
 // (reviews 데이터는 분량상 생략 - 기존 작성하신 데이터 그대로 두시면 됩니다!)
 // *중요: TypeScript 에러 방지를 위해 reviews 상수에 : Review[] 타입을 붙여주는 것이 좋지만

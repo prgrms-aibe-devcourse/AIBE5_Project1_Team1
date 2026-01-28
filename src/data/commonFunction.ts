@@ -1,4 +1,4 @@
-import { ItinerarySchedule, StringSchedule, TravelDestination } from "../data/commonType"
+import { ItineraryData, ItinerarySchedule, StringSchedule, TravelDestination } from "../data/commonType"
 import { itineraryArray } from "./itineraryArray";
 
 export const makeReviewItinerary = (
@@ -34,9 +34,16 @@ export const makeReviewItinerary = (
   return result;
 }
 
-export const findItineraryByKey = (
+export const findItineraryValueByKey = (
   key: string
 ): ItinerarySchedule[] => { 
 	const plan = itineraryArray.find(item => item.key === key);
 	return plan ? plan.value : itineraryArray[0].value;
+}
+
+export const findItineraryByKey = (
+  key: string
+): ItineraryData => { 
+	const plan = itineraryArray.find(item => item.key === key);
+	return plan ? plan : itineraryArray[0];
 }
