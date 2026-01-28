@@ -19,8 +19,6 @@ import { restaurants } from "../data/restaurants"
 
 import DraggableItineraryItem from "../components/DraggableItineraryItem";
 import type { ItineraryItem }  from "../components/DraggableItineraryItem";
-import { restaurants } from "../data/restaurants";
-import { accommodations } from "../data/accommodations";
 import { itineraryArray } from "../data/itineraryArray";
 
 // 모든 여행지 데이터
