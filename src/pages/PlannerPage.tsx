@@ -11,16 +11,6 @@ import { itinerary } from "../data/surveyResult"
 import KakaoMap from "../components/KakaoMap";
 
 // 관광지 카테고리, 장소
-<<<<<<< HEAD
-import { destinationCategories, destinations } from "../data/destinations";
-
-// 식당, 호텔 장소 
-import { accommodations } from "../data/accommodations"
-import { restaurants } from "../data/restaurants"
-
-import DraggableItineraryItem from "../components/DraggableItineraryItem";
-import type { ItineraryItem }  from "../components/DraggableItineraryItem";
-=======
 import { destinations } from "../data/destinations";
 import { restaurants } from "../data/restaurants";
 import { accommodations } from "../data/accommodations";
@@ -29,7 +19,6 @@ import { accommodations } from "../data/accommodations";
 import DraggableItineraryItem from "../components/DraggableItineraryItem";
 import type { ItineraryItem }  from "../components/DraggableItineraryItem";
 
->>>>>>> origin/feature
 import { itineraryArray } from "../data/itineraryArray";
 
 import { destinationCategories, accommodationCategories, restaurantCategories } from "../data/commonType";

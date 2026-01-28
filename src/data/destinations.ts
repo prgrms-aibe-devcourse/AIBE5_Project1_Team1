@@ -1,12 +1,35 @@
 // src/data/destinations.ts
 
-import { TravelDestination } from "./commonType";
+export type DestinationCategory = "자연" | "해변" | "섬" | "드라이브" | "테마파크";
+export const destinationCategories: string[] = [
+  "자연",
+  "해변",
+  "섬",
+  "드라이브",
+  "테마파크"
+];
+
+export type Destination = {
+  id: number;
+  name: string;
+  category: DestinationCategory;
+  duration: string;
+  price: number;
+  location: string;
+  hours: string;
+  shortDescription: string;
+  fullDescription: string;
+  image: string;
+  tags: string[];
+  lat?: number;
+  lng?: number;
+};
 
 const DEFAULT_HOURS = "09:00 - 18:00 (연중무휴)";
 const DEFAULT_IMAGE =
   "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80";
 
-export const destinations: TravelDestination[] = [
+export const destinations: Destination[] = [
   // ✅ 기존 1~3 (네가 올려준 내용 기반 + 필드 보강)
   {
     id: 1,
@@ -497,11 +520,6 @@ export const destinations: TravelDestination[] = [
     fullDescription: "오조포구는 성산일출봉 바로 앞에 위치한 작은 어촌 포구로, 관광지의 번잡함에서 벗어나 제주의 소박한 바다 풍경을 즐길 수 있는 곳입니다. 돌담과 방파제를 따라 펼쳐진 바다와 어선들이 어우러져 감성적인 풍경을 만들어내며, 일출이나 해 질 녘에는 특히 아름다운 사진을 남길 수 있습니다. 근처에는 카페와 산책로가 있어 잠시 쉬어가기 좋고, 조용히 제주 바다를 바라보며 여유를 느끼고 싶은 여행자에게 추천되는 장소입니다.",
     image: "https://oopy.lazyrockets.com/api/v2/notion/image?src=https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F6bd8ce15-96fe-4b1d-9034-c55541ff4411%2Fafe20c97-129d-40c7-bbae-fefe983c0800%2F20210415_125422_1.jpg&blockId=3074ba28-9e9b-4ebe-bd3f-2c6e0fd76e0e",
     tags: ["해변", "자연"],
-<<<<<<< HEAD
     lat: 33.4638155, lng: 126.9209444
-=======
-    lat: 33.4623733324914,
-    lng: 126.9207962220371
->>>>>>> origin/feature
   },
 ];
