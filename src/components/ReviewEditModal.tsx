@@ -281,11 +281,16 @@ export default function ReviewEditModal({ isOpen, onClose, onSubmit, review }: R
               </div>
 
               {/* 점수 확인 부분: 호버 중일 땐 호버 점수를, 아닐 땐 확정 점수를 보여줌 */}
-              {(hoveredRating || rating) > 0 && (
-                <p className="text-4xl font-bold text-gray-900">
-                  {(hoveredRating || rating).toFixed(1)}
-                </p>
-              )}
+              <div className="h-10 flex items-center justify-center">
+                {(hoveredRating || rating) > 0 ? (
+                  <p className="text-4xl font-bold text-gray-900">
+                    {(hoveredRating || rating).toFixed(1)}
+                  </p>
+                ) : (
+                   // 점수가 없을 때도 투명한 텍스트로 공간을 차지하게 함
+                  <div className="invisible text-4xl font-bold">0.0</div>
+                )}
+              </div>
             </div>
           </div>
 
