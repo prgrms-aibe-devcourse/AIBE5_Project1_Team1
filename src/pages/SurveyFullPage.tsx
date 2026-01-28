@@ -165,11 +165,7 @@ export default function SurveyFullPage() {
                     2-1. 이번 여행의 목적은?
                   </label>
                   <div className="flex flex-wrap gap-3">
-<<<<<<< HEAD
                     {["자연/힐링", "맛집/카페", "액티비티", "감성 사진"].map((option) => (
-=======
-                    {["자연/힐링", "맛집/카페", "액티비티", "관광지 정복", "감성 사진"].map((option) => (
->>>>>>> 82809034f26fc643b253c22ddd9810ce2c8ad007
                       <button
                         key={option}
                         onClick={() => setInterests(interests === option ? "" : option)}

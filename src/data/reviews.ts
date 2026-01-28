@@ -21,6 +21,8 @@ export type Review = {
   likes: number;
   itinerary: ItineraryData;
   comments: Comment[];
+
+  isLiked?: boolean;
 };
 
 export const reviews: Review[] = [
@@ -99,4 +101,41 @@ export const reviews: Review[] = [
     itinerary: findItineraryByKey("05"),
     comments: [],
   },
+  {
+    id: 5,
+    author: "강XX",
+    date: "2026.01.24",
+    tripType: "솔로",
+    duration: "1박 2일",
+    rating: 4,
+    title: "혼자 떠난 제주, 감성 카페에서 힐링하고 왔어요.",
+    content: "짧은 일정이었지만 오로지 나만을 위한 시간을 보냈습니다. 구좌읍 쪽 조용한 카페들을 추천받았는데, 통창 너머로 보이는 에메랄드빛 바다를 보며 책 읽던 시간이 이번 여행 최고의 순간이었어요. 혼자 가기 좋은 숙소 추천도 정말 만족스러웠습니다.",
+    images: [
+      "../src/images/img3.jpg", 
+      "../src/images/img4.jpg", 
+      "../src/images/img_food7.jpg", 
+      "../src/images/img8.jpg",
+      "../src/images/img7.jpg"
+    ],
+    likes: 85,
+    itinerary: findItineraryByKey("review01"),
+    comments: [],
+  },
+  {
+    id: 6,
+    author: "한XX",
+    date: "2026.01.25",
+    tripType: "커플",
+    duration: "2박 3일",
+    rating: 5,
+    title: "우도에서 전기차 타고 달린 추억 잊지 못할 거예요.",
+    content: "우도 일정 넣을까 말까 고민했는데 안 갔으면 후회할 뻔했습니다! 추천해주신 대로 아침 일찍 배 타고 들어갔더니 사람도 적고 여유로웠어요. 검멀레 해변에서 먹은 땅콩 아이스크림은 진짜 역대급이었습니다. 날씨까지 도와줘서 사진이 다 화보처럼 나왔네요.",
+    images: [
+       "../src/images/img4.jpg",  
+       "../src/images/img5.jpg",   // 제주 해안 도로
+    ],
+    likes: 189,
+    itinerary: findItineraryByKey("04"),
+    comments: [],
+  }
 ];

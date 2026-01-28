@@ -1,7 +1,7 @@
 import { findItineraryValueByKey } from "./commonFunction";
 import { ItinerarySchedule } from "./commonType";
 
-type RawPlan = {
+export type RawPlan = {
   id: number,
   key: string,
   travelType: string,
