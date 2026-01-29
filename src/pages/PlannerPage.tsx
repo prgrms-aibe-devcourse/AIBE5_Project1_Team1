@@ -152,7 +152,8 @@ import { getDateForPlan } from "../data/commonFunction";
       planState.myPlan ? planState.myPlan.map((item: any, idx: number) => {
         const matchedData = allDestinations.find((d: any) => d.id === item.id);
         return {
-          id: idx + 1,
+          id: matchedData?.id ||item.id,
+          key: idx+1,
           day: item.day || Math.floor(idx / 3) + 1,
           time: item.time || "09:00",
           title: matchedData?.name || item.title || item.name,
@@ -239,19 +240,19 @@ import { getDateForPlan } from "../data/commonFunction";
       setItinerary(updatedItinerary);
     };
 
-    const handleDelete = (id: number) => {
-      setItinerary(itinerary.filter(item => item.id !== id));
+    const handleDelete = (key: number) => {
+      setItinerary(itinerary.filter(item => item.key !== key));
     };
 
-    const handleDayChange = (id: number, day: number) => {
+    const handleDayChange = (key: number, day: number) => {
       setItinerary(itinerary.map(item => 
-        item.id === id ? { ...item, day } : item
+        item.key === key ? { ...item, day } : item
       ));
     };
 
-    const handleTimeChange = (id: number, time: string) => {
+    const handleTimeChange = (key: number, time: string) => {
       setItinerary(itinerary.map(item => 
-        item.id === id ? { ...item, time } : item
+        item.key === key ? { ...item, time } : item
       ));
     };
 
@@ -266,7 +267,8 @@ import { getDateForPlan } from "../data/commonFunction";
         .sort((a, b) => a.localeCompare(b))
         .at(-1) ?? "09:00";
       const newItem: ItineraryItem = {
-        id: Date.now(),
+        id: destination.id,
+        key: Date.now(),
         day: maxDay,
         time: maxTime,
         title: destination.name,
@@ -474,7 +476,7 @@ import { getDateForPlan } from "../data/commonFunction";
                   ) : (
                     itinerary.map((item, idx) => (
                       <DraggableItineraryItem
-                        key={item.id}
+                        key={item.key}
                         item={item}
                         index={idx}
                         canEdit={!planState.isReadOnly}

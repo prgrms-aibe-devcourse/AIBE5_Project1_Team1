@@ -20,17 +20,6 @@ import ScrollToTop from "./components/ScrollTop";
 import { useEffect } from "react";
 
 export default function App() {
-
-  useEffect(() => {
-    const cleared = sessionStorage.getItem("cleared");
-
-    if (!cleared) {
-      localStorage.clear();
-      sessionStorage.setItem("cleared", "true");
-    }
-  }, []);
-
-  // BrowserRouter로 github Action 테스트 중
   return (
     <AuthProvider>
       <DndProvider backend={HTML5Backend}>
