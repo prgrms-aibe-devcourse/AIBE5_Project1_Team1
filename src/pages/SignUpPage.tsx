@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import logo2 from "@/assets/logo2.png";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
@@ -56,8 +57,8 @@ export default function SignUpPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-yellow-300 to-orange-400 rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-2xl">🍊</span>
+            <div className="w-12 h-12 bg-gradient-to-br from-orange-200 to-orange-300 rounded-xl flex items-center justify-center shadow-lg">
+              <img src={logo2} alt="logo" className="w-10 h-10 object-contain" />
             </div>
             <h1 className="text-4xl font-bold">
               PLAN <span className="text-orange-500">Jeju</span>
