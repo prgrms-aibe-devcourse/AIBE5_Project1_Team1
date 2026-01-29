@@ -3,7 +3,7 @@ import { useNavigate, Link, useLocation } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
 import GoogleLoginButton from "../components/GoogleLoginButton";
 import { PlanState } from "../data/commonType";
-
+import logo from "@/assets/logo2.png";
 type GoogleUser = {
   name?: string;
   email?: string;
@@ -35,7 +35,7 @@ export default function LoginPage() {
     }
   };
 
-  const logo = "src/assets/logo2.png";
+
   const location = useLocation();
   const planState = location.state?.sourcePage === "planner" ? {
     sourcePage: location.state.sourcePage,
