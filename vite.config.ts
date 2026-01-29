@@ -63,4 +63,5 @@
       port: 3000,
       open: true,
     },
+    base: "/AIBE5_Project1_Team1/",
   });
