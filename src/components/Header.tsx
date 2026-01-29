@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router";
 import { Plane, LogOut, User } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
+import logo2 from "@/assets/logo2.png";
 
 export default function Header() {
   const location = useLocation();
@@ -16,8 +17,6 @@ export default function Header() {
     navigate("/");
   };
 
-  const logo = "/src/assets/logo2.png";
-
   return (
     <header className="sticky top-0 z-40 w-full bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-6 py-4">
@@ -28,7 +27,7 @@ export default function Header() {
             <Link to="/" className="flex items-center gap-3 group">
               <div className="w-10 h-10 bg-gradient-to-br from-orange-200 to-orange-300 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
                 <img
-                  src={logo}
+                  src={logo2}
                   alt="logo"
                   className="w-8 h-8 object-contain"
                 />
