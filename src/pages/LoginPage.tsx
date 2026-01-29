@@ -3,6 +3,7 @@ import { useNavigate, Link, useLocation } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
 import GoogleLoginButton from "../components/GoogleLoginButton";
 import { PlanState } from "../data/commonType";
+import logo2 from "@/assets/logo2.png";
 
 type GoogleUser = {
   name?: string;
@@ -35,7 +36,6 @@ export default function LoginPage() {
     }
   };
 
-  const logo = "src/assets/logo2.png";
   const location = useLocation();
   const planState = location.state?.sourcePage === "planner" ? {
     sourcePage: location.state.sourcePage,
@@ -52,7 +52,7 @@ export default function LoginPage() {
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-3 mb-4">
             <div className="w-12 h-12 bg-gradient-to-br from-orange-200 to-orange-300 rounded-xl flex items-center justify-center shadow-lg">
-              <img src={logo} alt="logo" className="w-10 h-10 object-contain" />
+              <img src={logo2} alt="logo" className="w-10 h-10 object-contain" />
             </div>
             <h1 className="text-4xl font-bold">
               PLAN <span className="text-orange-500">Jeju</span>
