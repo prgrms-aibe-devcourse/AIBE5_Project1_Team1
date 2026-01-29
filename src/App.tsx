@@ -30,6 +30,7 @@ export default function App() {
     }
   }, []);
 
+  // BrowserRouter로 github Action 테스트 중
   return (
     <AuthProvider>
       <DndProvider backend={HTML5Backend}>
