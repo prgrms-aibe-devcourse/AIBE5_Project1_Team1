@@ -32,7 +32,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist   # ⚠️ Vite는 dist, CRA는 build
+          path: ./build   # ⚠️ Vite는 dist, CRA는 build
 
   deploy:
     needs: build
