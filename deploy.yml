@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest # ubunt로 처리 중
 
     steps:
-      - name: Checkout
+      - name: Checkout # ㅇㄴㅇㄴ
         uses: actions/checkout@v4
 
       - name: Setup Node
