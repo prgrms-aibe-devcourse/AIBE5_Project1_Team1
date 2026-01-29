@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # ubunt로 처리 중
 
     steps:
       - name: Checkout
