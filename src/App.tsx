@@ -33,7 +33,7 @@ export default function App() {
   return (
     <AuthProvider>
       <DndProvider backend={HTML5Backend}>
-        <BrowserRouter>
+        <BrowserRouter basename="/AIBE5_Project1_Team1">
           <ScrollToTop />
           <div className="min-h-screen bg-white w-full">
             <Header />
