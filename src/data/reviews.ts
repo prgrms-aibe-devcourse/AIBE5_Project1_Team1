@@ -1,6 +1,12 @@
 import { ItineraryData } from "./commonType";
 import { itineraryArray } from "./itineraryArray";
 import { findItineraryByKey, findItineraryValueByKey } from "./commonFunction";
+import img9 from "@/images/img9.jpg";
+import img10 from "@/images/img10.jpg";
+import img6 from "@/images/img6.jpg";
+import img5 from "@/images/img5.jpg";
+import img4 from "@/images/img4.jpg";
+import img1 from "@/images/img1.jpg";
 
 export type Comment = {
   id: number;
@@ -90,12 +96,12 @@ export const reviews: Review[] = [
     title: "부모님과 함께한 최고의 효도 여행이었어요!",
     content: "이번 제주 여행의 테마는 오직 ‘맛’이었는데, PLAN Jeju 추천이 정말 정확했어요.\n\n애월 쪽 흑돼지 맛집이랑 함덕 해녀의 집은 기대 이상이었고, 분위기부터 음식 퀄리티까지 모두 만족스러웠습니다. 특히 해산물은 신선함이 바로 느껴질 정도였어요.\n\n가장 좋았던 점은 웨이팅 팁까지 함께 안내돼 있어서, 불필요하게 기다리는 시간 없이 효율적으로 움직일 수 있었다는 거예요.\n\n덕분에 먹는 데에만 집중하면서도 일정이 흐트러지지 않았고, 완벽한 먹방 여행을 즐길 수 있었습니다. 제주 맛집 여행을 계획 중이라면 강력 추천합니다.",
     images: [
-      "../src/images/img9.jpg", 
-      "../src/images/img10.jpg", 
-      "../src/images/img6.jpg", 
-      "../src/images/img5.jpg", 
-      "../src/images/img4.jpg", 
-      "../src/images/img1.jpg",
+      img9,
+      img10, 
+      img6,
+      img5,
+      img4,
+      img1,
       // 제주 식당 분위기
       "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1080&q=80",
  

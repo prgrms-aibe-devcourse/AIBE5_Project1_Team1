@@ -4,7 +4,7 @@ import TravelModal from "../components/TravelModal";
 import { destinations } from "../data/destinations";
 import { useNavigate } from 'react-router';
 import { TravelDestination } from "../data/commonType";
-
+import mainImage from "@/assets/mainimage2.png";
 
 
 export default function MainPage() {
@@ -125,7 +125,7 @@ export default function MainPage() {
             <div className="relative">
               <div className="aspect-square rounded-3xl overflow-hidden shadow-2xl bg-orange-200">
                 <img
-                  src="/src/assets/mainimage2.png"
+                  src={mainImage}
                   alt="여행 계획"
                   className="w-full h-full object-cover"
                 />
