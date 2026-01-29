@@ -113,6 +113,7 @@ export default function LoginPage() {
             </div>
 
 {/* 구글 로그인 */}
+<div className="google-btn-wrapper">
 <GoogleLoginButton
   onSuccess={(user: GoogleUser) => {
     localStorage.setItem("auth_provider", "google");
@@ -133,7 +134,7 @@ export default function LoginPage() {
     }
   }}
 />
-
+</div>
 
 
           </div>

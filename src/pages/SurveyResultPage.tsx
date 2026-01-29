@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { ArrowLeft, ArrowRight, Calendar, MapPin } from "lucide-react";
 import { itinerary } from '../data/surveyResult'
 
@@ -7,6 +7,7 @@ import { itineraryArray } from "../data/itineraryArray";
 
 export default function SurveyResultPage() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handlePlannerClick = () => {
     navigate("/planner", { 
@@ -40,7 +41,7 @@ export default function SurveyResultPage() {
         <div className="space-y-6">
           {/* Package Title Card */}
           <div className="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden">
-            <div className="bg-gradient-to-r from-orange-300 to-orange-300 p-6 text-center">
+            <div className="bg-gradient-to-r from-blue-300 to-blue-500 p-6 text-center">
               <div className="text-white">
                 <p className="text-3xl mb-2">{itinerary.packageEmoji} AI 추천 여행 패키지</p>
                 <p className="text-2xl font-bold">「{itinerary.packageName}」</p>
@@ -121,22 +122,27 @@ export default function SurveyResultPage() {
           ))}
 
           {/* Action Buttons */}
-          <div className="flex items-center justify-center gap-4 pt-6 pb-8">
-            <button
-              onClick={() => navigate("/")}
-              className="flex items-center gap-2 px-6 py-3 bg-white hover:bg-gray-50 text-gray-700 font-semibold rounded-xl border border-gray-300 transition-colors shadow-sm"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              <span>처음으로</span>
-            </button>
-            <button 
-              onClick={handlePlannerClick}
-              className="flex items-center gap-2 px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition-colors shadow-md hover:shadow-lg"
-            >
-              <span>상세 계획 만들기</span>
-              <ArrowRight className="w-5 h-5" />
-            </button>
-          </div>
+          { location.search ? (
+            <div className="py-4"></div>
+          ) : (
+            <div className="flex items-center justify-center gap-4 pt-6 pb-8">
+              <button
+                onClick={() => navigate("/")}
+                className="flex items-center gap-2 px-6 py-3 bg-white hover:bg-gray-50 text-gray-700 font-semibold rounded-xl border border-gray-300 transition-colors shadow-sm"
+              >
+                <ArrowLeft className="w-5 h-5" />
+                <span>처음으로</span>
+              </button>
+              <button 
+                onClick={handlePlannerClick}
+                className="flex items-center gap-2 px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition-colors shadow-md hover:shadow-lg"
+              >
+                <span>상세 계획 만들기</span>
+                <ArrowRight className="w-5 h-5" />
+              </button>
+            </div>
+          )}
+          
         </div>
       </div>
     </div>

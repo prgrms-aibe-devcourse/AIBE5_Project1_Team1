@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import loadingGIF from "../assets/PlanJejuLoading.gif"
 
 
 export default function SurveyLoadingPage() {
   const navigate = useNavigate();
+  const loadingGIF = "/src/assets/PlanJejuLoading.gif";
 
   useEffect(() => {
     // 5초 후 결과 페이지로 이동
