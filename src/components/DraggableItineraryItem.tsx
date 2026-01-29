@@ -4,6 +4,7 @@ import { useDrag, useDrop } from "react-dnd";
 
 export type ItineraryItem = {
   id: number;
+  key: number
   day: number;
   time: string;
   title: string;
@@ -72,7 +73,7 @@ const DraggableItineraryItem = ({
         <input
           type="number"
           value={item.day}
-          onChange={(e) => onDayChange(item.id, parseInt(e.target.value) || 1)}
+          onChange={(e) => onDayChange(item.key, parseInt(e.target.value) || 1)}
           disabled={!canEdit}
           min="1"
           className="w-10 py-2 text-center border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent font-semibold text-gray-700 text-sm"
@@ -85,7 +86,7 @@ const DraggableItineraryItem = ({
         <input
           type="time"
           value={item.time}
-          onChange={(e) => onTimeChange(item.id, e.target.value)}
+          onChange={(e) => onTimeChange(item.key, e.target.value)}
           disabled={!canEdit}
           className="w-100 px-2 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
         />
@@ -114,7 +115,7 @@ const DraggableItineraryItem = ({
       {/* 삭제 */}
       <div className="col-span-1 flex justify-center">
         <button 
-          onClick={() => canEdit && onDelete(item.id)}
+          onClick={() => canEdit && onDelete(item.key)}
           disabled={!canEdit} 
           className="w-8 h-8 flex items-center justify-center bg-red-50 hover:bg-red-100 text-red-600 rounded-lg transition-colors"
           title="삭제"
