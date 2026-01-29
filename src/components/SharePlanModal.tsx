@@ -17,7 +17,7 @@ export default function SharePlanModal({ isOpen, onClose, plan }: SharePlanModal
 
   if (!isOpen) return null;
 
-  const shareUrl = "http://localhost:3000/survey/result?share=true";
+  const shareUrl = `${window.location.href.slice(0, -7)}survey/result?share=true`;
 
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
