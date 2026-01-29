@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - kws0315 # main에 push될 때마다 배포
+      - main # main에 push될 때마다 배포
 
 permissions:
   contents: read
@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest # ubunt로 처리 중
 
     steps:
-      - name: Checkout # ㅇㄴㅇㄴ
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Node
