@@ -1,14 +1,15 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
+import loadingGIF from "@/assets/PlanJejuLoading.gif";
 
 export default function SurveyLoadingPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 3초 후 결과 페이지로 이동
+    // 5초 후 결과 페이지로 이동
     const timer = setTimeout(() => {
       navigate("/survey/result");
-    }, 3000);
+    }, 5000);
 
     return () => clearTimeout(timer);
   }, [navigate]);
@@ -26,7 +27,7 @@ export default function SurveyLoadingPage() {
           <div className="w-64 h-64 flex items-center justify-center">
             {/* TODO: 여기에 GIF 이미지를 넣으세요 */}
             <img
-              src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"
+              src={loadingGIF}
               alt="로딩 중"
               className="w-full h-full object-contain"
             />
@@ -48,7 +49,7 @@ export default function SurveyLoadingPage() {
 
           {/* 로딩 바 (선택사항) */}
           <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-            <div className="bg-orange-500 h-full rounded-full animate-[loading_3s_ease-in-out_infinite]" />
+            <div className="bg-orange-500 h-full rounded-full animate-[loading_5s_ease-in-out_infinite]" />
           </div>
         </div>
       </div>

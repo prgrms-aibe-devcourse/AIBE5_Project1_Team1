@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
@@ -9,12 +9,34 @@ export default function SurveyQuickPage() {
   const [region, setRegion] = useState<string>("");
   const [purpose, setPurpose] = useState<string>("");
 
+  const section1Ref = useRef<HTMLDivElement>(null);
+  const section2Ref = useRef<HTMLDivElement>(null);
+  const [focusedSection, setFocusedSection] = useState<string | null>(null);
+
   const isComplete = duration && companion && region && purpose;
+  const isSection1Complete = duration && companion;
+  const isSection2Complete = region && purpose;
+
+  // 모든 선택이 완료되면 focusedSection 초기화
+  useEffect(() => {
+    if (isComplete) {
+      setFocusedSection(null);
+    }
+  }, [isComplete]);
 
   const handleSubmit = () => {
     if (isComplete) {
       // 로딩 페이지로 이동
       navigate("/survey/loading");
+    } else {
+      // 첫 번째 미완료 섹션으로 포커스 이동
+      if (!duration || !companion) {
+        setFocusedSection("section1");
+        section1Ref.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      } else if (!region || !purpose) {
+        setFocusedSection("section2");
+        section2Ref.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
     }
   };
 
@@ -30,7 +52,14 @@ export default function SurveyQuickPage() {
 
         <div className="space-y-10">
           {/* Section 1: 기본 정보 */}
-          <div>
+          <div 
+            ref={section1Ref}
+            className={`p-6 rounded-xl transition-all ${
+              focusedSection === "section1" && !isSection1Complete
+                ? "box-shadow-orange-500 bg-orange-50 "
+                : ""
+            }`}
+          >
             <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
               <span className="w-8 h-8 bg-orange-500 text-white rounded-lg flex items-center justify-center text-sm font-bold">
                 1
@@ -47,11 +76,11 @@ export default function SurveyQuickPage() {
                   {["당일", "1박 2일", "2박 3일 이상"].map((option) => (
                     <button
                       key={option}
-                      onClick={() => setDuration(option)}
+                      onClick={() => setDuration(duration === option ? "" : option)}
                       className={`px-6 py-3 rounded-xl font-medium transition-all ${
                         duration === option
                           ? "bg-orange-500 text-white shadow-md"
-                          : "bg-gray-50 text-gray-700 border border-gray-200 hover:border-orange-500"
+                          : "bg-gray-50 text-gray-700 box-shadow-gray-200 hover:box-shadow-orange-500"
                       }`}
                     >
                       {option}
@@ -69,11 +98,11 @@ export default function SurveyQuickPage() {
                   {["혼자", "연인", "친구", "가족"].map((option) => (
                     <button
                       key={option}
-                      onClick={() => setCompanion(option)}
+                      onClick={() => setCompanion(companion === option ? "" : option)}
                       className={`px-6 py-3 rounded-xl font-medium transition-all ${
                         companion === option
                           ? "bg-orange-500 text-white shadow-md"
-                          : "bg-gray-50 text-gray-700 border border-gray-200 hover:border-orange-500"
+                          : "bg-gray-50 text-gray-700 box-shadow-gray-200 hover:box-shadow-orange-500"
                       }`}
                     >
                       {option}
@@ -85,7 +114,14 @@ export default function SurveyQuickPage() {
           </div>
 
           {/* Section 2: 빠른 취향 선택 */}
-          <div>
+          <div 
+            ref={section2Ref}
+            className={`p-6 rounded-xl transition-all ${
+              focusedSection === "section2" && !isSection2Complete
+                ? "box-shadow-orange-500 bg-orange-50"
+                : ""
+            }`}
+          >
             <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
               <span className="w-8 h-8 bg-orange-500 text-white rounded-lg flex items-center justify-center text-sm font-bold">
                 2
@@ -102,11 +138,11 @@ export default function SurveyQuickPage() {
                   {["제주시", "애월(서쪽)", "서귀포(남쪽)", "성산(동쪽)", "상관없음(알아서 추천)"].map((option) => (
                     <button
                       key={option}
-                      onClick={() => setRegion(option)}
+                      onClick={() => setRegion(region === option ? "" : option)}
                       className={`px-6 py-3 rounded-xl font-medium transition-all ${
                         region === option
                           ? "bg-orange-500 text-white shadow-md"
-                          : "bg-gray-50 text-gray-700 border border-gray-200 hover:border-orange-500"
+                          : "bg-gray-50 text-gray-700 box-shadow-gray-200 hover:box-shadow-orange-500"
                       }`}
                     >
                       {option}
@@ -124,11 +160,11 @@ export default function SurveyQuickPage() {
                   {["느긋하게 쉬기(힐링)", "맛있는거 먹기(맛집)", "예쁜 사진 남기기(감성)", "신나게 놀기(액티비티)"].map((option) => (
                     <button
                       key={option}
-                      onClick={() => setPurpose(option)}
+                      onClick={() => setPurpose(purpose === option ? "" : option)}
                       className={`px-6 py-3 rounded-xl font-medium transition-all ${
                         purpose === option
                           ? "bg-orange-500 text-white shadow-md"
-                          : "bg-gray-50 text-gray-700 border border-gray-200 hover:border-orange-500"
+                          : "bg-gray-50 text-gray-700 box-shadow-gray-200 hover:box-shadow-orange-500"
                       }`}
                     >
                       {option}
@@ -150,7 +186,6 @@ export default function SurveyQuickPage() {
             </button>
             <button
               onClick={handleSubmit}
-              disabled={!isComplete}
               className="flex items-center gap-2 px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
             >
               <span>결과 보기</span>

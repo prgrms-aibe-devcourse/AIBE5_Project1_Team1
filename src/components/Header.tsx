@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router";
 import { Plane, LogOut, User } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
+import logo2 from "@/assets/logo2.png";
 
 export default function Header() {
   const location = useLocation();
@@ -24,8 +25,12 @@ export default function Header() {
           <div className="flex items-center gap-12">
             {/* 로고 */}
             <Link to="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-orange-500 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
-                <Plane className="w-5 h-5 text-white" />
+              <div className="w-10 h-10 bg-gradient-to-br from-orange-200 to-orange-300 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
+                <img
+                  src={logo2}
+                  alt="logo"
+                  className="w-8 h-8 object-contain"
+                />
               </div>
               <div className="flex items-baseline gap-1">
                 <span className="text-xl font-semibold text-gray-900">PLAN</span>

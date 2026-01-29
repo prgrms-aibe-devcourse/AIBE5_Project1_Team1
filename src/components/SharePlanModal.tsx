@@ -1,4 +1,5 @@
 import { X } from "lucide-react";
+import { useState } from "react";
 
 interface SharePlanModalProps {
   isOpen: boolean;
@@ -10,21 +11,51 @@ interface SharePlanModalProps {
   };
 }
 
+// 계획 공유 컴포넌트
 export default function SharePlanModal({ isOpen, onClose, plan }: SharePlanModalProps) {
+  const [copyMessage, setCopyMessage] = useState<string | null>(null);
+
   if (!isOpen) return null;
+
+  const shareUrl = `${window.location.href.slice(0, -7)}survey/result?share=true`;
 
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
   };
+  // 클립보드 복사 함수
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopyMessage("클립보드에 복사되었습니다");
+      setTimeout(() => setCopyMessage(null), 2000);
+    } catch (err) {
+      try {
+        const textarea = document.createElement("textarea");
+        textarea.value = shareUrl;
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+
+        setCopyMessage("클립보드에 복사되었습니다");
+        setTimeout(() => setCopyMessage(null), 2000);
+      } catch {
+        setCopyMessage("복사에 실패했습니다. 링크를 직접 복사해주세요.");
+        setTimeout(() => setCopyMessage(null), 2500);
+      }
+    }
+  };
 
   return (
-    <div 
+    <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
       onClick={handleBackdropClick}
     >
-      <div className="bg-white rounded-3xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in duration-300">
+      <div className="bg-white rounded-3xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto overscroll-none animate-in fade-in zoom-in duration-300">
         {/* Header */}
         <div className="relative bg-gradient-to-br from-orange-400 to-orange-500 text-white px-8 py-16 text-center rounded-t-3xl">
           <button
@@ -45,6 +76,13 @@ export default function SharePlanModal({ isOpen, onClose, plan }: SharePlanModal
 
         {/* Content */}
         <div className="p-8 space-y-8">
+          {/* ✅ 복사 완료 메시지 */}
+          {copyMessage && (
+            <div className="p-4 rounded-xl bg-green-50 border border-green-200 text-green-700 font-semibold text-center">
+              {copyMessage}
+            </div>
+          )}
+
           {/* Plan Info */}
           <div className="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-2xl p-6 border border-orange-200">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">{plan.name}</h2>
@@ -70,7 +108,11 @@ export default function SharePlanModal({ isOpen, onClose, plan }: SharePlanModal
                 <p className="text-sm opacity-90 mt-1">카카오톡으로 공유하기</p>
               </button>
 
-              <button className="p-6 bg-blue-500 hover:bg-blue-600 text-white rounded-xl transition-colors shadow-md hover:shadow-lg group">
+              {/* ✅ 여기! 링크 복사 버튼 */}
+              <button
+                onClick={handleCopyLink}
+                className="p-6 bg-blue-500 hover:bg-blue-600 text-white rounded-xl transition-colors shadow-md hover:shadow-lg group"
+              >
                 <div className="text-4xl mb-3">🔗</div>
                 <p className="font-bold text-lg">링크 복사</p>
                 <p className="text-sm opacity-90 mt-1">URL 링크 복사하기</p>
@@ -88,6 +130,12 @@ export default function SharePlanModal({ isOpen, onClose, plan }: SharePlanModal
                 <p className="text-sm opacity-90 mt-1">이메일로 전송하기</p>
               </button>
             </div>
+          </div>
+
+          {/* (선택) 링크 미리보기도 보여주고 싶으면 아래 블록 추가 가능 */}
+          <div className="bg-gray-50 rounded-2xl p-5 border border-gray-200">
+            <p className="text-sm text-gray-600 mb-2">공유 링크</p>
+            <p className="text-sm break-all font-semibold text-gray-900">{shareUrl}</p>
           </div>
 
           {/* QR Code */}

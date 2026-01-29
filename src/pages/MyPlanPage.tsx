@@ -1,9 +1,24 @@
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { Calendar, MapPin, Share2, FileText, Eye } from "lucide-react";
 import { useState } from "react";
 import ReviewWriteModal from "../components/ReviewWriteModal";
 import ReviewDetailModal from "../components/ReviewDetailModal";
 import SharePlanModal from "../components/SharePlanModal";
+import { findItineraryValueByKey, makeReviewItinerary } from "../data/commonFunction";
+
+import { destinations } from "../data/destinations";
+import { accommodations } from "../data/accommodations";
+import { restaurants } from "../data/restaurants";
+
+import type { PlanState } from "../data/commonType";
+import { getPlanById, RawPlan, rawPlans } from "../data/plans";
+import { reviews, Review } from "../data/reviews";
+
+const allDestinations = [
+  ...destinations,
+  ...accommodations,
+  ...restaurants,
+];
 
 export default function MyPlanPage() {
   const navigate = useNavigate();
@@ -12,94 +27,68 @@ export default function MyPlanPage() {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [selectedPlanForShare, setSelectedPlanForShare] = useState<typeof plans[0] | null>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [selectedReview, setSelectedReview] = useState<any>(null);
+  const [selectedReview, setSelectedReview] = useState<Review | null>(null);
 
-  const plans = [
-    {
-      id: 1,
-      name: "제주 동부 힐링 여행",
-      date: "2024.03.15 ~ 2024.03.17",
-      isCompleted: true,
-      hasReview: true, // 리뷰 작성 완료
-      travelType: "힐링형",
-      images: [
-        "https://images.unsplash.com/photo-1616798249081-30877e213b16?w=200",
-        "https://images.unsplash.com/photo-1674606042265-c9f03a77e286?w=200",
-        "https://images.unsplash.com/photo-1696335105620-c00aec47521f?w=200"
-      ],
-      totalPlaces: 11
-    },
-    {
-      id: 2,
-      name: "제주 서부 맛집 투어",
-      date: "2024.04.20 ~ 2024.04.22",
-      isCompleted: true,
-      hasReview: false, // 리뷰 미작성
-      travelType: "맛집형",
-      images: [
-        "https://images.unsplash.com/photo-1740329289241-3adf04a8e3ed?w=200",
-        "https://images.unsplash.com/photo-1758327740342-4e705edea29b?w=200",
-        "https://images.unsplash.com/photo-1616798249081-30877e213b16?w=200"
-      ],
-      totalPlaces: 9
-    },
-    {
-      id: 3,
-      name: "여름 제주 해변 여행",
-      date: "2024.07.10 ~ 2024.07.13",
-      isCompleted: false,
-      hasReview: false,
-      travelType: "감성형",
-      images: [
-        "https://images.unsplash.com/photo-1696335105620-c00aec47521f?w=200",
-        "https://images.unsplash.com/photo-1674606042265-c9f03a77e286?w=200",
-        "https://images.unsplash.com/photo-1740329289241-3adf04a8e3ed?w=200"
-      ],
-      totalPlaces: 7
-    }
-  ];
+   // 여행 완료 여부 판단 함수
+  const isPlanCompleted = (dateRange: string) => {
+    const endDateStr = dateRange.split("~")[1]?.trim(); 
+    if (!endDateStr) return false;
+
+    const [year, month, day] = endDateStr.split(".").map(Number);
+    const endDate = new Date(year, month - 1, day);
+    const today = new Date();
+
+    // 시간 제거해서 날짜만 비교
+    endDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    return endDate < today;
+  };
+
+  const location = useLocation();
+  const additionalPlans: RawPlan[] = (location.state?.additionalPlans as RawPlan[]) ?? [];
+  const [myPlans, setMyPlans] = useState<RawPlan[]>(() => [
+    ...additionalPlans,
+    getPlanById(2),
+    getPlanById(3),
+  ]);
+
+  
+  // 여행 완료 여부를 포함한 플랜 데이터 생성
+  const plans = (myPlans).map((plan) => ({
+    ...plan,
+    isCompleted: isPlanCompleted(plan.date),
+  }));
 
   // 플랜 ID로 리뷰 데이터를 찾는 mock 함수
   const getReviewByPlanId = (planId: number) => {
-    const plan = plans.find(p => p.id === planId);
-    if (!plan || !plan.hasReview) return null;
+    const itineraryKey = plans.find(item => item.id === planId)?.key;
+    const review = reviews.find(item => item.itinerary.key === itineraryKey);
 
-    // Mock review data - 실제로는 서버에서 가져와야 함
-    return {
-      id: planId,
-      author: "김XX",
-      date: plan.date,
-      tripType: "커플",
-      duration: "2박 3일",
-      rating: 5,
-      title: `${plan.name} 후기`,
-      content: "정말 좋은 여행이었습니다. 계획대로 잘 다녀왔어요!",
-      image: plan.images[0],
-      images: plan.images,
-      likes: 127,
-      comments: 23,
-      planName: plan.name,
-      travelType: plan.travelType,
-      itinerary: [
-        { day: "1일차", schedule: "카페거리 → 애월 → 한라산 → 돼지고기 → 머시기숙소" },
-        { day: "2일차", schedule: "성산일출봉 → 섭지코지 → 해산물 맛집 → 숙소" },
-        { day: "3일차", schedule: "공항" }
-      ]
-    };
+    return review as Review;
   };
 
   const handleLoadPlan = (planId: number) => {
-    // 계획 불러오기 - 미리 채워진 데이터로 플래너 페이지 이동
+    const plan = plans.find(p => p.id === planId);
+
+    // 자세히 보기 - 미리 채워진 데이터로 플래너 페이지 이동
     navigate("/planner", {
       state: {
-        fromMyPlan: true, // 내 플랜에서 왔다는 표시
-        surveyData: {
-          packageName: plans.find(p => p.id === planId)?.name || "여행 계획",
-          purpose: "느긋하게 쉬기(힐링)"
+        sourcePage: "my-plan",
+        isReadOnly: plan?.isCompleted ?? false,
+        travelType: plan?.travelType || null,
+        myPlan: findItineraryValueByKey(plan?.key || "my01"),
+        planInfo: {
+          title: plan?.name || "내 여행", 
+          date: plan?.date.slice(0, 10).replaceAll(".", "-") || "",
+          description: plan?.description || null,
+          isPrivate: false
         }
-      }
+      } satisfies PlanState
     });
   };
+
+
 
   const handleWriteReview = (planId: number) => {
     setSelectedPlanForReview(planId);
@@ -126,10 +115,13 @@ export default function MyPlanPage() {
     setIsShareModalOpen(true);
   };
 
+ 
+  
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-orange-400 to-orange-500 text-white py-16">
+      <section className="bg-gradient-to-br from-orange-400 to-orange-500 text-white py-12">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h1 className="text-4xl font-bold mb-3">내 플랜</h1>
           <p className="text-lg opacity-90">나의 제주도 여행 계획을 관리하세요</p>
@@ -137,7 +129,7 @@ export default function MyPlanPage() {
       </section>
 
       {/* Content */}
-      <div className="max-w-6xl mx-auto px-6 py-12">
+      <div className="max-w-5xl mx-auto px-6 py-12">
         {/* Tab Navigation */}
         <div className="flex gap-4 mb-8">
           <Link
@@ -213,7 +205,7 @@ export default function MyPlanPage() {
                     className="flex items-center gap-2 px-5 py-2.5 bg-orange-500 text-white rounded-xl font-semibold hover:bg-orange-600 transition-colors shadow-md"
                   >
                     <FileText className="w-4 h-4" />
-                    계획 불러오기
+                    자세히 보기
                   </button>
 
                   <button
@@ -272,7 +264,7 @@ export default function MyPlanPage() {
           <div className="mt-8 p-5 bg-orange-50 rounded-xl border border-orange-200">
             <h4 className="font-semibold text-gray-900 mb-2">💡 사용 팁</h4>
             <ul className="space-y-1 text-sm text-gray-700">
-              <li>• <strong>계획 불러오기:</strong> 저장된 계획을 수정하거나 재사용할 수 있습니다</li>
+              <li>• <strong>자세히 보기:</strong> 저장된 계획을 수정하거나 재사용할 수 있습니다</li>
               <li>• <strong>공유하기:</strong> 친구들과 여행 계획을 공유해보세요</li>
               <li>• <strong>리뷰 쓰기/보기:</strong> 완료된 여행의 후기를 작성하고 확인할 수 있습니다</li>
             </ul>
@@ -292,7 +284,7 @@ export default function MyPlanPage() {
       )}
 
       {/* 계획 공유 모달 */}
-      {isShareModalOpen && (
+      {isShareModalOpen && selectedPlanForShare && (
         <SharePlanModal
           isOpen={isShareModalOpen}
           onClose={() => {

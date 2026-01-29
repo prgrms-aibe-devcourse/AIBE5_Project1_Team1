@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -16,12 +16,15 @@ import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import MyProfilePage from "./pages/MyProfilePage";
 import MyPlanPage from "./pages/MyPlanPage";
+import ScrollToTop from "./components/ScrollTop";
+import { useEffect } from "react";
 
 export default function App() {
   return (
     <AuthProvider>
       <DndProvider backend={HTML5Backend}>
-        <BrowserRouter>
+        <BrowserRouter basename="/AIBE5_Project1_Team1">
+          <ScrollToTop />
           <div className="min-h-screen bg-white w-full">
             <Header />
             <Routes>

@@ -1,113 +1,28 @@
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { ArrowLeft, ArrowRight, Calendar, MapPin } from "lucide-react";
+import { itinerary } from '../data/surveyResult'
 
-// 일정 데이터
-const itinerary = {
-  packageName: "동쪽에 머무는 조용한 제주 2박 3일",
-  packageEmoji: "🌿",
-  keywords: ["감성", "성산", "바다", "천천히"],
-  days: [
-    {
-      day: 1,
-      schedule: [
-        {
-          time: "12:30",
-          emoji: "🍜",
-          title: "점심 - 자매국수",
-          description: "고기국수 or 멸치국수 맛집!"
-        },
-        {
-          time: "14:00",
-          emoji: "🌊",
-          title: "김녕 함덕 해수욕장",
-          description: "탁 트인 서귀포 앞바다를 볼 수 있는 산책로 포함.\n사진 + 커피 테이크아웃"
-        },
-        {
-          time: "15:30",
-          emoji: "📸",
-          title: "오조포구",
-          description: "돌담 길 + 바다 감성 포인트\n사진 예시로 쓰기 딱 좋은 장소"
-        },
-        {
-          time: "16:00",
-          emoji: "🏨",
-          title: "숙소 - 성산 오션뷰 호텔",
-          description: "조용한 동네 / 바다 전망"
-        }
-      ]
-    },
-    {
-      day: 2,
-      schedule: [
-        {
-          time: "10:00",
-          emoji: "☕",
-          title: "아침 - 숙소 근처 카페",
-          description: "여유있게 아침 식사"
-        },
-        {
-          time: "11:00",
-          emoji: "⛰️",
-          title: "성산일출봉",
-          description: "제주 대표 명소 방문"
-        },
-        {
-          time: "13:00",
-          emoji: "🍚",
-          title: "점심 - 제주 해물식당",
-          description: "신선한 해산물 요리"
-        },
-        {
-          time: "14:30",
-          emoji: "🌿",
-          title: "섭지코지",
-          description: "감성 사진 촬영 명소"
-        }
-      ]
-    },
-    {
-      day: 3,
-      schedule: [
-        {
-          time: "10:00",
-          emoji: "☕",
-          title: "아침 - 브런치 카페",
-          description: "여유로운 아침 시간"
-        },
-        {
-          time: "12:00",
-          emoji: "🍽️",
-          title: "점심 - 흑돼지 맛집",
-          description: "제주도에서의 마지막 식사"
-        },
-        {
-          time: "14:00",
-          emoji: "🛍️",
-          title: "동문시장",
-          description: "기념품 구매"
-        },
-        {
-          time: "16:00",
-          emoji: "✈️",
-          title: "제주 공항",
-          description: "집으로 돌아가기"
-        }
-      ]
-    }
-  ]
-};
+import { PlanState } from "../data/commonType";
+import { itineraryArray } from "../data/itineraryArray";
 
 export default function SurveyResultPage() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handlePlannerClick = () => {
     navigate("/planner", { 
-      state: { 
-        surveyData: {
-          purpose: "예쁜 사진 남기기(감성)",
-          packageName: itinerary.packageName
+      state: {
+        sourcePage: "planner",
+        isReadOnly: false,
+        travelType: itinerary.keywords[0] || null,
+        myPlan: itineraryArray[0].value,
+        planInfo: {
+          title: itinerary.packageName,
+          date: new Date().toISOString().slice(0, 10),
+          description: "여행 계획 / 주말여행 / 바다",
+          isPrivate: false
         }
-      }
+      } satisfies PlanState
     });
   };
 
@@ -126,7 +41,7 @@ export default function SurveyResultPage() {
         <div className="space-y-6">
           {/* Package Title Card */}
           <div className="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden">
-            <div className="bg-gradient-to-r from-orange-400 to-orange-500 p-6 text-center">
+            <div className="bg-gradient-to-r from-blue-300 to-blue-500 p-6 text-center">
               <div className="text-white">
                 <p className="text-3xl mb-2">{itinerary.packageEmoji} AI 추천 여행 패키지</p>
                 <p className="text-2xl font-bold">「{itinerary.packageName}」</p>
@@ -207,22 +122,27 @@ export default function SurveyResultPage() {
           ))}
 
           {/* Action Buttons */}
-          <div className="flex items-center justify-center gap-4 pt-6 pb-8">
-            <button
-              onClick={() => navigate("/")}
-              className="flex items-center gap-2 px-6 py-3 bg-white hover:bg-gray-50 text-gray-700 font-semibold rounded-xl border border-gray-300 transition-colors shadow-sm"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              <span>처음으로</span>
-            </button>
-            <button 
-              onClick={handlePlannerClick}
-              className="flex items-center gap-2 px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition-colors shadow-md hover:shadow-lg"
-            >
-              <span>상세 계획 만들기</span>
-              <ArrowRight className="w-5 h-5" />
-            </button>
-          </div>
+          { location.search ? (
+            <div className="py-4"></div>
+          ) : (
+            <div className="flex items-center justify-center gap-4 pt-6 pb-8">
+              <button
+                onClick={() => navigate("/")}
+                className="flex items-center gap-2 px-6 py-3 bg-white hover:bg-gray-50 text-gray-700 font-semibold rounded-xl border border-gray-300 transition-colors shadow-sm"
+              >
+                <ArrowLeft className="w-5 h-5" />
+                <span>처음으로</span>
+              </button>
+              <button 
+                onClick={handlePlannerClick}
+                className="flex items-center gap-2 px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition-colors shadow-md hover:shadow-lg"
+              >
+                <span>상세 계획 만들기</span>
+                <ArrowRight className="w-5 h-5" />
+              </button>
+            </div>
+          )}
+          
         </div>
       </div>
     </div>

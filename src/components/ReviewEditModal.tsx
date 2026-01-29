@@ -1,5 +1,6 @@
 import { X, Upload, Star, Plus, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import PlanSelectModal from "./PlanSelectModal"; // [추가] 패키지 선택 모달 import
 
 interface ReviewEditModalProps {
   isOpen: boolean;
@@ -25,16 +26,74 @@ export default function ReviewEditModal({ isOpen, onClose, onSubmit, review }: R
   const [hoveredRating, setHoveredRating] = useState(0);
   const [images, setImages] = useState<string[]>(review.images || (review.image ? [review.image] : []));
 
+  // [추가] 패키지 변경을 위한 상태값들
+  const [planName, setPlanName] = useState(review.planName);
+  const [travelType, setTravelType] = useState(review.travelType);
+  const [itinerary, setItinerary] = useState(review.itinerary);
+  const [isPlanModalOpen, setIsPlanModalOpen] = useState(false);
+
+  // [추가] 파일 업로드용 Ref
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // 모달이 열릴 때마다 기존 데이터로 상태 초기화
+  useEffect(() => {
+    if (isOpen && review) {
+      setTitle(review.title);
+      setContent(review.content);
+      setRating(review.rating);
+      setImages(review.images || (review.image ? [review.image] : []));
+      // 패키지 정보 초기화
+      setPlanName(review.planName);
+      setTravelType(review.travelType);
+      setItinerary(review.itinerary);
+    }
+  }, [isOpen, review]);
+
   if (!isOpen) return null;
 
   // 외부 클릭으로 닫히지 않도록 수정
   const handleBackdropClick = (e: React.MouseEvent) => {
-    // 배경 클릭해도 닫히지 않음
     return;
   };
 
+  // [기능 추가] 이미지 업로드 핸들러
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+
+    const newImages = Array.from(files)
+      .filter(file => file.type.startsWith("image/"))
+      .map(file => URL.createObjectURL(file));
+
+    if (images.length + newImages.length > 10) {
+      alert("최대 10장까지 업로드 가능합니다.");
+      return;
+    }
+
+    setImages(prev => [...prev, ...newImages]);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  // [기능 추가] 플랜 선택 핸들러
+  const handlePlanSelect = (plan: any) => {
+    setPlanName(plan.title);
+    setTravelType(plan.type);
+    setItinerary(plan.itinerary); // 일정 정보도 함께 업데이트
+    setIsPlanModalOpen(false);
+  };
+
   const handleSubmit = () => {
-    onSubmit?.({ id: review.id, title, content, rating, images });
+    onSubmit?.({ 
+      id: review.id, 
+      title, 
+      content, 
+      rating, 
+      images,
+      // 수정된 패키지 정보도 함께 전달
+      planName,
+      travelType,
+      itinerary
+    });
     onClose();
   };
 
@@ -59,12 +118,18 @@ export default function ReviewEditModal({ isOpen, onClose, onSubmit, review }: R
         </div>
 
         <div className="px-8 py-6 space-y-8">
-          {/* 여행 플랜 정보 */}
-          <div className="bg-orange-50 rounded-xl p-6 border border-orange-200">
+          {/* 여행 플랜 정보 (변경 기능 추가) */}
+          <div className="bg-orange-50 rounded-xl p-6 border border-orange-200 flex items-center justify-between">
             <p className="text-gray-700 font-medium">
               <span className="text-orange-600 font-bold">나의</span> 여행플랜: 
-              <span className="text-gray-900 ml-2">{review.planName || "[여행플랜이름]"}</span>
+              <span className="text-gray-900 ml-2">{planName || "[여행플랜이름]"}</span>
             </p>
+            <button 
+              onClick={() => setIsPlanModalOpen(true)}
+              className="text-sm text-orange-600 hover:text-orange-700 font-bold bg-white px-3 py-1.5 rounded-lg border border-orange-200 hover:border-orange-300 transition-all shadow-sm"
+            >
+              변경하기
+            </button>
           </div>
 
           {/* 제목 */}
@@ -83,14 +148,29 @@ export default function ReviewEditModal({ isOpen, onClose, onSubmit, review }: R
           <div>
             <div className="flex items-center justify-between mb-3">
               <label className="block text-sm font-bold text-gray-900">사진 업로드</label>
-              <button className="flex items-center gap-2 px-4 py-2 bg-orange-100 hover:bg-orange-200 text-orange-600 rounded-lg transition-colors text-sm font-medium">
+              {/* [수정] 숨겨진 input 추가 */}
+              <input 
+                type="file" 
+                multiple 
+                accept="image/*" 
+                className="hidden" 
+                ref={fileInputRef}
+                onChange={handleImageUpload}
+              />
+              <button 
+                onClick={() => fileInputRef.current?.click()} // 버튼 클릭 시 input 트리거
+                className="flex items-center gap-2 px-4 py-2 bg-orange-100 hover:bg-orange-200 text-orange-600 rounded-lg transition-colors text-sm font-medium"
+              >
                 <Plus className="w-4 h-4" />
                 <span>추가</span>
               </button>
             </div>
             
             {images.length === 0 ? (
-              <div className="border-2 border-dashed border-gray-300 rounded-xl p-12 text-center hover:border-orange-500 transition-colors cursor-pointer">
+              <div 
+                onClick={() => fileInputRef.current?.click()} // 영역 클릭 시 input 트리거
+                className="border-2 border-dashed border-gray-300 rounded-xl p-12 text-center hover:border-orange-500 transition-colors cursor-pointer"
+              >
                 <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                 <p className="text-gray-600 mb-2">클릭하거나 드래그하여 사진을 업로드하세요</p>
                 <p className="text-sm text-gray-500">최대 10장까지 업로드 가능합니다</p>
@@ -108,7 +188,10 @@ export default function ReviewEditModal({ isOpen, onClose, onSubmit, review }: R
                     </button>
                   </div>
                 ))}
-                <button className="aspect-video border-2 border-dashed border-gray-300 rounded-xl flex items-center justify-center hover:border-orange-500 transition-colors">
+                <button 
+                  onClick={() => fileInputRef.current?.click()} // 추가 버튼 클릭 시 input 트리거
+                  className="aspect-video border-2 border-dashed border-gray-300 rounded-xl flex items-center justify-center hover:border-orange-500 transition-colors"
+                >
                   <Plus className="w-8 h-8 text-gray-400" />
                 </button>
               </div>
@@ -127,19 +210,19 @@ export default function ReviewEditModal({ isOpen, onClose, onSubmit, review }: R
             />
           </div>
 
-          {/* 여행 플랜 */}
-          {review.itinerary && (
+          {/* 여행 일정 (미리보기 - 수정은 플랜 변경으로만 가능) */}
+          {itinerary && (
             <div>
               <div className="flex items-center justify-between mb-3">
-                <label className="block text-sm font-bold text-gray-900">여행 플랜</label>
+                <label className="block text-sm font-bold text-gray-900">선택된 여행 플랜</label>
               </div>
               <div className="bg-gray-50 rounded-xl p-6 space-y-3">
-                {review.travelType && (
+                {travelType && (
                   <div className="inline-block px-4 py-2 bg-orange-200 text-orange-800 rounded-full text-sm font-medium">
-                    # {review.travelType}
+                    # {travelType}
                   </div>
                 )}
-                {review.itinerary.map((item, idx) => (
+                {itinerary.map((item, idx) => (
                   <div key={idx} className="bg-orange-50 rounded-lg p-4 flex gap-4">
                     <div className="flex-shrink-0">
                       <span className="inline-block px-3 py-1 bg-orange-200 text-orange-800 rounded-full text-sm font-medium">
@@ -161,24 +244,53 @@ export default function ReviewEditModal({ isOpen, onClose, onSubmit, review }: R
                 {[...Array(5)].map((_, i) => (
                   <button
                     key={i}
-                    onMouseEnter={() => setHoveredRating(i + 1)}
+                    className="relative transition-transform hover:scale-110 focus:outline-none z-0"
+                    // 마우스 움직임에 따라 0.5점 단위 계산
+                    onMouseMove={(e) => {
+                      const { left, width } = e.currentTarget.getBoundingClientRect();
+                      const x = e.clientX - left;
+                      const isHalf = x < width / 2;
+                      setHoveredRating(i + (isHalf ? 0.5 : 1));
+                    }}
+                    // 마우스가 나가면 호버 점수 초기화
                     onMouseLeave={() => setHoveredRating(0)}
-                    onClick={() => setRating(i + 1)}
-                    className="transition-transform hover:scale-110"
+                    // 클릭 시 호버 중인 점수를 최종 점수로 확정
+                    onClick={() => setRating(hoveredRating)}
                   >
-                    <Star
-                      className={`w-12 h-12 transition-colors ${
-                        i < (hoveredRating || rating)
-                          ? "fill-yellow-400 text-yellow-400"
-                          : "fill-gray-200 text-gray-200"
-                      }`}
-                    />
+                    {/* 기본 배경 별 (회색) */}
+                    <Star className="w-12 h-12 fill-gray-200 text-gray-200" />
+
+                    {/* 색이 채워지는 별 (노란색) */}
+                    <div
+                      className="absolute inset-0 overflow-hidden pointer-events-none"
+                      style={{
+                        // 호버 중이면 호버 점수를, 아니면 확정 점수를 기준으로 너비 결정
+                        width: (hoveredRating || rating) > i 
+                          ? (hoveredRating || rating) - i >= 1 
+                            ? "100%" 
+                            : (hoveredRating || rating) - i === 0.5 
+                              ? "50%" 
+                              : "0%"
+                          : "0%",
+                      }}
+                    >
+                      <Star className="w-12 h-12 fill-yellow-400 text-yellow-400" />
+                    </div>
                   </button>
                 ))}
               </div>
-              {rating > 0 && (
-                <p className="text-4xl font-bold text-gray-900">{rating}.0</p>
-              )}
+
+              {/* 점수 확인 부분: 호버 중일 땐 호버 점수를, 아닐 땐 확정 점수를 보여줌 */}
+              <div className="h-10 flex items-center justify-center">
+                {(hoveredRating || rating) > 0 ? (
+                  <p className="text-4xl font-bold text-gray-900">
+                    {(hoveredRating || rating).toFixed(1)}
+                  </p>
+                ) : (
+                   // 점수가 없을 때도 투명한 텍스트로 공간을 차지하게 함
+                  <div className="invisible text-4xl font-bold">0.0</div>
+                )}
+              </div>
             </div>
           </div>
 
@@ -200,6 +312,13 @@ export default function ReviewEditModal({ isOpen, onClose, onSubmit, review }: R
           </div>
         </div>
       </div>
+
+      {/* 패키지 선택 모달 (맨 위에 뜨도록 z-index 확인 필요하지만, PlanSelectModal 자체에 z-[9999]가 있어서 괜찮음) */}
+      <PlanSelectModal 
+        isOpen={isPlanModalOpen} 
+        onClose={() => setIsPlanModalOpen(false)} 
+        onSelect={handlePlanSelect} 
+      />
     </div>
   );
 }

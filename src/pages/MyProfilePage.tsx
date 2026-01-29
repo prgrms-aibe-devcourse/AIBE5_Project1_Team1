@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useNavigate } from "react-router";
 
@@ -7,13 +7,59 @@ export default function MyProfilePage() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"profile" | "plan">("profile");
 
-  const profileData = {
+type ProfileData = {
+  name: string;
+  nickname: string;
+  email: string;
+  birthdate: string;
+  gender: string;
+};
+
+  // 일반 로그인용 하드코딩 데이터
+  const hardcodedProfile: ProfileData = {
     name: "김철수",
     nickname: "제주러버",
     email: "kimcs@email.com",
     birthdate: "1990.01.15",
-    gender: "남자"
+    gender: "남자",
   };
+
+  const [profileData, setProfileData] = useState<ProfileData>(hardcodedProfile);
+
+ useEffect(() => {
+    const provider = localStorage.getItem("auth_provider") || "local";
+
+    if (provider === "google") {
+      const stored = localStorage.getItem("google_profile");
+      if (stored) {
+        try {
+          const g = JSON.parse(stored);
+
+          setProfileData({
+            name: g.name ?? userName ?? "Google User",
+            nickname: hardcodedProfile.nickname,   // 그대로 유지
+            email: g.email ?? "-",
+            birthdate: hardcodedProfile.birthdate, // 그대로 유지
+            gender: hardcodedProfile.gender,       // 그대로 유지
+          });
+          return;
+        } catch {}
+      }
+
+      // google_profile 없거나 파싱 실패 시 fallback
+      setProfileData({
+        name: userName || "Google User",
+        nickname: hardcodedProfile.nickname,
+        email: "-",
+        birthdate: hardcodedProfile.birthdate,
+        gender: hardcodedProfile.gender,
+      });
+    } else {
+      // 일반 로그인: 하드코딩 그대로
+      setProfileData(hardcodedProfile);
+    }
+  }, [userName]);
+
 
   // 내 플랜 탭 클릭 시 바로 /my-plan으로 이동
   const handlePlanTabClick = () => {
@@ -23,8 +69,8 @@ export default function MyProfilePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-orange-400 to-orange-500 text-white py-16">
-        <div className="max-w-5xl mx-auto px-6 text-center">
+      <section className="bg-gradient-to-br from-orange-400 to-orange-500 text-white py-12">
+        <div className="max-w-6xl mx-auto px-6 text-center">
           <h1 className="text-4xl font-bold mb-3">마이페이지</h1>
           <p className="text-lg opacity-90">나의 여행 정보를 확인하세요</p>
         </div>

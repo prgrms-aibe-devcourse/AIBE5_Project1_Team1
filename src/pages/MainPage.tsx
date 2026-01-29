@@ -2,9 +2,68 @@ import { useState } from "react";
 import { ArrowRight, Check, Compass, MapPin, Calendar } from "lucide-react";
 import TravelModal from "../components/TravelModal";
 import { destinations } from "../data/destinations";
+import { useNavigate } from 'react-router';
+import { TravelDestination } from "../data/commonType";
+import mainImage from "@/assets/mainimage2.png";
+
 
 export default function MainPage() {
-  const [selectedDestination, setSelectedDestination] = useState<typeof destinations[0] | null>(null);
+  const [selectedDestination, setSelectedDestination] = useState<TravelDestination | null>(null);
+  const navigate = useNavigate();
+  const handleSurvey = () => {
+    navigate("/survey");
+  };
+
+  const destinationImage = (destination: TravelDestination, index: number) =>{
+    return(
+      <div className="relative w-full md:w-1/2">
+        <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
+          <img
+            src={destination.image}
+            alt={destination.name}
+            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+          />
+        </div>
+        <div className="absolute -top-4 -left-4 w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+          {index + 1}
+        </div>
+      </div>
+    );
+  }
+
+  const destinationtext = (destination: TravelDestination) =>{
+    return(
+      <div className="w-full md:w-1/2 space-y-4">
+        <span className="inline-block px-3 py-1 bg-orange-100 text-orange-600 text-sm font-bold rounded-full">
+          {destination.category}
+        </span>
+
+        <h3 className="text-3xl font-bold text-gray-900 hover:text-orange-500 transition-colors">
+          {destination.name}
+        </h3>
+
+        <p className="text-gray-600 leading-relaxed">
+          {destination.shortDescription}
+        </p>
+
+        <div className="flex flex-wrap gap-2">
+          {destination.tags.map((tag) => (
+            <span
+              key={tag}
+              className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-lg"
+            >
+              #{tag}
+            </span>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-2 text-sm text-gray-500">
+          <MapPin className="w-4 h-4" />
+          <span>{destination.location}</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">
@@ -16,7 +75,7 @@ export default function MainPage() {
             <div className="space-y-8">
               <div className="inline-block">
                 <span className="px-4 py-2 bg-orange-200 text-orange-700 rounded-full text-sm font-bold">
-                  MBTI J형 맞춤 여행 플랫폼
+                  개인형 맞춤 여행 플랫폼
                 </span>
               </div>
 
@@ -53,86 +112,71 @@ export default function MainPage() {
                 </div>
               </div>
 
-              <button className="group flex items-center gap-3 px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all">
-                <span>여행 설문 시작하기</span>
+              <button
+                onClick={ handleSurvey }
+                className="group inline-flex items-center clickable gap-3 px-8 py-4 bg-orange-500 text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+              >
+                <span>설문 시작하기</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
 
-            {/* 이미지 */}
+              {/* 이미지 */}
             <div className="relative">
               <div className="aspect-square rounded-3xl overflow-hidden shadow-2xl bg-orange-200">
                 <img
-                  src="https://images.unsplash.com/photo-1694087450396-f6b1031b37d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmF2ZWwlMjBwbGFubmluZyUyMHZhY2F0aW9ufGVufDF8fHx8MTc2OTIzNDYzMnww&ixlib=rb-4.1.0&q=80&w=1080"
+                  src={mainImage}
                   alt="여행 계획"
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-orange-300 rounded-full blur-3xl opacity-50" />
-              <div className="absolute -top-6 -left-6 w-32 h-32 bg-orange-400 rounded-full blur-3xl opacity-50" />
+            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-orange-300 rounded-full blur-3xl opacity-50" />
+            <div className="absolute -top-6 -left-6 w-32 h-32 bg-orange-400 rounded-full blur-3xl opacity-50" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* 필수 여행지 섹션 */}
+     {/* 추천 여행지 섹션 */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">제주도 필수 여행지</h2>
-            <p className="text-lg text-gray-600">제주를 대표하는 아름다운 여행지를 만나보세요</p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              제주도 추천 여행지
+            </h2>
+            <p className="text-lg text-gray-600">
+              제주를 대표하는 아름다운 여행지를 만나보세요
+            </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-            {destinations.slice(0, 1).map((destination, index) => (
-              <div
-                key={destination.id}
-                className="group cursor-pointer"
-                onClick={() => setSelectedDestination(destination)}
-              >
-                <div className="relative mb-6">
-                  <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-shadow">
-                    <img
-                      src={destination.image}
-                      alt={destination.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  <div className="absolute -top-4 -left-4 w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center text-white text-2xl font-bold shadow-lg">
-                    {index + 1}
-                  </div>
+          <div className="space-y-24 max-w-6xl mx-auto">
+            {destinations.slice(0, 6).map((destination, index) => {
+              const isReverse = index % 2 === 1;
+
+              return (
+                <div
+                  key={destination.id}
+                  onClick={() => setSelectedDestination(destination)}
+                  className={`flex flex-col md:flex-row items-center gap-12 my-32 clickable ${
+                    isReverse ? 
+                    "md:flex-row-reverse" : 
+                    ""
+                  }`}
+                >
+                  {isReverse ? (
+                    <>
+                      {destinationtext(destination)}
+                      {destinationImage(destination, index)}
+                    </>
+                  ) : (
+                    <>
+                      {destinationImage(destination, index)}
+                      {destinationtext(destination)}
+                    </>
+                  )}
                 </div>
-
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <span className="px-3 py-1 bg-orange-100 text-orange-600 text-sm font-bold rounded-full">
-                      {destination.category}
-                    </span>
-                  </div>
-
-                  <h3 className="text-3xl font-bold text-gray-900 group-hover:text-orange-500 transition-colors">
-                    {destination.name}
-                  </h3>
-
-                  <p className="text-gray-600 leading-relaxed">
-                    {destination.shortDescription}
-                  </p>
-
-                  <div className="flex flex-wrap gap-2">
-                    {destination.tags.map((tag) => (
-                      <span key={tag} className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-lg">
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="flex items-center gap-2 text-sm text-gray-500">
-                    <MapPin className="w-4 h-4" />
-                    <span>{destination.location}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -180,16 +224,21 @@ export default function MainPage() {
       </section>
 
       {/* CTA 섹션 */}
-      <section className="py-20 bg-gradient-to-r from-orange-500 to-orange-600">
+      <section className="py-20 bg-gradient-to-r from-orange-400 to-orange-500">
         <div className="max-w-4xl mx-auto px-6 text-center text-white">
           <p className="text-lg mb-4 opacity-90">단 5분이면 완벽한 제주도 여행 계획이 완성됩니다</p>
           <h2 className="text-4xl font-bold mb-8">지금 바로 시작하세요</h2>
-          <button className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-orange-500 font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all">
-            <span>설문 시작하기</span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          <button
+            onClick={ handleSurvey }
+            className="group inline-flex items-center clickable gap-3 px-8 py-4 bg-white text-orange-500 font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+          >
+          <span>설문 시작하기</span>
+          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
       </section>
+      
+
 
       {/* 모달 */}
       {selectedDestination && (
@@ -199,6 +248,7 @@ export default function MainPage() {
           destination={selectedDestination}
         />
       )}
+
     </div>
   );
 }
